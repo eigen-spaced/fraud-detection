@@ -44,7 +44,7 @@ Successfully created a complete, production-ready MVP for an AI-powered credit c
 - Python 3.11+
 - Pydantic 2.5
 - OpenTelemetry
-- PDM (dependency management)
+- uv (fast dependency management)
 
 ### 📚 Documentation
 
@@ -167,8 +167,8 @@ Lines of Code: ~2,500+
 **Terminal 1 - Backend**:
 ```bash
 cd backend
-pdm install
-pdm start
+uv sync
+uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 **Terminal 2 - Frontend**:
@@ -254,7 +254,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 - Pydantic 2.5+
 - OpenTelemetry 1.21+
 - Uvicorn (ASGI server)
-- PDM (package manager)
+- uv (fast package manager)
 
 ## What's Next?
 
@@ -363,7 +363,7 @@ fraud-detection/
 │   │   ├── fraud_detector.py   # ML simulation
 │   │   └── observability.py    # OpenTelemetry
 │   ├── tests/
-│   ├── pyproject.toml          # PDM config
+│   ├── pyproject.toml          # uv config
 │   ├── README.md
 │   ├── .env.example
 │   └── generate_transactions.py

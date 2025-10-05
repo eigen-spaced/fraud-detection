@@ -21,9 +21,9 @@ wheels/
 *.egg
 MANIFEST
 
-# PDM
-.pdm.toml
-.pdm-python
+# uv
+uv.lock
+.venv/
 __pypackages__/
 
 # Virtual environments

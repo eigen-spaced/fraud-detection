@@ -11,13 +11,13 @@ python3 --version
 # Check Node.js version (need 18+)
 node --version
 
-# Check if PDM is installed
-pdm --version
+# Check if uv is installed
+uv --version
 ```
 
-If PDM is not installed:
+If uv is not installed:
 ```bash
-curl -sSL https://pdm-project.org/install-pdm.py | python3 -
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 ## Step 1: Start the Backend (Terminal 1)
@@ -27,10 +27,10 @@ curl -sSL https://pdm-project.org/install-pdm.py | python3 -
 cd backend
 
 # Install dependencies
-pdm install
+uv sync
 
 # Start the API server
-pdm start
+uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 ✅ Backend should be running at http://localhost:8000
@@ -94,7 +94,8 @@ lsof -ti:8000 | xargs kill -9
 
 # Reinstall dependencies
 cd backend
-pdm install --clean
+rm -rf .venv uv.lock
+uv sync
 ```
 
 ### Frontend won't start

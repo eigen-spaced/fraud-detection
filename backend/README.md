@@ -18,26 +18,20 @@ AI-powered credit card fraud detection backend built with FastAPI.
 ### Prerequisites
 
 - Python 3.11+
-- PDM (Python Dependency Manager)
+- uv (Fast Python package installer)
 
 ### Installation
 
 ```bash
-# Install dependencies
-pdm install
-
-# Or install with dev dependencies
-pdm install -d
+# Install dependencies (including dev dependencies)
+uv sync
 ```
 
 ### Running the Server
 
 ```bash
 # Start the development server
-pdm start
-
-# Or run directly
-pdm run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 The API will be available at `http://localhost:8000`
@@ -155,13 +149,13 @@ OTEL_ENABLED=true
 
 ```bash
 # Run tests
-pdm test
+uv run pytest tests/
 
 # Lint code
-pdm lint
+uv run ruff check app/
 
 # Format code
-pdm format
+uv run black app/
 ```
 
 ## License

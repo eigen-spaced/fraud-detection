@@ -199,11 +199,11 @@ Complete overview of implemented features for the CC Fraud Detection MVP.
   - CORS middleware
   - Pydantic settings
   
-- [x] **PDM Dependency Management**
+- [x] **uv Dependency Management**
   - pyproject.toml configuration
   - Lock file for reproducibility
   - Development dependencies
-  - Script shortcuts (start, test, lint)
+  - Fast installation and resolution
 
 ### Frontend Architecture
 - [x] **Next.js App Router**

@@ -36,7 +36,7 @@ fraud-detection/
 │   │   ├── config.py    # Configuration settings
 │   │   ├── fraud_detector.py  # ML simulation & detection
 │   │   └── observability.py   # OpenTelemetry setup
-│   ├── pyproject.toml   # PDM dependencies
+│   ├── pyproject.toml   # uv dependencies
 │   └── README.md
 ├── frontend/            # Next.js TypeScript frontend
 │   ├── app/            # Next.js app router
@@ -50,7 +50,7 @@ fraud-detection/
 
 ### Prerequisites
 
-- **Backend**: Python 3.11+, PDM
+- **Backend**: Python 3.11+, uv
 - **Frontend**: Node.js 18+, npm
 - **Optional**: Docker (for containerized deployment)
 
@@ -60,14 +60,14 @@ fraud-detection/
 # Navigate to backend directory
 cd backend
 
-# Install PDM (if not already installed)
-curl -sSL https://pdm-project.org/install-pdm.py | python3 -
+# Install uv (if not already installed)
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Install dependencies
-pdm install
+uv sync
 
 # Start the backend server
-pdm start
+uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 The API will be available at `http://localhost:8000`
@@ -332,7 +332,8 @@ pdm run uvicorn app.main:app --reload --port 8001
 **Import errors:**
 ```bash
 # Reinstall dependencies
-pdm install --clean
+rm -rf .venv uv.lock
+uv sync
 ```
 
 ### Frontend Issues
