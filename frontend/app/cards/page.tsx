@@ -55,19 +55,12 @@ export default function CardsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
       <Header />
       
-      {/* Beta Badge */}
-      <div className="container mx-auto px-4 pt-4">
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/20 border border-blue-600/50 rounded-lg">
-          <span className="text-blue-300 font-semibold">✨ NEW</span>
-          <span className="text-slate-300 text-sm">Card-Based Transaction View (Beta)</span>
-        </div>
-      </div>
       
       <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-16rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Panel - Card Input */}
           <TransactionCardInput
             onAnalyze={handleAnalyze}

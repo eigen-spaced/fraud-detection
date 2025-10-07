@@ -37,29 +37,29 @@ export default function TransactionCardInput({
   };
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl shadow-2xl border border-slate-700 flex flex-col h-full">
+    <div className="bg-white backdrop-blur-sm rounded-xl shadow-2xl border border-gray-200 flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b border-slate-700">
-        <h2 className="text-xl font-semibold text-white flex items-center gap-2">
+      <div className="p-4 border-b border-gray-200">
+        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
           <span>💳</span>
           Transaction Cards
         </h2>
-        <p className="text-sm text-slate-400 mt-1">
+        <p className="text-sm text-gray-600 mt-1">
           View transactions in an intuitive card format
         </p>
       </div>
 
       {/* Sample Data Buttons */}
-      <div className="p-4 border-b border-slate-700 space-y-2">
-        <p className="text-xs text-slate-400 mb-2">Load sample data:</p>
+      <div className="p-4 border-b border-gray-200 space-y-2">
+        <p className="text-xs text-gray-500 mb-2">Load sample data:</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           <button
             onClick={() => handleLoadSample('legitimate')}
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
               selectedType === 'legitimate'
-                ? 'bg-green-600/30 text-green-300 border-green-600/50 ring-2 ring-green-600/30'
-                : 'bg-green-600/20 text-green-400 border-green-600/30 hover:bg-green-600/30'
+                ? 'bg-green-100 text-green-800 border-green-300 ring-2 ring-green-200'
+                : 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
             }`}
           >
             ✓ Legitimate
@@ -69,8 +69,8 @@ export default function TransactionCardInput({
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
               selectedType === 'suspicious'
-                ? 'bg-yellow-600/30 text-yellow-300 border-yellow-600/50 ring-2 ring-yellow-600/30'
-                : 'bg-yellow-600/20 text-yellow-400 border-yellow-600/30 hover:bg-yellow-600/30'
+                ? 'bg-yellow-100 text-yellow-800 border-yellow-300 ring-2 ring-yellow-200'
+                : 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100'
             }`}
           >
             ⚠️ Suspicious
@@ -80,8 +80,8 @@ export default function TransactionCardInput({
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
               selectedType === 'fraudulent'
-                ? 'bg-red-600/30 text-red-300 border-red-600/50 ring-2 ring-red-600/30'
-                : 'bg-red-600/20 text-red-400 border-red-600/30 hover:bg-red-600/30'
+                ? 'bg-red-100 text-red-800 border-red-300 ring-2 ring-red-200'
+                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
             }`}
           >
             ⛔ Fraudulent
@@ -91,8 +91,8 @@ export default function TransactionCardInput({
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
               selectedType === 'mixed'
-                ? 'bg-blue-600/30 text-blue-300 border-blue-600/50 ring-2 ring-blue-600/30'
-                : 'bg-blue-600/20 text-blue-400 border-blue-600/30 hover:bg-blue-600/30'
+                ? 'bg-blue-100 text-blue-800 border-blue-300 ring-2 ring-blue-200'
+                : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
             }`}
           >
             🔀 Mixed
@@ -101,20 +101,20 @@ export default function TransactionCardInput({
       </div>
 
       {/* Transaction Count */}
-      <div className="px-4 py-2 bg-slate-900/30 border-b border-slate-700">
-        <p className="text-sm text-slate-300">
-          <span className="font-semibold text-white">{transactions.length}</span> 
+      <div className="px-4 py-2 bg-gray-50 border-b border-gray-200">
+        <p className="text-sm text-gray-700">
+          <span className="font-semibold text-gray-900">{transactions.length}</span>
           {' '}transaction{transactions.length !== 1 ? 's' : ''} loaded
         </p>
       </div>
 
       {/* Cards Display */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-4 max-h-[60vh]">
         {transactions.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
             <div className="text-6xl">📭</div>
-            <p className="text-slate-300 text-lg font-medium">No Transactions</p>
-            <p className="text-slate-500 text-sm max-w-md">
+            <p className="text-gray-700 text-lg font-medium">No Transactions</p>
+            <p className="text-gray-500 text-sm max-w-md">
               Click one of the sample data buttons above to load transaction cards
             </p>
           </div>
@@ -133,15 +133,15 @@ export default function TransactionCardInput({
 
       {/* Error Display */}
       {error && (
-        <div className="mx-4 mb-4 p-3 bg-red-900/20 border border-red-700/50 rounded-lg">
-          <p className="text-red-400 text-sm font-medium">
+        <div className="mx-4 mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-red-700 text-sm font-medium">
             {error instanceof Error ? error.message : 'An error occurred'}
           </p>
         </div>
       )}
 
       {/* Action Buttons */}
-      <div className="p-4 border-t border-slate-700 flex gap-3">
+      <div className="p-4 border-t border-gray-200 flex gap-3">
         <button
           onClick={handleAnalyze}
           disabled={isLoading || transactions.length === 0}
@@ -177,7 +177,7 @@ export default function TransactionCardInput({
         <button
           onClick={handleClearAll}
           disabled={isLoading}
-          className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Clear
         </button>
