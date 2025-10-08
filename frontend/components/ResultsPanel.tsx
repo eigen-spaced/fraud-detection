@@ -1,4 +1,5 @@
 import { FraudDetectionResponse, RefusalResponse, FraudAnalysis } from '@/lib/api';
+import LLMExplanation from './LLMExplanation';
 
 interface ResultsPanelProps {
   result: FraudDetectionResponse | RefusalResponse | null;
@@ -211,6 +212,11 @@ export default function ResultsPanel({ result, isLoading, error }: ResultsPanelP
                   <AnalysisCard key={analysis.transaction_id} analysis={analysis} />
                 ))}
               </div>
+            </div>
+
+            {/* LLM Explanation Section */}
+            <div className="border-t border-gray-200 pt-6">
+              <LLMExplanation />
             </div>
 
             {/* Citations */}
