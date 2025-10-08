@@ -16,35 +16,29 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
     
-    // Simulate API call
     try {
-      // In a real implementation, you'd convert the new format to the old format
-      // or update the backend to accept the new format
-      setTimeout(() => {
-        // Mock response for demonstration
-        setResult({
-          summary: `Analyzed ${transactions.length} transactions with new card format!`,
-          total_transactions: transactions.length,
-          fraudulent_count: transactions.filter(t => t.ground_truth.is_fraud).length,
-          suspicious_count: 0,
-          legitimate_count: transactions.filter(t => !t.ground_truth.is_fraud).length,
-          average_risk_score: 0.35,
-          analyses: transactions.map(t => ({
-            transaction_id: t.transaction.id,
-            classification: t.ground_truth.is_fraud ? 'fraudulent' : 'legitimate' as 'fraudulent' | 'legitimate',
-            risk_score: t.ground_truth.is_fraud ? 0.85 : 0.15,
-            risk_factors: ['New card format detected'],
-            explanation: `Transaction at ${t.transaction.merchant.name} for $${t.transaction.amount.toFixed(2)} has been analyzed.`
-          })),
-          citations: [{
-            source: 'New Card Format Analysis',
-            url: 'https://example.com/card-format'
-          }],
-          warnings: []
-        });
-        setIsLoading(false);
-      }, 1500);
+      // Call the real ML model API
+      const response = await fetch('http://localhost:8000/api/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          transactions: transactions
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Prediction failed: ${errorData.detail || response.statusText}`);
+      }
+      
+      const result = await response.json();
+      setResult(result);
+      setIsLoading(false);
+      
     } catch (err) {
+      console.error('Model prediction error:', err);
       setError(err as Error);
       setIsLoading(false);
     }
