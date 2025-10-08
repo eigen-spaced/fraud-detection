@@ -86,6 +86,11 @@ async def root():
             "llm_explain": "/api/llm/explain",
             "pattern_analysis": "/api/llm/patterns",
             "cases": "/api/cases",
+            "schema": "/api/schema",
+        },
+        "llm_status": {
+            "service_available": openrouter_service.is_available(),
+            "model": openrouter_service.model if openrouter_service.is_available() else None
         },
     }
 
