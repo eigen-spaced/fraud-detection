@@ -28,9 +28,11 @@ This script will:
 ### 3. Manual Testing Steps
 
 1. **Open the frontend**: http://localhost:3000
-2. **Find the LLM section**: Scroll down in the Analysis Results panel
-3. **Click "Test LLM"**: This will send a sample transaction for explanation
-4. **Watch the states**:
+2. **Load transaction data**: Click one of the sample data buttons (Legitimate, Suspicious, Fraudulent, or Mixed)
+3. **Analyze transactions**: Click the "Analyze Transactions" button to generate results
+4. **Find the LLM section**: Scroll down in the Analysis Results panel to the "LLM Explanation" section
+5. **Click "Test LLM"**: This will send a sample transaction for explanation
+6. **Watch the states**:
    - Loading: Purple loading indicator with animation
    - Success: Detailed AI explanation with transaction info
    - Error: Red error message with details

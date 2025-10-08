@@ -11,7 +11,7 @@ interface TransactionCardProps {
 export default function TransactionCard({ transaction, index }: TransactionCardProps) {
   const [showDetails, setShowDetails] = useState(false);
   
-  const { transaction: txn, model_features, ground_truth } = transaction;
+  const { transaction: txn, model_features } = transaction;
   
   // Format date
   const formatDate = (timestamp: string) => {

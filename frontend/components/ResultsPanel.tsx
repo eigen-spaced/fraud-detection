@@ -34,8 +34,8 @@ const classificationColors = {
   },
 };
 
-function isRefusalResponse(result: any): result is RefusalResponse {
-  return result && 'refused' in result;
+function isRefusalResponse(result: unknown): result is RefusalResponse {
+  return result !== null && typeof result === 'object' && 'refused' in result;
 }
 
 function AnalysisCard({ analysis }: { analysis: FraudAnalysis }) {
@@ -132,7 +132,7 @@ export default function ResultsPanel({ result, isLoading, error }: ResultsPanelP
             <div className="text-6xl">🔍</div>
             <p className="text-gray-700 text-lg font-medium">Ready to Analyze</p>
             <p className="text-gray-500 text-sm max-w-md">
-              Paste your transaction JSON in the input panel and click "Analyze Transactions" to get started
+              Paste your transaction JSON in the input panel and click &quot;Analyze Transactions&quot; to get started
             </p>
           </div>
         ) : isRefusalResponse(result) ? (
