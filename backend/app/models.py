@@ -156,3 +156,55 @@ class ErrorResponse(BaseModel):
     error: str
     detail: Optional[str] = None
     timestamp: datetime
+
+
+class LLMExplanationRequest(BaseModel):
+    """Request model for LLM-powered explanation."""
+    
+    transaction_data: Dict[str, Any]
+    fraud_probability: float = Field(..., ge=0.0, le=1.0)
+    risk_factors: List[str] = Field(default_factory=list)
+    model_features: Optional[Dict[str, Any]] = None
+    
+    @field_validator("fraud_probability")
+    @classmethod
+    def validate_fraud_probability(cls, v: float) -> float:
+        """Ensure fraud probability is within bounds."""
+        return round(max(0.0, min(1.0, v)), 3)
+
+
+class LLMExplanationResponse(BaseModel):
+    """Response model for LLM-powered explanation."""
+    
+    transaction_id: str
+    explanation: str
+    fraud_probability: float
+    risk_level: str
+    model_used: str
+    generated_at: datetime
+    
+    
+class PatternAnalysisRequest(BaseModel):
+    """Request model for transaction pattern analysis."""
+    
+    transactions: List[Dict[str, Any]]
+    predictions: List[float] = Field(..., min_length=1)
+    
+    @field_validator("predictions")
+    @classmethod
+    def validate_predictions(cls, v: List[float]) -> List[float]:
+        """Ensure all predictions are within bounds."""
+        return [round(max(0.0, min(1.0, pred)), 3) for pred in v]
+
+
+class PatternAnalysisResponse(BaseModel):
+    """Response model for transaction pattern analysis."""
+    
+    analysis: str
+    transaction_count: int
+    high_risk_count: int
+    medium_risk_count: int
+    low_risk_count: int
+    average_risk_score: float
+    model_used: str
+    generated_at: datetime

@@ -36,6 +36,9 @@ class Settings(BaseSettings):
     otel_enabled: bool = True
     otel_service_name: str = "fraud-detection-api"
     
+    # OpenRouter Settings
+    open_router_key: str = ""
+    
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

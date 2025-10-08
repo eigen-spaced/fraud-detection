@@ -13,9 +13,14 @@ from app.models import (
     RefusalResponse,
     HealthCheckResponse,
     ErrorResponse,
+    LLMExplanationRequest,
+    LLMExplanationResponse,
+    PatternAnalysisRequest,
+    PatternAnalysisResponse,
 )
 from app.fraud_detector import fraud_detector
 from app.observability import setup_observability, instrument_app
+from app.openrouter_service import openrouter_service
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -78,6 +83,8 @@ async def root():
             "health": "/health",
             "analyze": "/api/analyze",
             "explain": "/api/explain",
+            "llm_explain": "/api/llm/explain",
+            "pattern_analysis": "/api/llm/patterns",
             "cases": "/api/cases",
         },
     }
@@ -212,7 +219,144 @@ async def get_json_schema():
         "transaction_batch": TransactionBatch.model_json_schema(),
         "fraud_detection_response": FraudDetectionResponse.model_json_schema(),
         "refusal_response": RefusalResponse.model_json_schema(),
+        "llm_explanation_request": LLMExplanationRequest.model_json_schema(),
+        "llm_explanation_response": LLMExplanationResponse.model_json_schema(),
+        "pattern_analysis_request": PatternAnalysisRequest.model_json_schema(),
+        "pattern_analysis_response": PatternAnalysisResponse.model_json_schema(),
     }
+
+
+@app.post(
+    "/api/llm/explain",
+    response_model=LLMExplanationResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def explain_transaction_with_llm(request: LLMExplanationRequest):
+    """
+    Generate LLM-powered explanation for a fraud prediction.
+    
+    This endpoint uses OpenRouter's LLM models to provide human-readable
+    explanations for fraud detection predictions. It takes:
+    - Transaction data
+    - Fraud probability from ML model
+    - Risk factors identified
+    - Optional model features
+    
+    Returns a detailed explanation in natural language.
+    """
+    try:
+        logger.info(f"Generating LLM explanation for transaction {request.transaction_data.get('transaction_id', 'unknown')}")
+        
+        if not openrouter_service.is_available():
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="LLM explanation service is not available. Please check OpenRouter configuration.",
+            )
+        
+        explanation = await openrouter_service.explain_fraud_prediction(
+            request.transaction_data,
+            request.fraud_probability,
+            request.risk_factors,
+            request.model_features
+        )
+        
+        # Determine risk level
+        if request.fraud_probability > 0.75:
+            risk_level = "HIGH"
+        elif request.fraud_probability > 0.45:
+            risk_level = "MEDIUM"
+        else:
+            risk_level = "LOW"
+        
+        response = LLMExplanationResponse(
+            transaction_id=request.transaction_data.get("transaction_id", "unknown"),
+            explanation=explanation,
+            fraud_probability=request.fraud_probability,
+            risk_level=risk_level,
+            model_used=openrouter_service.model,
+            generated_at=datetime.utcnow()
+        )
+        
+        logger.info(f"Generated explanation for transaction {response.transaction_id}")
+        return response
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error generating LLM explanation: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to generate explanation",
+        )
+
+
+@app.post(
+    "/api/llm/patterns",
+    response_model=PatternAnalysisResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def analyze_transaction_patterns(request: PatternAnalysisRequest):
+    """
+    Analyze patterns across multiple transactions using LLM.
+    
+    This endpoint analyzes a batch of transactions and their fraud predictions
+    to identify patterns, trends, and provide insights. It uses LLM models
+    to generate human-readable analysis of the transaction batch.
+    
+    Useful for:
+    - Batch analysis reporting
+    - Identifying suspicious patterns
+    - Risk assessment summaries
+    - Investigation guidance
+    """
+    try:
+        logger.info(f"Analyzing patterns for {len(request.transactions)} transactions")
+        
+        if not openrouter_service.is_available():
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                detail="LLM pattern analysis service is not available. Please check OpenRouter configuration.",
+            )
+        
+        if len(request.transactions) != len(request.predictions):
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Number of transactions must match number of predictions",
+            )
+        
+        analysis = await openrouter_service.analyze_transaction_patterns(
+            request.transactions,
+            request.predictions
+        )
+        
+        # Calculate statistics
+        high_risk_count = sum(1 for p in request.predictions if p > 0.75)
+        medium_risk_count = sum(1 for p in request.predictions if 0.45 <= p <= 0.75)
+        low_risk_count = len(request.predictions) - high_risk_count - medium_risk_count
+        avg_risk = sum(request.predictions) / len(request.predictions) if request.predictions else 0.0
+        
+        response = PatternAnalysisResponse(
+            analysis=analysis,
+            transaction_count=len(request.transactions),
+            high_risk_count=high_risk_count,
+            medium_risk_count=medium_risk_count,
+            low_risk_count=low_risk_count,
+            average_risk_score=round(avg_risk, 3),
+            model_used=openrouter_service.model,
+            generated_at=datetime.utcnow()
+        )
+        
+        logger.info(f"Generated pattern analysis for {response.transaction_count} transactions")
+        return response
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error analyzing transaction patterns: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to analyze transaction patterns",
+        )
 
 
 if __name__ == "__main__":
