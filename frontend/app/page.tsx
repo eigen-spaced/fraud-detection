@@ -4,7 +4,7 @@ import { useState } from 'react';
 import TransactionCardInput from '@/components/TransactionCardInput';
 import ResultsPanel from '@/components/ResultsPanel';
 import Header from '@/components/Header';
-import { TransactionData } from '@/lib/newSampleData';
+import { TransactionData } from '@/lib/convertedSampleData';
 import { FraudDetectionResponse, RefusalResponse } from '@/lib/api';
 
 export default function Home() {

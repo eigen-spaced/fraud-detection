@@ -1,6 +1,6 @@
 'use client';
 
-import { newSampleTransactions, TransactionData } from '@/lib/newSampleData';
+import { convertedSampleTransactions, TransactionData } from '@/lib/convertedSampleData';
 import TransactionCard from './TransactionCard';
 import { useState } from 'react';
 
@@ -17,12 +17,12 @@ export default function TransactionCardInput({
   isLoading,
   error
 }: TransactionCardInputProps) {
-  const [selectedType, setSelectedType] = useState<'legitimate' | 'suspicious' | 'fraudulent' | 'mixed'>('legitimate');
-  const [transactions, setTransactions] = useState<TransactionData[]>(newSampleTransactions.legitimate.transactions);
+  const [selectedType, setSelectedType] = useState<'legitimate' | 'suspicious' | 'fraud' | 'mixed'>('legitimate');
+  const [transactions, setTransactions] = useState<TransactionData[]>(convertedSampleTransactions.legitimate.transactions);
 
-  const handleLoadSample = (type: 'legitimate' | 'suspicious' | 'fraudulent' | 'mixed') => {
+  const handleLoadSample = (type: 'legitimate' | 'suspicious' | 'fraud' | 'mixed') => {
     setSelectedType(type);
-    setTransactions(newSampleTransactions[type].transactions);
+    setTransactions(convertedSampleTransactions[type].transactions);
   };
 
   const handleAnalyze = () => {
@@ -76,10 +76,10 @@ export default function TransactionCardInput({
             ⚠️ Suspicious
           </button>
           <button
-            onClick={() => handleLoadSample('fraudulent')}
+            onClick={() => handleLoadSample('fraud')}
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
-              selectedType === 'fraudulent'
+              selectedType === 'fraud'
                 ? 'bg-red-100 text-red-800 border-red-300 ring-2 ring-red-200'
                 : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
             }`}
