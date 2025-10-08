@@ -18,9 +18,16 @@ from app.models import (
     PatternAnalysisRequest,
     PatternAnalysisResponse,
 )
+from app.prediction_models import (
+    ModelPredictionRequest,
+    ModelPredictionResponse,
+    ModelHealthResponse,
+    ModelInfoResponse,
+)
 from app.fraud_detector import fraud_detector
 from app.observability import setup_observability, instrument_app
 from app.openrouter_service import openrouter_service
+from app.model_service import model_service
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -82,6 +89,9 @@ async def root():
         "endpoints": {
             "health": "/health",
             "analyze": "/api/analyze",
+            "predict": "/api/predict",
+            "model_health": "/api/model/health",
+            "model_info": "/api/model/info",
             "explain": "/api/explain",
             "llm_explain": "/api/llm/explain",
             "pattern_analysis": "/api/llm/patterns",
@@ -146,6 +156,166 @@ async def analyze_transactions(batch: TransactionBatch):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to analyze transactions",
+        )
+
+
+@app.post(
+    "/api/predict",
+    response_model=ModelPredictionResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def predict_with_ml_model(request: ModelPredictionRequest):
+    """
+    Predict fraud using the trained XGBoost model.
+    
+    This endpoint takes transactions in the JSON format from the frontend
+    and returns predictions from the trained ML model with optimal threshold.
+    
+    Features:
+    - Real XGBoost model predictions
+    - Optimal threshold application
+    - Feature engineering pipeline
+    - Risk factor analysis
+    - Human-readable explanations
+    """
+    try:
+        logger.info(f"ML Model prediction requested for {len(request.transactions)} transactions")
+        
+        # Get predictions from model service
+        analyses = model_service.predict_transactions(request.transactions)
+        
+        # Calculate summary statistics
+        total_transactions = len(analyses)
+        fraudulent_count = sum(1 for a in analyses if a.classification.value == "fraudulent")
+        suspicious_count = sum(1 for a in analyses if a.classification.value == "suspicious")
+        legitimate_count = total_transactions - fraudulent_count - suspicious_count
+        
+        # Calculate average risk score
+        average_risk_score = sum(a.risk_score for a in analyses) / total_transactions if analyses else 0.0
+        
+        # Generate summary text
+        summary = f"ML Model analyzed {total_transactions} transactions: "
+        summary += f"{fraudulent_count} fraudulent, {suspicious_count} suspicious, {legitimate_count} legitimate. "
+        summary += f"Average risk score: {average_risk_score:.1%}."
+        
+        # Get model info
+        model_info = model_service.get_service_status()
+        
+        # Convert analyses to dict format
+        analyses_dict = [a.model_dump() for a in analyses]
+        
+        response = ModelPredictionResponse(
+            summary=summary,
+            total_transactions=total_transactions,
+            fraudulent_count=fraudulent_count,
+            suspicious_count=suspicious_count,
+            legitimate_count=legitimate_count,
+            average_risk_score=round(average_risk_score, 3),
+            model_info=model_info,
+            analyses=analyses_dict,
+            citations=[
+                {
+                    "source": "XGBoost Fraud Detection Model",
+                    "url": "https://xgboost.readthedocs.io/en/stable/"
+                }
+            ],
+            warnings=[]
+        )
+        
+        logger.info(
+            f"ML Model prediction complete: {fraudulent_count} fraudulent, "
+            f"{suspicious_count} suspicious, {legitimate_count} legitimate"
+        )
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"ML Model prediction failed: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"ML Model prediction failed: {str(e)}",
+        )
+
+
+@app.get(
+    "/api/model/health",
+    response_model=ModelHealthResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def model_health_check():
+    """
+    Check the health status of the ML model service.
+    
+    Returns information about:
+    - Model loading status
+    - Service initialization
+    - Model type and configuration
+    - Health check results
+    """
+    try:
+        service_status = model_service.get_service_status()
+        health_ok = model_service.health_check()
+        
+        status_text = "healthy" if health_ok else "unhealthy"
+        
+        response = ModelHealthResponse(
+            status=status_text,
+            model_loaded=service_status.get("model_loaded", False),
+            initialized=service_status.get("initialized", False),
+            model_type=service_status.get("model_info", {}).get("model_type"),
+            optimal_threshold=service_status.get("model_info", {}).get("optimal_threshold"),
+            feature_count=service_status.get("model_info", {}).get("feature_count", 0),
+            timestamp=datetime.utcnow()
+        )
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"Model health check failed: {str(e)}", exc_info=True)
+        return ModelHealthResponse(
+            status="error",
+            model_loaded=False,
+            initialized=False,
+            feature_count=0,
+            timestamp=datetime.utcnow()
+        )
+
+
+@app.get(
+    "/api/model/info",
+    response_model=ModelInfoResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def get_model_info():
+    """
+    Get detailed information about the loaded ML model.
+    
+    Returns:
+    - Model type and configuration
+    - Feature information
+    - Loading status
+    - Service status
+    """
+    try:
+        service_status = model_service.get_service_status()
+        model_info = service_status.get("model_info", {})
+        
+        response = ModelInfoResponse(
+            model_type=model_info.get("model_type"),
+            optimal_threshold=model_info.get("optimal_threshold"),
+            feature_count=model_info.get("feature_count", 0),
+            feature_names=model_info.get("feature_names", []),
+            is_loaded=service_status.get("model_loaded", False),
+            service_initialized=service_status.get("initialized", False)
+        )
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"Get model info failed: {str(e)}", exc_info=True)
+        return ModelInfoResponse(
+            is_loaded=False,
+            service_initialized=False
         )
 
 
