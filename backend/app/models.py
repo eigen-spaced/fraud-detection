@@ -1,4 +1,5 @@
 """Pydantic models for fraud detection API."""
+
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 from typing import List, Optional, Dict, Any
 from enum import Enum
@@ -7,6 +8,7 @@ from datetime import datetime
 
 class FraudClassification(str, Enum):
     """Enum-locked fraud classification."""
+
     LEGITIMATE = "legitimate"
     SUSPICIOUS = "suspicious"
     FRAUDULENT = "fraudulent"
@@ -15,9 +17,9 @@ class FraudClassification(str, Enum):
 
 class Transaction(BaseModel):
     """Credit card transaction model with validation."""
-    
+
     model_config = ConfigDict(str_strip_whitespace=True)
-    
+
     transaction_id: str = Field(..., min_length=1, max_length=100)
     timestamp: datetime
     amount: float = Field(..., gt=0, le=1000000)
@@ -28,13 +30,13 @@ class Transaction(BaseModel):
     location: str = Field(..., min_length=1, max_length=200)
     device_fingerprint: Optional[str] = Field(None, max_length=500)
     ip_address: Optional[str] = Field(None, max_length=45)
-    
+
     @field_validator("amount")
     @classmethod
     def validate_amount(cls, v: float) -> float:
         """Ensure amount has reasonable precision."""
         return round(v, 2)
-    
+
     @field_validator("card_number")
     @classmethod
     def validate_card_number(cls, v: str) -> str:
@@ -48,9 +50,9 @@ class Transaction(BaseModel):
 
 class TransactionBatch(BaseModel):
     """Batch of transactions for fraud detection."""
-    
+
     transactions: List[Transaction] = Field(..., min_length=1, max_length=100)
-    
+
     @field_validator("transactions")
     @classmethod
     def validate_batch_size(cls, v: List[Transaction]) -> List[Transaction]:
@@ -60,15 +62,30 @@ class TransactionBatch(BaseModel):
         return v
 
 
+class ShapFeatureExplanation(BaseModel):
+    """SHAP-based feature explanation with human-readable details."""
+
+    feature_name: str = Field(..., min_length=1)
+    shap_value: float = Field(..., description="SHAP importance value")
+    feature_value: float = Field(..., description="Actual feature value")
+    human_title: str = Field(..., min_length=1, description="Human-readable feature title")
+    human_detail: str = Field(..., min_length=1, description="Detailed explanation")
+    icon: str = Field(..., min_length=1, max_length=10, description="Emoji icon")
+    severity: str = Field(..., pattern=r"^(low|medium|high)$", description="Risk severity level")
+
+
 class FraudAnalysis(BaseModel):
-    """Individual transaction fraud analysis result."""
-    
+    """Individual transaction fraud analysis result with SHAP explanations."""
+
     transaction_id: str
     classification: FraudClassification
     risk_score: float = Field(..., ge=0.0, le=1.0)
-    risk_factors: List[str] = Field(default_factory=list)
+    risk_factors: List[str] = Field(default_factory=list)  # Legacy risk factors
     explanation: str
-    
+    shap_explanations: List[ShapFeatureExplanation] = Field(
+        default_factory=list, description="SHAP-based feature explanations"
+    )
+
     @field_validator("risk_score")
     @classmethod
     def validate_risk_score(cls, v: float) -> float:
@@ -77,46 +94,15 @@ class FraudAnalysis(BaseModel):
 
 
 class Citation(BaseModel):
-    """Citation with domain validation."""
-    
+    """Citation for fraud detection sources."""
+
     source: str = Field(..., min_length=1, max_length=500)
     url: Optional[str] = Field(None, max_length=1000)
-    
-    @field_validator("url")
-    @classmethod
-    def validate_url_domain(cls, v: Optional[str]) -> Optional[str]:
-        """Validate URL is from allowed domain."""
-        if v is None:
-            return v
-        
-        from app.config import settings
-        from urllib.parse import urlparse
-        
-        try:
-            parsed = urlparse(v)
-            domain = parsed.netloc.lower()
-            
-            # Remove www. prefix for comparison
-            if domain.startswith("www."):
-                domain = domain[4:]
-            
-            # Check if domain is in allowed list
-            allowed = any(
-                domain == allowed_domain or domain.endswith(f".{allowed_domain}")
-                for allowed_domain in settings.allowed_citation_domains
-            )
-            
-            if not allowed:
-                raise ValueError(f"Domain {domain} is not in allowed citation list")
-            
-            return v
-        except Exception as e:
-            raise ValueError(f"Invalid URL or domain validation failed: {str(e)}")
 
 
 class FraudDetectionResponse(BaseModel):
     """Complete fraud detection analysis response with JSON Schema compliance."""
-    
+
     summary: str = Field(..., min_length=1)
     total_transactions: int = Field(..., ge=1)
     fraudulent_count: int = Field(..., ge=0)
@@ -126,7 +112,7 @@ class FraudDetectionResponse(BaseModel):
     analyses: List[FraudAnalysis]
     citations: List[Citation] = Field(default_factory=list)
     warnings: List[str] = Field(default_factory=list)
-    
+
     @field_validator("average_risk_score")
     @classmethod
     def validate_average_risk_score(cls, v: float) -> float:
@@ -136,7 +122,7 @@ class FraudDetectionResponse(BaseModel):
 
 class RefusalResponse(BaseModel):
     """Response when request is refused due to policy violations."""
-    
+
     refused: bool = True
     reason: str
     details: Optional[str] = None
@@ -144,15 +130,15 @@ class RefusalResponse(BaseModel):
 
 class HealthCheckResponse(BaseModel):
     """Health check response."""
-    
+
     status: str
     version: str
     timestamp: datetime
-    
-    
+
+
 class ErrorResponse(BaseModel):
     """Standard error response."""
-    
+
     error: str
     detail: Optional[str] = None
     timestamp: datetime
@@ -160,12 +146,12 @@ class ErrorResponse(BaseModel):
 
 class LLMExplanationRequest(BaseModel):
     """Request model for LLM-powered explanation."""
-    
+
     transaction_data: Dict[str, Any]
     fraud_probability: float = Field(..., ge=0.0, le=1.0)
     risk_factors: List[str] = Field(default_factory=list)
     model_features: Optional[Dict[str, Any]] = None
-    
+
     @field_validator("fraud_probability")
     @classmethod
     def validate_fraud_probability(cls, v: float) -> float:
@@ -175,21 +161,21 @@ class LLMExplanationRequest(BaseModel):
 
 class LLMExplanationResponse(BaseModel):
     """Response model for LLM-powered explanation."""
-    
+
     transaction_id: str
     explanation: str
     fraud_probability: float
     risk_level: str
     model_used: str
     generated_at: datetime
-    
-    
+
+
 class PatternAnalysisRequest(BaseModel):
     """Request model for transaction pattern analysis."""
-    
+
     transactions: List[Dict[str, Any]]
     predictions: List[float] = Field(..., min_length=1)
-    
+
     @field_validator("predictions")
     @classmethod
     def validate_predictions(cls, v: List[float]) -> List[float]:
@@ -199,7 +185,7 @@ class PatternAnalysisRequest(BaseModel):
 
 class PatternAnalysisResponse(BaseModel):
     """Response model for transaction pattern analysis."""
-    
+
     analysis: str
     transaction_count: int
     high_risk_count: int

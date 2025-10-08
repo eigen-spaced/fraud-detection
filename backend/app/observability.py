@@ -1,4 +1,5 @@
 """OpenTelemetry observability configuration."""
+
 import logging
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
@@ -20,13 +21,13 @@ def setup_observability():
     if not settings.otel_enabled:
         logger.info("OpenTelemetry disabled")
         return
-    
+
     # Set up tracer provider
     provider = TracerProvider()
     processor = BatchSpanProcessor(ConsoleSpanExporter())
     provider.add_span_processor(processor)
     trace.set_tracer_provider(provider)
-    
+
     logger.info(f"OpenTelemetry initialized for service: {settings.otel_service_name}")
 
 

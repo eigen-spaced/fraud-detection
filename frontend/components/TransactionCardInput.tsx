@@ -1,6 +1,6 @@
 'use client';
 
-import { convertedSampleTransactions, TransactionData } from '@/lib/convertedSampleData';
+import { newSampleTransactions as sampleTransactions, TransactionData } from '@/lib/newSampleData';
 import TransactionCard from './TransactionCard';
 import { useState } from 'react';
 
@@ -17,12 +17,12 @@ export default function TransactionCardInput({
   isLoading,
   error
 }: TransactionCardInputProps) {
-  const [selectedType, setSelectedType] = useState<'legitimate' | 'suspicious' | 'fraud' | 'mixed'>('legitimate');
-  const [transactions, setTransactions] = useState<TransactionData[]>(convertedSampleTransactions.legitimate.transactions);
+  const [selectedType, setSelectedType] = useState<'legitimate' | 'suspicious' | 'fraudulent'>('legitimate');
+  const [transactions, setTransactions] = useState<TransactionData[]>(sampleTransactions.legitimate.transactions);
 
-  const handleLoadSample = (type: 'legitimate' | 'suspicious' | 'fraud' | 'mixed') => {
+  const handleLoadSample = (type: 'legitimate' | 'suspicious' | 'fraudulent') => {
     setSelectedType(type);
-    setTransactions(convertedSampleTransactions[type].transactions);
+    setTransactions(sampleTransactions[type].transactions);
   };
 
   const handleAnalyze = () => {
@@ -37,29 +37,29 @@ export default function TransactionCardInput({
   };
 
   return (
-    <div className="bg-white backdrop-blur-sm rounded-xl shadow-2xl border border-gray-200 flex flex-col h-full">
+    <div className="bg-white backdrop-blur-sm rounded-xl shadow-2xl border border-navy-200 flex flex-col h-full">
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+      <div className="p-4 border-b border-navy-200">
+        <h2 className="text-xl font-semibold text-navy-900 flex items-center gap-2">
           <span>💳</span>
           Transaction Cards
         </h2>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-sm text-navy-600 mt-1">
           View transactions in an intuitive card format
         </p>
       </div>
 
       {/* Sample Data Buttons */}
-      <div className="p-4 border-b border-gray-200 space-y-2">
-        <p className="text-xs text-gray-500 mb-2">Load sample data:</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="p-4 border-b border-navy-200 space-y-2">
+        <p className="text-xs text-navy-500 mb-2">Load sample data:</p>
+        <div className="grid grid-cols-3 gap-2">
           <button
             onClick={() => handleLoadSample('legitimate')}
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
               selectedType === 'legitimate'
-                ? 'bg-green-100 text-green-800 border-green-300 ring-2 ring-green-200'
-                : 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
+                ? 'bg-emerald-100 text-emerald-800 border-emerald-300 ring-2 ring-emerald-200'
+                : 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
             }`}
           >
             ✓ Legitimate
@@ -69,41 +69,30 @@ export default function TransactionCardInput({
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
               selectedType === 'suspicious'
-                ? 'bg-yellow-100 text-yellow-800 border-yellow-300 ring-2 ring-yellow-200'
-                : 'bg-yellow-50 text-yellow-700 border-yellow-200 hover:bg-yellow-100'
+                ? 'bg-golden-100 text-golden-800 border-golden-300 ring-2 ring-golden-200'
+                : 'bg-golden-50 text-golden-700 border-golden-200 hover:bg-golden-100'
             }`}
           >
             ⚠️ Suspicious
           </button>
           <button
-            onClick={() => handleLoadSample('fraud')}
+            onClick={() => handleLoadSample('fraudulent')}
             disabled={isLoading}
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
-              selectedType === 'fraud'
-                ? 'bg-red-100 text-red-800 border-red-300 ring-2 ring-red-200'
-                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
+              selectedType === 'fraudulent'
+                ? 'bg-coral-100 text-coral-800 border-coral-300 ring-2 ring-coral-200'
+                : 'bg-coral-50 text-coral-700 border-coral-200 hover:bg-coral-100'
             }`}
           >
             ⛔ Fraudulent
-          </button>
-          <button
-            onClick={() => handleLoadSample('mixed')}
-            disabled={isLoading}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
-              selectedType === 'mixed'
-                ? 'bg-blue-100 text-blue-800 border-blue-300 ring-2 ring-blue-200'
-                : 'bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100'
-            }`}
-          >
-            🔀 Mixed
           </button>
         </div>
       </div>
 
       {/* Transaction Count */}
-      <div className="px-4 py-2 bg-gray-50 border-b border-gray-200">
-        <p className="text-sm text-gray-700">
-          <span className="font-semibold text-gray-900">{transactions.length}</span>
+      <div className="px-4 py-2 bg-navy-50 border-b border-navy-200">
+        <p className="text-sm text-navy-700">
+          <span className="font-semibold text-navy-900">{transactions.length}</span>
           {' '}transaction{transactions.length !== 1 ? 's' : ''} loaded
         </p>
       </div>
@@ -113,8 +102,8 @@ export default function TransactionCardInput({
         {transactions.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-4 text-center">
             <div className="text-6xl">📭</div>
-            <p className="text-gray-700 text-lg font-medium">No Transactions</p>
-            <p className="text-gray-500 text-sm max-w-md">
+            <p className="text-navy-700 text-lg font-medium">No Transactions</p>
+            <p className="text-navy-500 text-sm max-w-md">
               Click one of the sample data buttons above to load transaction cards
             </p>
           </div>
@@ -133,19 +122,19 @@ export default function TransactionCardInput({
 
       {/* Error Display */}
       {error && (
-        <div className="mx-4 mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-700 text-sm font-medium">
+        <div className="mx-4 mb-4 p-3 bg-coral-50 border border-coral-200 rounded-lg">
+          <p className="text-coral-700 text-sm font-medium">
             {error instanceof Error ? error.message : 'An error occurred'}
           </p>
         </div>
       )}
 
       {/* Action Buttons */}
-      <div className="p-4 border-t border-gray-200 flex gap-3">
+      <div className="p-4 border-t border-navy-200 flex gap-3">
         <button
           onClick={handleAnalyze}
           disabled={isLoading || transactions.length === 0}
-          className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+          className="flex-1 bg-gradient-to-r from-ocean-500 to-ocean-600 hover:from-ocean-600 hover:to-ocean-700 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-ocean-500/20"
         >
           {isLoading ? (
             <>
@@ -177,7 +166,7 @@ export default function TransactionCardInput({
         <button
           onClick={handleClearAll}
           disabled={isLoading}
-          className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 bg-navy-200 hover:bg-navy-300 text-navy-700 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Clear
         </button>

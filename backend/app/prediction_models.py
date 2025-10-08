@@ -9,18 +9,18 @@ from datetime import datetime
 
 class ModelPredictionRequest(BaseModel):
     """Request model for ML model predictions."""
-    
+
     transactions: List[Dict[str, Any]] = Field(
-        ..., 
-        min_length=1, 
+        ...,
+        min_length=1,
         max_length=100,
-        description="List of transactions in JSON format from frontend"
+        description="List of transactions in JSON format from frontend",
     )
 
 
 class ModelPredictionResponse(BaseModel):
     """Response model for ML model predictions."""
-    
+
     summary: str
     total_transactions: int = Field(..., ge=1)
     fraudulent_count: int = Field(..., ge=0)
@@ -35,7 +35,7 @@ class ModelPredictionResponse(BaseModel):
 
 class ModelHealthResponse(BaseModel):
     """Response model for model health check."""
-    
+
     status: str
     model_loaded: bool
     initialized: bool
@@ -47,7 +47,7 @@ class ModelHealthResponse(BaseModel):
 
 class ModelInfoResponse(BaseModel):
     """Response model for model information."""
-    
+
     model_type: Optional[str] = None
     optimal_threshold: Optional[float] = None
     feature_count: int = 0

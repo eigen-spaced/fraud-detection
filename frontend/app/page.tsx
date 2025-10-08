@@ -5,16 +5,22 @@ import TransactionCardInput from '@/components/TransactionCardInput';
 import ResultsPanel from '@/components/ResultsPanel';
 import Header from '@/components/Header';
 import { TransactionData } from '@/lib/convertedSampleData';
-import { FraudDetectionResponse, RefusalResponse } from '@/lib/api';
+import { FraudDetectionResponse, RefusalResponse, Transaction } from '@/lib/api';
+import { convertTransactionBatch } from '@/lib/transactionUtils';
 
 export default function Home() {
   const [result, setResult] = useState<FraudDetectionResponse | RefusalResponse | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const handleAnalyze = async (transactions: TransactionData[]) => {
+  const handleAnalyze = async (transactionData: TransactionData[]) => {
     setIsLoading(true);
     setError(null);
+    
+    // Convert to Transaction format and store
+    const convertedTransactions = convertTransactionBatch(transactionData);
+    setTransactions(convertedTransactions);
     
     try {
       // Call the real ML model API
@@ -24,33 +30,34 @@ export default function Home() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          transactions: transactions
+          transactions: transactionData
         })
       });
       
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(`Prediction failed: ${errorData.detail || response.statusText}`);
       }
       
       const result = await response.json();
       setResult(result);
-      setIsLoading(false);
       
     } catch (err) {
       console.error('Model prediction error:', err);
       setError(err as Error);
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handleClear = () => {
     setResult(null);
+    setTransactions([]);
     setError(null);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-navy-50 via-white to-emerald-50">
       <Header />
       
       <main className="container mx-auto px-4 py-8">
@@ -66,6 +73,7 @@ export default function Home() {
           {/* Right Panel - Results */}
           <ResultsPanel
             result={result}
+            transactions={transactions}
             isLoading={isLoading}
             error={error}
           />

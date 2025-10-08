@@ -1,8 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #1f2937;
+  /* Light theme background */
+  --background: #fefefe;
+  --foreground: #073b4c;
+  
+  /* Custom color palette */
+  --coral: #ef476f;
+  --golden: #ffd166;
+  --emerald: #06d6a0;
+  --ocean: #118ab2;
+  --navy: #073b4c;
+  
+  /* Semantic color assignments */
+  --error: var(--coral);
+  --warning: var(--golden);
+  --success: var(--emerald);
+  --primary: var(--ocean);
+  --text: var(--navy);
 }
 
 @theme inline {
@@ -10,6 +25,55 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Custom colors for Tailwind */
+  --color-coral: var(--coral);
+  --color-golden: var(--golden);
+  --color-emerald: var(--emerald);
+  --color-ocean: var(--ocean);
+  --color-navy: var(--navy);
+  
+  /* Semantic colors */
+  --color-error: var(--error);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-primary: var(--primary);
+  
+  /* Color variants with opacity */
+  --color-coral-50: #fef2f4;
+  --color-coral-100: #fce7ea;
+  --color-coral-200: #f9c2cc;
+  --color-coral-500: var(--coral);
+  --color-coral-600: #d93c5f;
+  --color-coral-700: #b32d47;
+  
+  --color-golden-50: #fffcf0;
+  --color-golden-100: #fff8d7;
+  --color-golden-200: #fff0a3;
+  --color-golden-500: var(--golden);
+  --color-golden-600: #e6bc5a;
+  --color-golden-700: #cc9933;
+  
+  --color-emerald-50: #f0fefc;
+  --color-emerald-100: #ccfdf7;
+  --color-emerald-200: #99fbf0;
+  --color-emerald-500: var(--emerald);
+  --color-emerald-600: #05c195;
+  --color-emerald-700: #059c7a;
+  
+  --color-ocean-50: #f0f9ff;
+  --color-ocean-100: #e0f2fe;
+  --color-ocean-200: #bae6fd;
+  --color-ocean-500: var(--ocean);
+  --color-ocean-600: #0f7a9c;
+  --color-ocean-700: #0c5d7a;
+  
+  --color-navy-50: #f8fafc;
+  --color-navy-100: #f1f5f9;
+  --color-navy-200: #e2e8f0;
+  --color-navy-500: var(--navy);
+  --color-navy-600: #0a4a5c;
+  --color-navy-700: #0d3a47;
 }
 
 body {

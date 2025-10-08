@@ -5,13 +5,13 @@ import random
 import argparse
 
 
-def generate_sample_transactions(count=10, risk_level="mixed"):
+def generate_sample_transactions(count=10, risk_level="legitimate"):
     """
     Generate sample transactions for testing.
     
     Args:
         count: Number of transactions to generate
-        risk_level: "legitimate", "suspicious", "fraudulent", or "mixed"
+        risk_level: "legitimate", "suspicious", "fraudulent"
     """
     # Merchant pools by risk level
     legitimate_merchants = [
@@ -41,14 +41,8 @@ def generate_sample_transactions(count=10, risk_level="mixed"):
     base_time = datetime.utcnow()
     
     for i in range(count):
-        # Determine risk level for this transaction
-        if risk_level == "mixed":
-            txn_risk = random.choices(
-                ["legitimate", "suspicious", "fraudulent"],
-                weights=[0.6, 0.3, 0.1]
-            )[0]
-        else:
-            txn_risk = risk_level
+        # Use the specified risk level for all transactions
+        txn_risk = risk_level
         
         # Select merchant based on risk level
         if txn_risk == "legitimate":
@@ -95,8 +89,8 @@ def main():
     parser.add_argument("--count", type=int, default=10, help="Number of transactions to generate")
     parser.add_argument(
         "--risk-level",
-        choices=["legitimate", "suspicious", "fraudulent", "mixed"],
-        default="mixed",
+        choices=["legitimate", "suspicious", "fraudulent"],
+        default="legitimate",
         help="Risk level of transactions"
     )
     parser.add_argument("--output", type=str, help="Output file path (optional)")
