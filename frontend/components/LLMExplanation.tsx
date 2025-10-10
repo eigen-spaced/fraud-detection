@@ -67,12 +67,6 @@ export default function LLMExplanation({ className = '', transactions, analyses 
   if (!transactions || !analyses || transactions.length === 0) {
     return (
       <div className={`space-y-4 ${className}`}>
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-            <span>🤖</span>
-            LLM Explanation
-          </h3>
-        </div>
         <div className="p-6 bg-navy-50 border border-navy-200 rounded-lg text-center">
           <div className="text-4xl mb-3">📊</div>
           <p className="text-navy-600">Analyze transactions first to get LLM explanations</p>
@@ -83,13 +77,8 @@ export default function LLMExplanation({ className = '', transactions, analyses 
 
   return (
     <div className={`space-y-4 ${className}`}>
-      {/* Header and Transaction Selection */}
+      {/* Transaction Selection */}
       <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-navy-900 flex items-center gap-2">
-          <span>🤖</span>
-          LLM Explanation
-        </h3>
-        
         <div className="flex flex-col sm:flex-row gap-3">
           <select
             value={selectedTransactionId}

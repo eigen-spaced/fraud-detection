@@ -1,6 +1,48 @@
 {
-  "venvPath": "/Users/sunny/Documents/projects/fraud-detection/backend/",
-  "venv": "venv",
-  "pythonVersion": "3.11+"
+  "venvPath": "/Users/sunny/Documents/projects/fraud-detection/backend",
+  "venv": ".venv",
+  "pythonVersion": "3.13",
+  "include": [
+    "app",
+    "."
+  ],
+  "exclude": [
+    "**/__pycache__",
+    "**/.pytest_cache",
+    "**/node_modules",
+    "**/.git",
+    "venv",
+    ".venv/lib",
+    ".venv/include",
+    ".venv/share"
+  ],
+  "extraPaths": [
+    ".",
+    "app"
+  ],
+  "typeCheckingMode": "basic",
+  "useLibraryCodeForTypes": true,
+  "autoSearchPaths": true,
+  "stubPath": ".venv/lib/python3.13/site-packages",
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": "none",
+  "reportGeneralTypeIssues": "warning",
+  "reportOptionalSubscript": "warning",
+  "reportOptionalMemberAccess": "warning",
+  "reportOptionalCall": "warning",
+  "reportOptionalIterable": "warning",
+  "reportOptionalContextManager": "warning",
+  "reportOptionalOperand": "warning",
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "pythonVersion": "3.13",
+      "pythonPlatform": "Darwin",
+      "extraPaths": [
+        ".",
+        "app"
+      ]
+    }
+  ]
 }
 

@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import TransactionCardInput from '@/components/TransactionCardInput';
-import ResultsPanel from '@/components/ResultsPanel';
+import TabbedResultsPanel from '@/components/TabbedResultsPanel';
 import Header from '@/components/Header';
-import { TransactionData } from '@/lib/convertedSampleData';
-import { FraudDetectionResponse, RefusalResponse, Transaction } from '@/lib/api';
+import { TransactionData } from '@/lib/newSampleData';
+import { FraudDetectionResponse, RefusalResponse, Transaction, api } from '@/lib/api';
 import { convertTransactionBatch } from '@/lib/transactionUtils';
 
 export default function Home() {
@@ -23,27 +23,12 @@ export default function Home() {
     setTransactions(convertedTransactions);
     
     try {
-      // Call the real ML model API
-      const response = await fetch('http://localhost:8000/api/predict', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          transactions: transactionData
-        })
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`Prediction failed: ${errorData.detail || response.statusText}`);
-      }
-      
-      const result = await response.json();
+      // Call the fraud detection API using the proper client
+      const result = await api.analyzeTransactions({ transactions: convertedTransactions });
       setResult(result);
       
     } catch (err) {
-      console.error('Model prediction error:', err);
+      console.error('Fraud analysis error:', err);
       setError(err as Error);
     } finally {
       setIsLoading(false);
@@ -71,7 +56,7 @@ export default function Home() {
           />
 
           {/* Right Panel - Results */}
-          <ResultsPanel
+          <TabbedResultsPanel
             result={result}
             transactions={transactions}
             isLoading={isLoading}
