@@ -12,7 +12,9 @@ from datetime import datetime
 
 def load_demo_datasets():
     """Load the demo datasets from pickle file."""
-    model_data_path = Path("model_data/demo_datasets.pkl")
+    # Get the backend directory path
+    backend_dir = Path(__file__).parent.parent
+    model_data_path = backend_dir / "model_data/demo_datasets.pkl"
     return joblib.load(model_data_path)
 
 
@@ -123,7 +125,8 @@ def save_converted_data():
         converted_data[dataset_name] = convert_dataframe_to_json(df, dataset_name)
 
     # Save to TypeScript file
-    output_path = Path("../frontend/lib/convertedSampleData.ts")
+    backend_dir = Path(__file__).parent.parent
+    output_path = backend_dir.parent / "frontend/lib/convertedSampleData.ts"
 
     # Generate TypeScript content
     ts_content = f"""// Generated from model datasets - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}

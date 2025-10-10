@@ -3,6 +3,13 @@
 Test script for the model service with sample transaction data.
 """
 
+import sys
+import os
+from pathlib import Path
+
+# Add the backend directory to Python path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 import json
 from app.model_service import model_service
 

@@ -9,7 +9,8 @@ from pathlib import Path
 
 def load_demo_datasets():
     """Load the demo datasets from pickle file."""
-    model_data_path = Path("model_data/demo_datasets.pkl")
+    backend_dir = Path(__file__).parent.parent
+    model_data_path = backend_dir / "model_data/demo_datasets.pkl"
 
     if not model_data_path.exists():
         print(f"❌ Error: {model_data_path} not found")

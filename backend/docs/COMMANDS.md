@@ -39,14 +39,16 @@ uv run black --check app/
 
 ### Testing
 ```bash
-# Run all tests
+# Run all tests (if pytest tests exist)
 uv run pytest tests/
+
+# Run specific test scripts
+uv run python tests/test_openrouter.py
+uv run python tests/test_model_service.py
+uv run python tests/test_shap_integration.py
 
 # Run with verbose output
 uv run pytest tests/ -v
-
-# Run specific test file
-uv run pytest tests/test_example.py
 ```
 
 ### Package Management
@@ -117,7 +119,7 @@ uv sync
 
 ### Generate Sample Transactions
 ```bash
-uv run python generate_transactions.py --count 10 --risk-level mixed
+uv run python scripts/generate_transactions.py --count 10 --risk-level mixed
 ```
 
 ### Check API Health
@@ -182,5 +184,5 @@ lsof -ti:8000 | xargs kill -9
 ## Documentation
 
 - [uv Documentation](https://docs.astral.sh/uv/)
-- [Backend README](README.md)
-- [Main Project README](../README.md)
+- [Backend README](../README.md)
+- [Main Project README](../../README.md)
