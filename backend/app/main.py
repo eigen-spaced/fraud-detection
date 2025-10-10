@@ -57,6 +57,46 @@ app.add_middleware(
 instrument_app(app)
 
 
+def convert_json_to_ml_format(json_transaction: dict) -> dict:
+    """Convert simple JSON transaction to ML model format."""
+    return {
+        "transaction": {
+            "id": json_transaction.get("transaction_id", "unknown"),
+            "timestamp": json_transaction.get("timestamp", "2023-01-01T12:00:00Z"),
+            "merchant": {
+                "name": json_transaction.get("merchant_name", "Unknown"),
+                "category": json_transaction.get("merchant_category", "unknown"),
+                "location": {"lat": 0.0, "lng": 0.0}  # Default coordinates
+            },
+            "amount": json_transaction.get("amount", 0.0),
+            "card": {
+                "number": json_transaction.get("card_number", "0000"), 
+                "full": f"{json_transaction.get('card_number', '0000')}567890121234"
+            },
+            "account": {"number": "1234", "full": "1234567890123456"}
+        },
+        "model_features": {
+            "temporal": {
+                "trans_in_last_1h": 1.0,
+                "trans_in_last_24h": 3.0,
+                "trans_in_last_7d": 15.0
+            },
+            "amount_ratios": {
+                "amt_per_card_avg_ratio_1h": 1.2,
+                "amt_per_card_avg_ratio_24h": 1.1,
+                "amt_per_card_avg_ratio_7d": 1.0,
+                "amt_per_category_avg_ratio_1h": 0.9,
+                "amt_per_category_avg_ratio_24h": 0.8,
+                "amt_per_category_avg_ratio_7d": 0.7
+            },
+            "deviations": {
+                "amt_diff_from_card_median_7d": 50.0
+            }
+        },
+        "ground_truth": {"is_fraud": False}  # Default, not used in prediction
+    }
+
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc):
     """Global exception handler."""
@@ -181,8 +221,11 @@ async def predict_with_ml_model(request: ModelPredictionRequest):
     try:
         logger.info(f"ML Model prediction requested for {len(request.transactions)} transactions")
 
+        # Convert transactions to ML model format
+        ml_transactions = [convert_json_to_ml_format(txn) for txn in request.transactions]
+
         # Get predictions from model service
-        analyses = model_service.predict_transactions(request.transactions)
+        analyses = model_service.predict_transactions(ml_transactions)
 
         # Calculate summary statistics
         total_transactions = len(analyses)

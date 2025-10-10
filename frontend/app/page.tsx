@@ -4,7 +4,7 @@ import { useState } from 'react';
 import TransactionCardInput from '@/components/TransactionCardInput';
 import TabbedResultsPanel from '@/components/TabbedResultsPanel';
 import Header from '@/components/Header';
-import { TransactionData } from '@/lib/convertedSampleData';
+import { TransactionData } from '@/lib/newSampleData';
 import { FraudDetectionResponse, RefusalResponse, Transaction } from '@/lib/api';
 import { convertTransactionBatch } from '@/lib/transactionUtils';
 
@@ -23,14 +23,14 @@ export default function Home() {
     setTransactions(convertedTransactions);
     
     try {
-      // Call the real ML model API
-      const response = await fetch('http://localhost:8000/api/predict', {
+      // Call the fraud detection API
+      const response = await fetch('http://localhost:8000/api/analyze', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          transactions: transactionData
+          transactions: convertedTransactions
         })
       });
       

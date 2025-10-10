@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FraudDetectionResponse, RefusalResponse, Transaction } from '@/lib/api';
-import AnalysisResults from './AnalysisResults';
+import AnalysisResults from './analysis/AnalysisResults';
 import LLMExplanation from './LLMExplanation';
 
 interface TabbedResultsPanelProps {

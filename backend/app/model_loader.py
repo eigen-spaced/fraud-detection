@@ -47,9 +47,9 @@ class ModelLoader:
         """
         try:
             # Convert to Path objects
-            model_path = str(Path(model_path))
-            threshold_path = str(Path(threshold_path))
-            features_path = str(Path(features_path))
+            model_path = Path(model_path)
+            threshold_path = Path(threshold_path)
+            features_path = Path(features_path)
 
             # Check if all files exist
             missing_files = []
