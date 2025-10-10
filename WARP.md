@@ -96,12 +96,15 @@ Key security features:
 - **Batch limits**: Max 100 transactions per request
 
 ### Frontend Architecture (`frontend/`)
-- **`app/page.tsx`**: Main single-page interface with split-pane layout
+- **`app/page.tsx`**: Main single-page interface with split-pane layout and centralized API client usage
 - **`components/TransactionCardInput.tsx`**: Left panel for data input with sample loaders
-- **`components/ResultsPanel.tsx`**: Right panel for analysis results and visualizations  
+- **`components/TabbedResultsPanel.tsx`**: Tabbed interface for analysis results and LLM explanations
+- **`components/analysis/AnalysisResults.tsx`**: Analysis results container with summary and statistics
+- **`components/analysis/AnalysisCard.tsx`**: Individual transaction analysis display component
 - **`components/LLMExplanation.tsx`**: AI explanation interface with test functionality
 - **`lib/newSampleData.ts`**: Pre-configured transaction scenarios (legitimate, suspicious, fraudulent, mixed)
-- **`lib/api.ts`**: Type-safe API client with React Query integration
+- **`lib/api.ts`**: Type-safe API client with environment-based URL configuration
+- **`lib/transactionUtils.ts`**: Data conversion utilities between ML and API formats
 
 ### Data Flow
 1. **Input**: User loads sample data or inputs custom JSON transactions
@@ -147,10 +150,13 @@ The system expects transactions in this format:
 
 ### Frontend Development  
 - Use TypeScript strict mode throughout
-- Follow React Query patterns for API state management
+- Use the centralized API client (`lib/api.ts`) instead of hardcoded fetch calls
+- Follow modular component architecture - separate concerns into focused components
+- Components should be organized in logical folders (e.g., `analysis/` for analysis-related components)
 - Implement proper loading states and error boundaries
 - Use Tailwind CSS utility classes for styling
 - Test with all sample data scenarios (legitimate, suspicious, fraudulent, mixed)
+- Ensure proper data conversion between ML format and API format using `transactionUtils`
 
 ### Adding New Features
 1. **API Endpoints**: Define Pydantic models in `models.py`, add routes in `main.py`
@@ -164,6 +170,9 @@ The system expects transactions in this format:
 - **CORS errors**: Check `backend/app/config.py` cors_origins setting
 - **LLM service unavailable**: Verify `OPEN_ROUTER_KEY` in `backend/.env`, test network connectivity
 - **Import errors**: Ensure working directory is correct (`backend/` for Python scripts)
+- **"Unknown" transaction data**: Ensure using `/api/analyze` endpoint and proper data conversion via `transactionUtils`
+- **Component not found errors**: Check imports point to correct modular component locations (e.g., `analysis/AnalysisResults`)
+- **Production API errors**: Verify `NEXT_PUBLIC_API_URL` environment variable is set for deployment
 
 ### Environment Setup
 ```bash
