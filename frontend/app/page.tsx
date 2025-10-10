@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import TransactionCardInput from '@/components/TransactionCardInput';
-import ResultsPanel from '@/components/ResultsPanel';
+import TabbedResultsPanel from '@/components/TabbedResultsPanel';
 import Header from '@/components/Header';
 import { TransactionData } from '@/lib/convertedSampleData';
 import { FraudDetectionResponse, RefusalResponse, Transaction } from '@/lib/api';
@@ -71,7 +71,7 @@ export default function Home() {
           />
 
           {/* Right Panel - Results */}
-          <ResultsPanel
+          <TabbedResultsPanel
             result={result}
             transactions={transactions}
             isLoading={isLoading}

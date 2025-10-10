@@ -4,7 +4,7 @@ Coordinates model loading, feature engineering, and predictions.
 """
 
 import logging
-from typing import List, Dict, Any, Tuple, Optional
+from typing import List, Dict, Any, Optional
 import numpy as np
 import pandas as pd
 
@@ -31,7 +31,7 @@ class ModelService:
             bool: True if initialization successful, False otherwise
         """
         try:
-            logger.info("🚀 Initializing Model Service...")
+            logger.info("Initializing Model Service...")
 
             # Load model artifacts
             success = model_loader.load_model_artifacts()
