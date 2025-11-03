@@ -57,13 +57,6 @@ export default function JsonInput({
           >
             ⛔ Fraudulent
           </button>
-          <button
-            onClick={() => onLoadSample('mixed')}
-            disabled={isLoading}
-            className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-blue-200"
-          >
-            🔀 Mixed
-          </button>
         </div>
       </div>
 

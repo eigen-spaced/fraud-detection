@@ -67,20 +67,10 @@ npm run dev
 - **✓ Legitimate**: Low-risk everyday purchases (~15% risk)
 - **⚠️ Suspicious**: Medium-risk transactions (~50-70% risk)
 - **⛔ Fraudulent**: High-risk patterns (~80-100% risk)
-- **🔀 Mixed**: Combination of all types
 
 ## API Documentation
 
 Visit http://localhost:8000/docs for interactive API documentation.
-
-## Generate Custom Data
-
-```bash
-# From backend directory
-python3 generate_transactions.py --count 20 --risk-level mixed
-```
-
-Copy the output and paste it into the frontend!
 
 ## Troubleshooting
 

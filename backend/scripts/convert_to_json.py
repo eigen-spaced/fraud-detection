@@ -11,7 +11,6 @@ import argparse
 import json
 import joblib
 from pathlib import Path
-from datetime import datetime
 
 
 def load_demo_datasets():
@@ -199,7 +198,7 @@ Examples:
     parser.add_argument(
         "--dataset",
         type=str,
-        choices=["fraud", "legitimate", "suspicious", "mixed"],
+        choices=["fraud", "legitimate", "suspicious"],
         help="Convert only a specific dataset (default: convert all)"
     )
     
@@ -232,7 +231,7 @@ Examples:
     
     # Convert each dataset
     for dataset_name, df in datasets.items():
-        print(f"📊 Processing {dataset_name} dataset ({len(df)} transactions)...")
+        print(f"Processing {dataset_name} dataset ({len(df)} transactions)...")
         
         # Convert to JSON
         converted_data = convert_dataframe_to_json(df, dataset_name)
@@ -255,7 +254,7 @@ Examples:
     
     # Summary
     print("=" * 50)
-    print("📊 Conversion Summary:")
+    print("Conversion Summary:")
     print(f"   Total files created: {len(converted_files)}")
     print(f"   Output directory: {output_dir.absolute()}")
     

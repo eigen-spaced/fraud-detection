@@ -75,14 +75,12 @@ export const categoryEmojis: Record<string, string> = {
 import legitimateData from "@/data/legitimate_transactions.json";
 import suspiciousData from "@/data/suspicious_transactions.json";
 import fraudData from "@/data/fraud_transactions.json";
-import mixedData from "@/data/mixed_transactions.json";
 
 // Export sample transactions - mapped to match frontend naming conventions
 export const sampleTransactions = {
   legitimate: legitimateData as TransactionBatch,
   suspicious: suspiciousData as TransactionBatch,
   fraudulent: fraudData as TransactionBatch,
-  mixed: mixedData as TransactionBatch,
 };
 
 // Backward compatibility: export with old name

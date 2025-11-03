@@ -53,6 +53,7 @@ export default function TabbedResultsPanel({ result, transactions, isLoading, er
             
             return (
               <button
+              type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 disabled={isDisabled}

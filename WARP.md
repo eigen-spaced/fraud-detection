@@ -99,7 +99,7 @@ Key security features:
 - **`components/analysis/AnalysisResults.tsx`**: Analysis results container with summary and statistics
 - **`components/analysis/AnalysisCard.tsx`**: Individual transaction analysis display component
 - **`components/LLMExplanation.tsx`**: AI explanation interface with test functionality
-- **`lib/newSampleData.ts`**: Pre-configured transaction scenarios (legitimate, suspicious, fraudulent, mixed)
+- **`lib/sampleData.ts`**: Pre-configured transaction scenarios (legitimate, suspicious, fraudulent)
 - **`lib/api.ts`**: Type-safe API client with environment-based URL configuration
 - **`lib/transactionUtils.ts`**: Data conversion utilities between ML and API formats
 
@@ -152,7 +152,7 @@ The system expects transactions in this format:
 - Components should be organized in logical folders (e.g., `analysis/` for analysis-related components)
 - Implement proper loading states and error boundaries
 - Use Tailwind CSS utility classes for styling
-- Test with all sample data scenarios (legitimate, suspicious, fraudulent, mixed)
+- Test with all sample data scenarios (legitimate, suspicious, fraudulent)
 - Ensure proper data conversion between ML format and API format using `transactionUtils`
 
 ### Adding New Features
@@ -195,7 +195,7 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 
 ### End-to-End Testing
 1. Load sample data → Analyze transactions → View results → Test LLM explanations
-2. Try all data types: legitimate, suspicious, fraudulent, mixed
+2. Try all data types: legitimate, suspicious, fraudulent
 3. Test error scenarios: invalid JSON, missing fields, injection attempts
 4. Verify security: prompt injection in merchant names, excessive PII fields
 

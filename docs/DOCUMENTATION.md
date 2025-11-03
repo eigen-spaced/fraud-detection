@@ -99,7 +99,7 @@ Documentation: Comprehensive guides and API docs
 
 #### Frontend Features
 - **Single-Page Interface**: Streamlined transaction analysis workflow
-- **Sample Data Loader**: 4 pre-configured scenarios (Legitimate, Suspicious, Fraudulent, Mixed)
+- **Sample Data Loader**: 3 pre-configured scenarios (Legitimate, Suspicious, Fraudulent)
 - **Transaction Cards**: Visual display with detailed transaction information
 - **Real-time Analysis**: Loading states, error handling, success feedback
 - **LLM Integration**: Test button for AI-powered explanations
@@ -360,7 +360,7 @@ echo "OPEN_ROUTER_KEY=your-key-here" >> backend/.env
 ```
 
 #### Manual Testing Steps
-1. **Load Sample Data**: Click "Legitimate", "Suspicious", "Fraudulent", or "Mixed"
+1. **Load Sample Data**: Click "Legitimate", "Suspicious", or "Fraudulent"
 2. **Analyze**: Click "Analyze Transactions" button
 3. **View Results**: Check analysis in right panel
 4. **Test LLM**: Scroll to "LLM Explanation" section, click "Test LLM"

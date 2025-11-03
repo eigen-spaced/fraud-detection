@@ -122,7 +122,7 @@ uv sync
 # Convert all datasets to JSON
 uv run python scripts/convert_to_json.py --output-dir ./output
 
-# Convert only specific dataset (fraud, legitimate, suspicious, or mixed)
+# Convert only specific dataset (fraud, legitimate, or suspicious)
 uv run python scripts/convert_to_json.py --output-dir ./output --dataset fraud
 
 # See help for more options
