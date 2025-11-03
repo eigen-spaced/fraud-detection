@@ -149,7 +149,7 @@ fraud-detection/
 
 ---
 
-## 🤖 LLM Integration
+## LLM Integration
 
 ### Overview
 
@@ -248,7 +248,7 @@ echo "OPEN_ROUTER_KEY=sk-or-v1-your-api-key-here" >> backend/.env
 
 ---
 
-## 🔌 API Reference
+## API Reference
 
 ### Core Endpoints
 
@@ -344,7 +344,7 @@ GET /api/schema
 
 ---
 
-## 🧪 Testing Guide
+## Testing Guide
 
 ### Quick Start Testing
 
@@ -372,20 +372,19 @@ echo "OPEN_ROUTER_KEY=your-key-here" >> backend/.env
 - **✓ Legitimate**: Low-risk everyday purchases (~15% risk scores)
 - **⚠️ Suspicious**: Medium-risk transactions (~50-70% risk scores)  
 - **⛔ Fraudulent**: High-risk patterns (~80-100% risk scores)
-- **🔀 Mixed**: Combination of all risk levels
 
 #### LLM Testing States
 
 **Success Path:**
 ```
-🤖 LLM Explanation
+LLM Explanation
 [Test LLM] [Clear]
 
 Transaction Analysis                    HIGH RISK
 Transaction ID: TEST_001
 Fraud Probability: 85.0%
 
-🧠 AI Explanation
+AI Explanation
 This transaction has a high fraud probability (85%) due to several concerning factors...
 
 Model Used: anthropic/claude-3.5-sonnet
@@ -423,7 +422,7 @@ python -c "from app.config import settings; print(f'OpenRouter key configured: {
 
 ---
 
-## 🔐 Security Features
+## Security Features
 
 ### Implemented Security
 
@@ -482,7 +481,7 @@ ALLOWED_CITATION_DOMAINS=["example.com", "trusted-source.com"]
 
 ---
 
-## 👨‍💻 Development Guide
+## Development Guide
 
 ### Local Development Setup
 
@@ -657,7 +656,7 @@ logging.getLogger("app.fraud_detector").setLevel(logging.DEBUG)
 
 ---
 
-## 🚀 Future Enhancements
+## Future Enhancements
 
 ### Planned Features
 
@@ -704,49 +703,3 @@ Transactions → Feature Engineering → ML Model → Predictions → SHAP Value
 - **Compliance Reporting**: Automated regulatory reports
 
 ### Technical Roadmap
-
-#### Short Term (1-3 months)
-- [ ] Real ML model integration  
-- [ ] SHAP + LLM combined explanations
-- [ ] Enhanced error handling and retry logic
-- [ ] Performance optimization and caching
-
-#### Medium Term (3-6 months)
-- [ ] User authentication and authorization
-- [ ] Transaction history database
-- [ ] Advanced analytics dashboard
-- [ ] Webhook notification system
-
-#### Long Term (6+ months)
-- [ ] Multi-tenant architecture
-- [ ] Enterprise security features
-- [ ] Production-grade observability
-- [ ] Automated model retraining pipeline
-
----
-
-## 📞 Support & Resources
-
-### Documentation
-- **Main README**: Project overview and setup
-- **QUICKSTART**: 5-minute setup guide
-- **API Docs**: Interactive Swagger UI at `/docs`
-- **This Document**: Comprehensive technical reference
-
-### External Resources
-- [OpenRouter Documentation](https://openrouter.ai/docs)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Pydantic Documentation](https://docs.pydantic.dev/)
-
-### Development Resources
-- **Backend Tests**: `backend/test_openrouter.py`
-- **Sample Data**: `frontend/lib/newSampleData.ts`
-- **Startup Script**: `start_with_llm.sh`
-- **Environment Examples**: `.env.example` files
-
----
-
-**Built with ❤️ for secure, AI-powered fraud detection**
-
-*Last updated: January 2025*
