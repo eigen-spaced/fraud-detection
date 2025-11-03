@@ -117,9 +117,16 @@ uv sync
 
 ## Common Tasks
 
-### Generate Sample Transactions
+### Convert Model Data to JSON
 ```bash
-uv run python scripts/generate_transactions.py --count 10 --risk-level mixed
+# Convert all datasets to JSON
+uv run python scripts/convert_to_json.py --output-dir ./output
+
+# Convert only specific dataset (fraud, legitimate, suspicious, or mixed)
+uv run python scripts/convert_to_json.py --output-dir ./output --dataset fraud
+
+# See help for more options
+uv run python scripts/convert_to_json.py --help
 ```
 
 ### Check API Health

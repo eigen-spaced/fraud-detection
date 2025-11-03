@@ -35,8 +35,8 @@ uv run black --check app/                                 # Check formatting
 
 # Testing and utilities
 uv run pytest tests/                                       # Run tests (if tests exist)
-uv run python generate_transactions.py --count 10 --risk-level mixed  # Generate sample data
 uv run python test_openrouter.py                          # Test LLM integration
+uv run python scripts/convert_to_json.py --output-dir ./output  # Convert model data to JSON
 
 # Package management
 uv add package-name                                        # Add dependency
@@ -68,9 +68,6 @@ curl http://localhost:3000                                # Frontend (in browser
 curl -X POST http://localhost:8000/api/analyze \
   -H "Content-Type: application/json" \
   -d '{"transactions":[...]}'                             # Test fraud detection API
-
-# Generate test data  
-cd backend && uv run python generate_transactions.py --count 5 --risk-level fraudulent
 ```
 
 ## Architecture Overview
