@@ -4,7 +4,7 @@ import { useState } from 'react';
 import TransactionCardInput from '@/components/TransactionCardInput';
 import TabbedResultsPanel from '@/components/TabbedResultsPanel';
 import Header from '@/components/Header';
-import { TransactionData } from '@/lib/newSampleData';
+import { TransactionData } from '@/lib/sampleData';
 import { FraudDetectionResponse, RefusalResponse, Transaction, api } from '@/lib/api';
 import { convertTransactionBatch } from '@/lib/transactionUtils';
 

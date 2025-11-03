@@ -1,0 +1,224 @@
+{
+  "transactions": [
+    {
+      "transaction": {
+        "id": "8b548bdfadd95b16f2d09ed7a7d25c15",
+        "timestamp": "2025-05-13T00:27:23Z",
+        "merchant": {
+          "name": "Cartwright-Harris",
+          "category": "Grocery",
+          "location": {
+            "lat": 38.520787,
+            "lng": -75.22499
+          }
+        },
+        "amount": 8.53,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20222266",
+          "full": "6598749320392266"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20221994",
+          "full": "635673441994"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 1.0,
+          "trans_in_last_7d": 22.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 8530000.0,
+          "amt_per_card_avg_ratio_24h": 8530000.0,
+          "amt_per_card_avg_ratio_7d": 0.16694159093971772,
+          "amt_per_category_avg_ratio_1h": 8530000.0,
+          "amt_per_category_avg_ratio_24h": 8530000.0,
+          "amt_per_category_avg_ratio_7d": 8530000.0
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -33.6
+        }
+      },
+      "ground_truth": {
+        "is_fraud": true
+      }
+    },
+    {
+      "transaction": {
+        "id": "65a6676e9b5cd345832c108c06cf169f",
+        "timestamp": "2025-06-28T22:50:33Z",
+        "merchant": {
+          "name": "Torphy-Goyette",
+          "category": "Shopping",
+          "location": {
+            "lat": 32.199794,
+            "lng": -86.380078
+          }
+        },
+        "amount": 849.33,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20227803",
+          "full": "374240082547803"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20226916",
+          "full": "272278386916"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 2.0,
+          "trans_in_last_24h": 3.0,
+          "trans_in_last_7d": 12.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 91.03214458390734,
+          "amt_per_card_avg_ratio_24h": 53.484253558926106,
+          "amt_per_card_avg_ratio_7d": 7.601999980779025,
+          "amt_per_category_avg_ratio_1h": 849330000.0000001,
+          "amt_per_category_avg_ratio_24h": 37.86580303763696,
+          "amt_per_category_avg_ratio_7d": 37.86580303763696
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 826.9000000000001
+        }
+      },
+      "ground_truth": {
+        "is_fraud": true
+      }
+    },
+    {
+      "transaction": {
+        "id": "95e2dddc0a685038f07ec089e67f61f2",
+        "timestamp": "2023-04-25T05:38:27Z",
+        "merchant": {
+          "name": "Rau and Sons",
+          "category": "Grocery",
+          "location": {
+            "lat": 43.347499,
+            "lng": -87.710858
+          }
+        },
+        "amount": 294.03,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20227557",
+          "full": "6011538140307557"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20221889",
+          "full": "660332451889"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 5.0,
+          "trans_in_last_7d": 34.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 294030000.0,
+          "amt_per_card_avg_ratio_24h": 1.7400798831775117,
+          "amt_per_card_avg_ratio_7d": 4.147321255583651,
+          "amt_per_category_avg_ratio_1h": 294030000.0,
+          "amt_per_category_avg_ratio_24h": 1.000255137690275,
+          "amt_per_category_avg_ratio_7d": 1.000255137690275
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 241.45999999999998
+        }
+      },
+      "ground_truth": {
+        "is_fraud": true
+      }
+    },
+    {
+      "transaction": {
+        "id": "35014b205495b185378d9d3b58a7b7ad",
+        "timestamp": "2025-03-07T23:29:03Z",
+        "merchant": {
+          "name": "Flatley-Durgan",
+          "category": "Online Shopping",
+          "location": {
+            "lat": 45.299919,
+            "lng": -108.653495
+          }
+        },
+        "amount": 729.8,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20224976",
+          "full": "30288073664976"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225807",
+          "full": "206774955807"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 4.0,
+          "trans_in_last_24h": 7.0,
+          "trans_in_last_7d": 18.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 1.3081041010896015,
+          "amt_per_card_avg_ratio_24h": 1.1949307931358377,
+          "amt_per_card_avg_ratio_7d": 2.8895699977355283,
+          "amt_per_category_avg_ratio_1h": 0.7834843466488981,
+          "amt_per_category_avg_ratio_24h": 0.7834843466488981,
+          "amt_per_category_avg_ratio_7d": 0.7834843466488981
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 688.3399999999999
+        }
+      },
+      "ground_truth": {
+        "is_fraud": true
+      }
+    },
+    {
+      "transaction": {
+        "id": "00c758cc8ccd8ec4301cf0d72049c7f9",
+        "timestamp": "2024-12-25T22:47:08Z",
+        "merchant": {
+          "name": "Ebert-Daugherty",
+          "category": "Travel",
+          "location": {
+            "lat": 33.013853,
+            "lng": -111.518856
+          }
+        },
+        "amount": 10.15,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20228267",
+          "full": "30484677378267"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225953",
+          "full": "539705335953"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 3.0,
+          "trans_in_last_24h": 4.0,
+          "trans_in_last_7d": 35.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 0.04985265201447617,
+          "amt_per_card_avg_ratio_24h": 0.026936175787687623,
+          "amt_per_card_avg_ratio_7d": 0.06566779019936199,
+          "amt_per_category_avg_ratio_1h": 10150000.0,
+          "amt_per_category_avg_ratio_24h": 10150000.0,
+          "amt_per_category_avg_ratio_7d": 10150000.0
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -54.04
+        }
+      },
+      "ground_truth": {
+        "is_fraud": true
+      }
+    }
+  ]
+}

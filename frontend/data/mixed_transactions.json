@@ -1,0 +1,224 @@
+{
+  "transactions": [
+    {
+      "transaction": {
+        "id": "4fd5659b27f58d2b726c701aeedcf460",
+        "timestamp": "2025-05-16T21:04:16Z",
+        "merchant": {
+          "name": "Watsica LLC",
+          "category": "Personal Care",
+          "location": {
+            "lat": 41.243933,
+            "lng": -94.376885
+          }
+        },
+        "amount": 174.59,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20228763",
+          "full": "60400268763"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225556",
+          "full": "279317935556"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 1.0,
+          "trans_in_last_7d": 14.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 174590000.0,
+          "amt_per_card_avg_ratio_24h": 174590000.0,
+          "amt_per_card_avg_ratio_7d": 4.444581408805158,
+          "amt_per_category_avg_ratio_1h": 174590000.0,
+          "amt_per_category_avg_ratio_24h": 174590000.0,
+          "amt_per_category_avg_ratio_7d": 4.444581408805158
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 138.02
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "3c0ed14a23391bff7ea921c767dfea53",
+        "timestamp": "2024-08-23T12:49:17Z",
+        "merchant": {
+          "name": "Dare, Fritsch and Zboncak",
+          "category": "Healthcare",
+          "location": {
+            "lat": 41.844481,
+            "lng": -94.470577
+          }
+        },
+        "amount": 3.64,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20228763",
+          "full": "60400268763"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225556",
+          "full": "279317935556"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 2.0,
+          "trans_in_last_24h": 3.0,
+          "trans_in_last_7d": 28.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 1.4918026672939888,
+          "amt_per_card_avg_ratio_24h": 0.07584913365598805,
+          "amt_per_card_avg_ratio_7d": 0.07895941790172309,
+          "amt_per_category_avg_ratio_1h": 1.4918026672939888,
+          "amt_per_category_avg_ratio_24h": 0.07584913365598805,
+          "amt_per_category_avg_ratio_7d": 0.06937591193667392
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -21.5
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "af0da7f09753ceed728e7caec32496bb",
+        "timestamp": "2024-05-04T05:21:11Z",
+        "merchant": {
+          "name": "Dibbert-Green",
+          "category": "Entertainment",
+          "location": {
+            "lat": 41.163555,
+            "lng": -93.603148
+          }
+        },
+        "amount": 81.01,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20228763",
+          "full": "60400268763"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225556",
+          "full": "279317935556"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 5.0,
+          "trans_in_last_7d": 18.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 81010000.00000001,
+          "amt_per_card_avg_ratio_24h": 1.6166433522920907,
+          "amt_per_card_avg_ratio_7d": 1.722431331022034,
+          "amt_per_category_avg_ratio_1h": 81010000.00000001,
+          "amt_per_category_avg_ratio_24h": 1.6166433522920907,
+          "amt_per_category_avg_ratio_7d": 1.722431331022034
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 66.09
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "54a34dc84e8ab3e8c7dbbea374b6e14f",
+        "timestamp": "2023-09-09T11:13:02Z",
+        "merchant": {
+          "name": "Towne LLC",
+          "category": "Miscellaneous",
+          "location": {
+            "lat": 42.313852,
+            "lng": -93.952473
+          }
+        },
+        "amount": 60.52,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20228763",
+          "full": "60400268763"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225556",
+          "full": "279317935556"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 2.0,
+          "trans_in_last_7d": 14.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 60520000.00000001,
+          "amt_per_card_avg_ratio_24h": 0.8031851253724603,
+          "amt_per_card_avg_ratio_7d": 0.8850540964455382,
+          "amt_per_category_avg_ratio_1h": 60520000.00000001,
+          "amt_per_category_avg_ratio_24h": 0.8031851253724603,
+          "amt_per_category_avg_ratio_7d": 0.6787035922540811
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -8.979999999999997
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "161a0af7239eaad12e5335e14effa169",
+        "timestamp": "2023-12-25T03:48:19Z",
+        "merchant": {
+          "name": "Baumbach, Hodkiewicz and Walsh",
+          "category": "Shopping",
+          "location": {
+            "lat": 41.834244,
+            "lng": -94.490892
+          }
+        },
+        "amount": 6.01,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20228763",
+          "full": "60400268763"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225556",
+          "full": "279317935556"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 2.0,
+          "trans_in_last_7d": 48.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 6010000.0,
+          "amt_per_card_avg_ratio_24h": 0.07148804482588267,
+          "amt_per_card_avg_ratio_7d": 0.09824804105024992,
+          "amt_per_category_avg_ratio_1h": 6010000.0,
+          "amt_per_category_avg_ratio_24h": 0.07148804482588267,
+          "amt_per_category_avg_ratio_7d": 0.09824804105024992
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -48.53
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    }
+  ]
+}

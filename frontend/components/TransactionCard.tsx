@@ -1,6 +1,6 @@
 'use client';
 
-import { TransactionData, categoryEmojis } from '@/lib/newSampleData';
+import { TransactionData, categoryEmojis } from '@/lib/sampleData';
 import { useState } from 'react';
 
 interface TransactionCardProps {

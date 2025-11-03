@@ -1,0 +1,224 @@
+{
+  "transactions": [
+    {
+      "transaction": {
+        "id": "9c50b8f1a5e4a2913e6343cb375c9ac7",
+        "timestamp": "2024-12-19T17:11:16Z",
+        "merchant": {
+          "name": "Wuckert, Wintheiser and Friesen",
+          "category": "Home & Garden",
+          "location": {
+            "lat": 33.555414,
+            "lng": -117.928448
+          }
+        },
+        "amount": 164.14,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20229774",
+          "full": "379073420319774"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20228780",
+          "full": "573381828780"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 4.0,
+          "trans_in_last_7d": 39.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 164140000.0,
+          "amt_per_card_avg_ratio_24h": 5.022643665157776,
+          "amt_per_card_avg_ratio_7d": 3.125974721454684,
+          "amt_per_category_avg_ratio_1h": 164140000.0,
+          "amt_per_category_avg_ratio_24h": 5.022643665157788,
+          "amt_per_category_avg_ratio_7d": 3.125974721454684
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 154.35
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "bd09d2a937710fbef82a874c0f317402",
+        "timestamp": "2024-05-11T11:48:29Z",
+        "merchant": {
+          "name": "Lind-Buckridge",
+          "category": "Entertainment",
+          "location": {
+            "lat": 41.453989,
+            "lng": -83.50582
+          }
+        },
+        "amount": 9.23,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20224140",
+          "full": "379727985524140"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20228521",
+          "full": "709237888521"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 4.0,
+          "trans_in_last_7d": 24.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 9230000.0,
+          "amt_per_card_avg_ratio_24h": 0.06631223459794357,
+          "amt_per_card_avg_ratio_7d": 0.12548915121697082,
+          "amt_per_category_avg_ratio_1h": 9230000.0,
+          "amt_per_category_avg_ratio_24h": 0.06631223459794357,
+          "amt_per_category_avg_ratio_7d": 0.12548915121697082
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -41.42
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "5bbaa14e4f46b019c9dbfb5f92a904d6",
+        "timestamp": "2024-04-22T10:42:00Z",
+        "merchant": {
+          "name": "Cormier, Stracke and Thiel",
+          "category": "Entertainment",
+          "location": {
+            "lat": 33.698801,
+            "lng": -117.836818
+          }
+        },
+        "amount": 130.79,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20223534",
+          "full": "4207446660993534"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20223966",
+          "full": "286650063966"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 3.0,
+          "trans_in_last_7d": 10.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 130790000.0,
+          "amt_per_card_avg_ratio_24h": 4.950416163875239,
+          "amt_per_card_avg_ratio_7d": 1.5859100086587845,
+          "amt_per_category_avg_ratio_1h": 130790000.0,
+          "amt_per_category_avg_ratio_24h": 4.950416163875239,
+          "amt_per_category_avg_ratio_7d": 1.585910008658785
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 63.129999999999995
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "25a0b429c4417e8ec4bbb752c47ffcad",
+        "timestamp": "2023-10-06T02:45:12Z",
+        "merchant": {
+          "name": "Yost, Block and Koepp",
+          "category": "Miscellaneous",
+          "location": {
+            "lat": 34.853445,
+            "lng": -106.341801
+          }
+        },
+        "amount": 8.66,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20226722",
+          "full": "180097850786722"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20225759",
+          "full": "409145195759"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 5.0,
+          "trans_in_last_7d": 29.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 8660000.0,
+          "amt_per_card_avg_ratio_24h": 0.07594492610764776,
+          "amt_per_card_avg_ratio_7d": 0.07546864381366827,
+          "amt_per_category_avg_ratio_1h": 8660000.0,
+          "amt_per_category_avg_ratio_24h": 0.07594492610764776,
+          "amt_per_category_avg_ratio_7d": 0.07546864381366826
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -64.825
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "1a34429788fcf67bd9fe1f3b1b6342f7",
+        "timestamp": "2023-05-06T08:14:08Z",
+        "merchant": {
+          "name": "Kuhic Inc",
+          "category": "Grocery",
+          "location": {
+            "lat": 39.605203,
+            "lng": -83.610545
+          }
+        },
+        "amount": 222.91,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20226367",
+          "full": "4918465506367"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20220586",
+          "full": "812012710586"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 2.0,
+          "trans_in_last_24h": 6.0,
+          "trans_in_last_7d": 21.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 7.6998270224584795,
+          "amt_per_card_avg_ratio_24h": 2.2474390804218514,
+          "amt_per_card_avg_ratio_7d": 2.555472092773897,
+          "amt_per_category_avg_ratio_1h": 7.6998270224584795,
+          "amt_per_category_avg_ratio_24h": 2.2474390804218514,
+          "amt_per_category_avg_ratio_7d": 2.5554720927738974
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 171.295
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    }
+  ]
+}

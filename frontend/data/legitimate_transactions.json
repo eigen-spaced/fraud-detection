@@ -1,0 +1,224 @@
+{
+  "transactions": [
+    {
+      "transaction": {
+        "id": "e8f919d6eaec741e1d6a2855a321c57c",
+        "timestamp": "2024-08-15T13:09:54Z",
+        "merchant": {
+          "name": "Turner, Ziemann and Lehner",
+          "category": "Restaurant",
+          "location": {
+            "lat": 32.743545,
+            "lng": -83.079513
+          }
+        },
+        "amount": 9.97,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20228905",
+          "full": "342089532638905"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20223069",
+          "full": "262006613069"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 3.0,
+          "trans_in_last_7d": 31.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 9970000.000000002,
+          "amt_per_card_avg_ratio_24h": 0.18206719901265161,
+          "amt_per_card_avg_ratio_7d": 0.3565085632439099,
+          "amt_per_category_avg_ratio_1h": 9970000.000000002,
+          "amt_per_category_avg_ratio_24h": 0.18206719901265161,
+          "amt_per_category_avg_ratio_7d": 0.3565085632439099
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": 4.905000000000001
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "8aab0aef2fdd459b3268d15536b0d611",
+        "timestamp": "2024-07-27T12:46:10Z",
+        "merchant": {
+          "name": "Howe PLC",
+          "category": "Entertainment",
+          "location": {
+            "lat": 41.743284,
+            "lng": -82.470343
+          }
+        },
+        "amount": 4.41,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20227528",
+          "full": "6532956342777528"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20229581",
+          "full": "717378839581"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 10.0,
+          "trans_in_last_7d": 50.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 4410000.0,
+          "amt_per_card_avg_ratio_24h": 0.28790075010077804,
+          "amt_per_card_avg_ratio_7d": 0.20653959882967554,
+          "amt_per_category_avg_ratio_1h": 4410000.0,
+          "amt_per_category_avg_ratio_24h": 0.28790075010077804,
+          "amt_per_category_avg_ratio_7d": 0.20653959882967549
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -3.16
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "7883f5a27b7e3a5e62bffe53ed3271bd",
+        "timestamp": "2024-06-23T14:43:03Z",
+        "merchant": {
+          "name": "Welch, Rath and Koepp",
+          "category": "Entertainment",
+          "location": {
+            "lat": 39.189103,
+            "lng": -76.208267
+          }
+        },
+        "amount": 7.65,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20229241",
+          "full": "4033582686270369241"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20229831",
+          "full": "815476979831"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 2.0,
+          "trans_in_last_7d": 16.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 7650000.000000001,
+          "amt_per_card_avg_ratio_24h": 0.16349647011121032,
+          "amt_per_card_avg_ratio_7d": 0.34035294348125716,
+          "amt_per_category_avg_ratio_1h": 7650000.000000001,
+          "amt_per_category_avg_ratio_24h": 0.16349647011121032,
+          "amt_per_category_avg_ratio_7d": 0.34035294348125716
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -1.3899999999999988
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "f4660cf9142ded61f7a8197d375073ed",
+        "timestamp": "2023-11-24T21:54:29Z",
+        "merchant": {
+          "name": "Reynolds-Schinner",
+          "category": "Miscellaneous",
+          "location": {
+            "lat": 31.126278,
+            "lng": -85.022985
+          }
+        },
+        "amount": 6.3,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20222819",
+          "full": "4501657555748632819"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20222542",
+          "full": "56331922542"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 9.0,
+          "trans_in_last_7d": 39.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 6300000.0,
+          "amt_per_card_avg_ratio_24h": 0.08257962927540137,
+          "amt_per_card_avg_ratio_7d": 0.15998181922233787,
+          "amt_per_category_avg_ratio_1h": 6300000.0,
+          "amt_per_category_avg_ratio_24h": 0.08257962927540137,
+          "amt_per_category_avg_ratio_7d": 0.15998181922233787
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -2.410000000000001
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    },
+    {
+      "transaction": {
+        "id": "669dc6b147be1d0dce2d4d56f13229c3",
+        "timestamp": "2023-12-19T21:13:36Z",
+        "merchant": {
+          "name": "Stamm-Rodriguez",
+          "category": "Miscellaneous",
+          "location": {
+            "lat": 37.255723,
+            "lng": -76.710003
+          }
+        },
+        "amount": 8.79,
+        "card": {
+          "number": "\u2022\u2022\u2022\u20221428",
+          "full": "4694451421572991428"
+        },
+        "account": {
+          "number": "\u2022\u2022\u2022\u20220204",
+          "full": "436639800204"
+        }
+      },
+      "model_features": {
+        "temporal": {
+          "trans_in_last_1h": 1.0,
+          "trans_in_last_24h": 4.0,
+          "trans_in_last_7d": 13.0
+        },
+        "amount_ratios": {
+          "amt_per_card_avg_ratio_1h": 8790000.0,
+          "amt_per_card_avg_ratio_24h": 0.012073954672889752,
+          "amt_per_card_avg_ratio_7d": 0.04276557164158215,
+          "amt_per_category_avg_ratio_1h": 8790000.0,
+          "amt_per_category_avg_ratio_24h": 0.012073954672889752,
+          "amt_per_category_avg_ratio_7d": 0.04276557164158215
+        },
+        "deviations": {
+          "amt_diff_from_card_median_7d": -4.600000000000001
+        }
+      },
+      "ground_truth": {
+        "is_fraud": false
+      }
+    }
+  ]
+}
