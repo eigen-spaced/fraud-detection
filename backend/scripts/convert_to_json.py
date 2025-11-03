@@ -17,10 +17,10 @@ def load_demo_datasets():
     """Load the demo datasets from pickle file."""
     backend_dir = Path(__file__).parent.parent
     model_data_path = backend_dir / "model_data/demo_datasets.pkl"
-    
+
     if not model_data_path.exists():
         raise FileNotFoundError(f"Dataset file not found: {model_data_path}")
-    
+
     print(f"📂 Loading datasets from: {model_data_path}")
     return joblib.load(model_data_path)
 
@@ -81,10 +81,7 @@ def convert_dataframe_to_json(df, dataset_type):
                 "merchant": {
                     "name": clean_merchant_name(row["merchant"]),
                     "category": map_category_name(row["category"]),
-                    "location": {
-                        "lat": float(row["merch_lat"]),
-                        "lng": float(row["merch_long"])
-                    },
+                    "location": {"lat": float(row["merch_lat"]), "lng": float(row["merch_long"])},
                 },
                 "amount": float(row["amt"]),
                 "card": {
@@ -124,49 +121,51 @@ def convert_dataframe_to_json(df, dataset_type):
 def verify_conversion(original_df, converted_json, dataset_name):
     """Verify that the conversion preserved all data correctly."""
     print(f"\n🔍 Verifying {dataset_name} dataset conversion...")
-    
+
     errors = []
-    
+
     # Check transaction count
     if len(original_df) != len(converted_json["transactions"]):
-        errors.append(f"Transaction count mismatch: {len(original_df)} vs {len(converted_json['transactions'])}")
+        errors.append(
+            f"Transaction count mismatch: {len(original_df)} vs {len(converted_json['transactions'])}"
+        )
         return errors
-    
+
     # Verify each transaction
     for idx, (_, row) in enumerate(original_df.iterrows()):
         txn = converted_json["transactions"][idx]
-        
+
         # Verify key fields
         if str(row["trans_num"]) != txn["transaction"]["id"]:
             errors.append(f"Transaction {idx}: ID mismatch")
-        
+
         if float(row["amt"]) != txn["transaction"]["amount"]:
             errors.append(f"Transaction {idx}: Amount mismatch")
-        
+
         if bool(row["is_fraud"]) != txn["ground_truth"]["is_fraud"]:
             errors.append(f"Transaction {idx}: Fraud flag mismatch")
-        
+
         # Verify model features
         if float(row["trans_in_last_1h"]) != txn["model_features"]["temporal"]["trans_in_last_1h"]:
             errors.append(f"Transaction {idx}: trans_in_last_1h mismatch")
-    
+
     if errors:
         print(f"   ❌ Found {len(errors)} errors:")
         for error in errors[:5]:  # Show first 5 errors
             print(f"      - {error}")
     else:
         print(f"   ✅ All {len(original_df)} transactions verified successfully")
-    
+
     return errors
 
 
 def save_json(data, output_path):
     """Save data as JSON file."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     with open(output_path, "w") as f:
         json.dump(data, f, indent=2)
-    
+
     print(f"   💾 Saved to: {output_path}")
 
 
@@ -185,90 +184,89 @@ Examples:
 
   # Convert with custom output directory
   uv run python scripts/convert_to_json.py --output-dir /path/to/output
-        """
+        """,
     )
-    
+
     parser.add_argument(
-        "--output-dir",
-        type=str,
-        required=True,
-        help="Directory to save JSON output files"
+        "--output-dir", type=str, required=True, help="Directory to save JSON output files"
     )
-    
+
     parser.add_argument(
         "--dataset",
         type=str,
         choices=["fraud", "legitimate", "suspicious"],
-        help="Convert only a specific dataset (default: convert all)"
+        help="Convert only a specific dataset (default: convert all)",
     )
-    
+
     parser.add_argument(
         "--verify",
         action="store_true",
         default=True,
-        help="Verify conversion integrity (default: True)"
+        help="Verify conversion integrity (default: True)",
     )
-    
+
     args = parser.parse_args()
-    
+
     print("🚀 Converting Demo Datasets to JSON")
     print("=" * 50)
-    
+
     # Load datasets
     datasets = load_demo_datasets()
     print(f"✅ Loaded {len(datasets)} datasets: {list(datasets.keys())}\n")
-    
+
     # Filter datasets if specific one requested
     if args.dataset:
         if args.dataset not in datasets:
             print(f"❌ Dataset '{args.dataset}' not found in pickle file")
             return 1
         datasets = {args.dataset: datasets[args.dataset]}
-    
+
     output_dir = Path(args.output_dir)
     all_errors = []
     converted_files = []
-    
+
     # Convert each dataset
     for dataset_name, df in datasets.items():
         print(f"Processing {dataset_name} dataset ({len(df)} transactions)...")
-        
+
         # Convert to JSON
         converted_data = convert_dataframe_to_json(df, dataset_name)
-        
+
         # Verify conversion
         if args.verify:
             errors = verify_conversion(df, converted_data, dataset_name)
             if errors:
                 all_errors.extend(errors)
-        
+
         # Save to file
         output_path = output_dir / f"{dataset_name}_transactions.json"
         save_json(converted_data, output_path)
         converted_files.append(output_path)
-        
+
         # Show stats
-        fraud_count = sum(1 for t in converted_data["transactions"] if t["ground_truth"]["is_fraud"])
+        fraud_count = sum(
+            1 for t in converted_data["transactions"] if t["ground_truth"]["is_fraud"]
+        )
         legit_count = len(converted_data["transactions"]) - fraud_count
         print(f"   📈 {fraud_count} fraud, {legit_count} legitimate\n")
-    
+
     # Summary
     print("=" * 50)
     print("Conversion Summary:")
     print(f"   Total files created: {len(converted_files)}")
     print(f"   Output directory: {output_dir.absolute()}")
-    
+
     if args.verify:
         if all_errors:
             print(f"\n⚠️  Found {len(all_errors)} verification errors")
             return 1
         else:
-            print(f"\n✅ All conversions verified successfully!")
-    
+            print("\n✅ All conversions verified successfully!")
+
     print("\n💡 Next steps:")
     print(f"   - Review files in {output_dir}")
-    print(f"   - Use these JSON files in your frontend application")
-    
+    print("   - Use these JSON files in your frontend application")
+
     return 0
 
 

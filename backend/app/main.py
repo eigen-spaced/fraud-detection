@@ -66,20 +66,20 @@ def convert_json_to_ml_format(json_transaction: dict) -> dict:
             "merchant": {
                 "name": json_transaction.get("merchant_name", "Unknown"),
                 "category": json_transaction.get("merchant_category", "unknown"),
-                "location": {"lat": 0.0, "lng": 0.0}  # Default coordinates
+                "location": {"lat": 0.0, "lng": 0.0},  # Default coordinates
             },
             "amount": json_transaction.get("amount", 0.0),
             "card": {
-                "number": json_transaction.get("card_number", "0000"), 
-                "full": f"{json_transaction.get('card_number', '0000')}567890121234"
+                "number": json_transaction.get("card_number", "0000"),
+                "full": f"{json_transaction.get('card_number', '0000')}567890121234",
             },
-            "account": {"number": "1234", "full": "1234567890123456"}
+            "account": {"number": "1234", "full": "1234567890123456"},
         },
         "model_features": {
             "temporal": {
                 "trans_in_last_1h": 1.0,
                 "trans_in_last_24h": 3.0,
-                "trans_in_last_7d": 15.0
+                "trans_in_last_7d": 15.0,
             },
             "amount_ratios": {
                 "amt_per_card_avg_ratio_1h": 1.2,
@@ -87,13 +87,11 @@ def convert_json_to_ml_format(json_transaction: dict) -> dict:
                 "amt_per_card_avg_ratio_7d": 1.0,
                 "amt_per_category_avg_ratio_1h": 0.9,
                 "amt_per_category_avg_ratio_24h": 0.8,
-                "amt_per_category_avg_ratio_7d": 0.7
+                "amt_per_category_avg_ratio_7d": 0.7,
             },
-            "deviations": {
-                "amt_diff_from_card_median_7d": 50.0
-            }
+            "deviations": {"amt_diff_from_card_median_7d": 50.0},
         },
-        "ground_truth": {"is_fraud": False}  # Default, not used in prediction
+        "ground_truth": {"is_fraud": False},  # Default, not used in prediction
     }
 
 
@@ -361,10 +359,6 @@ async def get_model_info():
         return ModelInfoResponse(is_loaded=False, service_initialized=False)
 
 
-
-
-
-
 @app.get("/api/schema")
 async def get_json_schema():
     """
@@ -481,10 +475,15 @@ async def analyze_transaction_patterns(request: PatternAnalysisRequest):
         )
 
         # Calculate statistics using service constants
-        high_risk_count = sum(1 for p in request.predictions if p > openrouter_service.HIGH_RISK_THRESHOLD)
+        high_risk_count = sum(
+            1 for p in request.predictions if p > openrouter_service.HIGH_RISK_THRESHOLD
+        )
         medium_risk_count = sum(
-            1 for p in request.predictions 
-            if openrouter_service.MEDIUM_RISK_THRESHOLD <= p <= openrouter_service.HIGH_RISK_THRESHOLD
+            1
+            for p in request.predictions
+            if openrouter_service.MEDIUM_RISK_THRESHOLD
+            <= p
+            <= openrouter_service.HIGH_RISK_THRESHOLD
         )
         low_risk_count = len(request.predictions) - high_risk_count - medium_risk_count
         avg_risk = (

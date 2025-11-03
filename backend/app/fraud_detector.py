@@ -104,17 +104,20 @@ class FraudDetectionService:
                 "merchant": {
                     "name": transaction.merchant_name,
                     "category": transaction.merchant_category,
-                    "location": {"lat": 0.0, "lng": 0.0}  # Default coordinates
+                    "location": {"lat": 0.0, "lng": 0.0},  # Default coordinates
                 },
                 "amount": transaction.amount,
-                "card": {"number": transaction.card_number, "full": f"{transaction.card_number}567890121234"},
-                "account": {"number": "1234", "full": "1234567890123456"}
+                "card": {
+                    "number": transaction.card_number,
+                    "full": f"{transaction.card_number}567890121234",
+                },
+                "account": {"number": "1234", "full": "1234567890123456"},
             },
             "model_features": {
                 "temporal": {
                     "trans_in_last_1h": 1.0,
                     "trans_in_last_24h": 3.0,
-                    "trans_in_last_7d": 15.0
+                    "trans_in_last_7d": 15.0,
                 },
                 "amount_ratios": {
                     "amt_per_card_avg_ratio_1h": 1.2,
@@ -122,15 +125,12 @@ class FraudDetectionService:
                     "amt_per_card_avg_ratio_7d": 1.0,
                     "amt_per_category_avg_ratio_1h": 0.9,
                     "amt_per_category_avg_ratio_24h": 0.8,
-                    "amt_per_category_avg_ratio_7d": 0.7
+                    "amt_per_category_avg_ratio_7d": 0.7,
                 },
-                "deviations": {
-                    "amt_diff_from_card_median_7d": 50.0
-                }
+                "deviations": {"amt_diff_from_card_median_7d": 50.0},
             },
-            "ground_truth": {"is_fraud": False}  # Default, not used in prediction
+            "ground_truth": {"is_fraud": False},  # Default, not used in prediction
         }
-
 
     def analyze_transactions(
         self, transactions: List[Transaction]
@@ -160,26 +160,26 @@ class FraudDetectionService:
         # Convert transactions to ML model format
         try:
             ml_transactions = [self.convert_transaction_to_ml_format(txn) for txn in transactions]
-            
+
             # Use the real ML model for predictions
             analyses = model_service.predict_transactions(ml_transactions)
             warnings = []
-            
+
         except Exception as e:
             logger.error(f"Error running ML model predictions: {str(e)}")
             warnings = [f"ML model prediction failed: {str(e)}"]
             analyses = []
 
         # Calculate statistics from ML model results
-        fraudulent_count = sum(
-            1 for a in analyses if a.classification.value == "fraudulent"
-        ) if analyses else 0
-        suspicious_count = sum(
-            1 for a in analyses if a.classification.value == "suspicious"
-        ) if analyses else 0
-        legitimate_count = sum(
-            1 for a in analyses if a.classification.value == "legitimate"
-        ) if analyses else 0
+        fraudulent_count = (
+            sum(1 for a in analyses if a.classification.value == "fraudulent") if analyses else 0
+        )
+        suspicious_count = (
+            sum(1 for a in analyses if a.classification.value == "suspicious") if analyses else 0
+        )
+        legitimate_count = (
+            sum(1 for a in analyses if a.classification.value == "legitimate") if analyses else 0
+        )
 
         avg_risk_score = sum(a.risk_score for a in analyses) / len(analyses) if analyses else 0.0
 
@@ -188,7 +188,7 @@ class FraudDetectionService:
         summary = f"ML Model analyzed {total_transactions} transactions: "
         summary += f"{fraudulent_count} fraudulent, {suspicious_count} suspicious, {legitimate_count} legitimate. "
         summary += f"Average risk score: {avg_risk_score:.1%}."
-        
+
         if fraudulent_count > 0:
             summary += " ⚠️ IMMEDIATE ACTION REQUIRED for fraudulent transactions."
         elif suspicious_count > 0:

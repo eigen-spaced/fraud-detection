@@ -111,15 +111,6 @@ class FeatureEngineer:
                 # Add any additional features that might exist in the original data
                 # These would need to be computed from the transaction data in a real system
                 # For now, we'll set them to reasonable defaults if they're missing
-                additional_features = [
-                    "time_since_last_trans_seconds",
-                    "trans_speed_kmh",
-                    "hour_of_day",
-                    "is_late_night_fraud_window",
-                    "is_late_evening_fraud_window",
-                    "day_of_week",
-                    "amt_diff_from_card_median_1d",
-                ]
 
                 # Extract hour of day from timestamp
                 row["hour_of_day"] = row["trans_datetime"].hour

@@ -22,7 +22,6 @@ class Settings(BaseSettings):
     pii_mask_enabled: bool = True
     max_pii_fields_allowed: int = 2
 
-
     # Red Team Testing
     enable_red_team_detection: bool = True
 

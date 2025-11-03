@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class OpenRouterService:
     """Service for interacting with OpenRouter LLM models."""
-    
+
     # Risk level thresholds (consistent with FraudDetectionService)
     HIGH_RISK_THRESHOLD = 0.85
     MEDIUM_RISK_THRESHOLD = 0.45

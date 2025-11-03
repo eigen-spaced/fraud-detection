@@ -92,7 +92,7 @@ class ModelLoader:
                 raise ValueError("Model does not have predict_proba method")
 
             self._is_loaded = True
-            logger.info(f"✅ Model loaded successfully:")
+            logger.info("✅ Model loaded successfully:")
             logger.info(f"   - Model type: {type(self._model).__name__}")
             logger.info(f"   - Optimal threshold: {self._optimal_threshold:.4f}")
             logger.info(f"   - Feature count: {len(self._feature_names)}")

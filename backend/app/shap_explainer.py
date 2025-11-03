@@ -7,7 +7,7 @@ import shap
 import numpy as np
 import pandas as pd
 import logging
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)
@@ -191,7 +191,7 @@ class ShapExplainerService:
         # Default formatting
         try:
             return template.format(value=feature_value)
-        except:
+        except Exception:
             return template
 
     def _format_detail(
@@ -253,7 +253,7 @@ class ShapExplainerService:
         # Default formatting
         try:
             return template.format(value=feature_value, shap=shap_value)
-        except:
+        except Exception:
             return f"Value: {feature_value:.2f} (Impact: {shap_value:.3f})"
 
     def _create_feature_mapping(self) -> Dict[str, Dict[str, Any]]:
