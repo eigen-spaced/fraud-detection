@@ -51,19 +51,19 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 
 ```
 frontend/
-├── app/
-│   ├── layout.tsx      # Root layout with providers
-│   ├── page.tsx        # Main page component
-│   ├── providers.tsx   # React Query provider
-│   └── globals.css     # Global styles
-├── components/
-│   ├── Header.tsx      # App header
-│   ├── JsonInput.tsx   # Left panel - JSON input
-│   └── ResultsPanel.tsx # Right panel - results display
-├── lib/
-│   ├── api.ts          # API client and types
-│   └── sampleData.ts   # Sample transaction data
-└── package.json
+ app/
+    layout.tsx      # Root layout with providers
+    page.tsx        # Main page component
+    providers.tsx   # React Query provider
+    globals.css     # Global styles
+ components/
+    Header.tsx      # App header
+    JsonInput.tsx   # Left panel - JSON input
+    ResultsPanel.tsx # Right panel - results display
+ lib/
+    api.ts          # API client and types
+    sampleData.ts   # Sample transaction data
+ package.json
 ```
 
 ## Components

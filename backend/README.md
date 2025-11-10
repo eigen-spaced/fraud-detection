@@ -77,7 +77,7 @@ The API will be available at `http://localhost:8000`
 
 ```json
 {
-  "summary": "Analyzed 1 transactions: 1 legitimate. Average risk score: 15.0%. ✓ All transactions appear safe.",
+  "summary": "Analyzed 1 transactions: 1 legitimate. Average risk score: 15.0%.  All transactions appear safe.",
   "total_transactions": 1,
   "fraudulent_count": 0,
   "suspicious_count": 0,

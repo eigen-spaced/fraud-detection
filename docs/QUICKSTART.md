@@ -1,4 +1,4 @@
-# 🚀 Quick Start Guide
+#  Quick Start Guide
 
 Get the fraud detection app running in 5 minutes!
 
@@ -33,7 +33,7 @@ uv sync
 uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-✅ Backend should be running at http://localhost:8000
+ Backend should be running at http://localhost:8000
 
 Test it:
 ```bash
@@ -53,20 +53,20 @@ npm install
 npm run dev
 ```
 
-✅ Frontend should be running at http://localhost:3000
+ Frontend should be running at http://localhost:3000
 
 ## Step 3: Test the Application
 
 1. Open http://localhost:3000 in your browser
-2. Click **"✓ Legitimate"** to load sample data
-3. Click **"🔍 Analyze Transactions"**
+2. Click **" Legitimate"** to load sample data
+3. Click **" Analyze Transactions"**
 4. View the results in the right panel!
 
 ## Try Different Scenarios
 
-- **✓ Legitimate**: Low-risk everyday purchases (~15% risk)
-- **⚠️ Suspicious**: Medium-risk transactions (~50-70% risk)
-- **⛔ Fraudulent**: High-risk patterns (~80-100% risk)
+- ** Legitimate**: Low-risk everyday purchases (~15% risk)
+- ** Suspicious**: Medium-risk transactions (~50-70% risk)
+- ** Fraudulent**: High-risk patterns (~80-100% risk)
 
 ## API Documentation
 

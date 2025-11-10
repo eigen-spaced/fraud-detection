@@ -1,8 +1,8 @@
-# 📚 Fraud Detection - Comprehensive Documentation
+#  Fraud Detection - Comprehensive Documentation
 
 This document provides complete technical documentation for the AI-powered fraud detection application with LLM explainability integration.
 
-## 📋 Table of Contents
+##  Table of Contents
 
 1. [Project Overview](#project-overview)
 2. [Architecture & Features](#architecture--features)
@@ -16,7 +16,7 @@ This document provides complete technical documentation for the AI-powered fraud
 
 ---
 
-## 🎯 Project Overview
+##  Project Overview
 
 ### What Was Built
 
@@ -55,47 +55,47 @@ Documentation: Comprehensive guides and API docs
 
 ---
 
-## 🏗️ Architecture & Features
+##  Architecture & Features
 
 ### System Architecture
 
 ```
-┌─────────────────────────────────────────────┐
-│           Browser (User)                    │
-└──────────────┬──────────────────────────────┘
-               │ HTTP
-               ▼
-┌─────────────────────────────────────────────┐
-│      Next.js Frontend (Port 3000)           │
-│  ┌─────────────────────────────────────┐   │
-│  │  Components                          │   │
-│  │  - Header                            │   │
-│  │  - TransactionCardInput              │   │
-│  │  - ResultsPanel                      │   │
-│  │  - LLMExplanation                    │   │
-│  └─────────────────────────────────────┘   │
-└──────────────┬──────────────────────────────┘
-               │ REST API (JSON)
-               ▼
-┌─────────────────────────────────────────────┐
-│     FastAPI Backend (Port 8000)             │
-│  ┌─────────────────────────────────────┐   │
-│  │  API Endpoints                       │   │
-│  │  - /api/analyze                      │   │
-│  │  - /api/llm/explain                  │   │
-│  │  - /api/llm/patterns                 │   │
-│  │  - /health                           │   │
-│  └─────────────────────────────────────┘   │
-│  ┌─────────────────────────────────────┐   │
-│  │  OpenRouter LLM Service              │   │
-│  │  - Transaction Explanations          │   │
-│  │  - Pattern Analysis                  │   │
-│  │  - Claude 3.5 Sonnet                 │   │
-│  └─────────────────────────────────────┘   │
-└─────────────────────────────────────────────┘
+
+           Browser (User)                    
+
+                HTTP
+               
+
+      Next.js Frontend (Port 3000)           
+     
+    Components                             
+    - Header                               
+    - TransactionCardInput                 
+    - ResultsPanel                         
+    - LLMExplanation                       
+     
+
+                REST API (JSON)
+               
+
+     FastAPI Backend (Port 8000)             
+     
+    API Endpoints                          
+    - /api/analyze                         
+    - /api/llm/explain                     
+    - /api/llm/patterns                    
+    - /health                              
+     
+     
+    OpenRouter LLM Service                 
+    - Transaction Explanations             
+    - Pattern Analysis                     
+    - Claude 3.5 Sonnet                    
+     
+
 ```
 
-### Core Features ✅
+### Core Features 
 
 #### Frontend Features
 - **Single-Page Interface**: Streamlined transaction analysis workflow
@@ -116,35 +116,35 @@ Documentation: Comprehensive guides and API docs
 
 ```
 fraud-detection/
-├── backend/
-│   ├── app/
-│   │   ├── main.py              # FastAPI app & endpoints
-│   │   ├── models.py            # Pydantic models
-│   │   ├── config.py            # Configuration
-│   │   ├── fraud_detector.py    # ML simulation
-│   │   ├── openrouter_service.py# LLM integration
-│   │   └── observability.py    # OpenTelemetry
-│   ├── pyproject.toml          # Dependencies
-│   ├── test_openrouter.py      # LLM testing
-│   └── .env.example
-├── frontend/
-│   ├── app/
-│   │   ├── page.tsx            # Main interface
-│   │   ├── layout.tsx          # Root layout
-│   │   └── providers.tsx       # React Query
-│   ├── components/
-│   │   ├── Header.tsx          # Application header
-│   │   ├── TransactionCardInput.tsx  # Input panel
-│   │   ├── TransactionCard.tsx       # Card display
-│   │   ├── ResultsPanel.tsx          # Results display
-│   │   └── LLMExplanation.tsx        # LLM interface
-│   └── lib/
-│       ├── api.ts              # API client
-│       └── newSampleData.ts    # Test data
-├── DOCUMENTATION.md            # This file
-├── README.md                   # Project overview
-├── QUICKSTART.md              # Setup guide
-└── start_with_llm.sh          # Automated startup
+ backend/
+    app/
+       main.py              # FastAPI app & endpoints
+       models.py            # Pydantic models
+       config.py            # Configuration
+       fraud_detector.py    # ML simulation
+       openrouter_service.py# LLM integration
+       observability.py    # OpenTelemetry
+    pyproject.toml          # Dependencies
+    test_openrouter.py      # LLM testing
+    .env.example
+ frontend/
+    app/
+       page.tsx            # Main interface
+       layout.tsx          # Root layout
+       providers.tsx       # React Query
+    components/
+       Header.tsx          # Application header
+       TransactionCardInput.tsx  # Input panel
+       TransactionCard.tsx       # Card display
+       ResultsPanel.tsx          # Results display
+       LLMExplanation.tsx        # LLM interface
+    lib/
+        api.ts              # API client
+        newSampleData.ts    # Test data
+ DOCUMENTATION.md            # This file
+ README.md                   # Project overview
+ QUICKSTART.md              # Setup guide
+ start_with_llm.sh          # Automated startup
 ```
 
 ---
@@ -242,7 +242,7 @@ echo "OPEN_ROUTER_KEY=sk-or-v1-your-api-key-here" >> backend/.env
 #### UI Flow
 1. Load sample transaction data
 2. Click "Analyze Transactions"
-3. Scroll to "🤖 LLM Explanation" section
+3. Scroll to " LLM Explanation" section
 4. Click "Test LLM" to generate AI explanation
 5. View formatted results with risk analysis
 
@@ -369,9 +369,9 @@ echo "OPEN_ROUTER_KEY=your-key-here" >> backend/.env
 ### Testing Scenarios
 
 #### Sample Data Types
-- **✓ Legitimate**: Low-risk everyday purchases (~15% risk scores)
-- **⚠️ Suspicious**: Medium-risk transactions (~50-70% risk scores)  
-- **⛔ Fraudulent**: High-risk patterns (~80-100% risk scores)
+- ** Legitimate**: Low-risk everyday purchases (~15% risk scores)
+- ** Suspicious**: Medium-risk transactions (~50-70% risk scores)  
+- ** Fraudulent**: High-risk patterns (~80-100% risk scores)
 
 #### LLM Testing States
 
@@ -568,7 +568,7 @@ npx tsc --noEmit
 
 ---
 
-## 🔧 Troubleshooting
+##  Troubleshooting
 
 ### Common Issues & Solutions
 

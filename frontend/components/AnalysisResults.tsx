@@ -222,8 +222,8 @@ export default function AnalysisResults({
                 ⚠️ Warnings
               </h3>
               <ul className='space-y-1'>
-                {result.warnings.map((warning, idx) => (
-                  <li key={idx} className='text-golden-700 text-sm'>
+                {result.warnings.map((warning) => (
+                  <li key={warning} className='text-golden-700 text-sm'>
                     • {warning}
                   </li>
                 ))}
@@ -276,4 +276,3 @@ export default function AnalysisResults({
     </div>
   )
 }
-
