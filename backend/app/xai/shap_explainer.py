@@ -47,7 +47,7 @@ class ShapExplainerService:
             bool: True if initialization successful, False otherwise
         """
         try:
-            logger.info("🔍 Initializing SHAP TreeExplainer...")
+            logger.info("Initializing SHAP TreeExplainer...")
 
             # Create SHAP explainer for tree-based models
             self._explainer = shap.TreeExplainer(model)
@@ -55,12 +55,12 @@ class ShapExplainerService:
             self._is_initialized = True
 
             logger.info(
-                f"✅ SHAP explainer initialized successfully for {len(feature_names)} features"
+                f"SHAP explainer initialized successfully for {len(feature_names)} features"
             )
             return True
 
         except Exception as e:
-            logger.error(f"❌ SHAP explainer initialization failed: {str(e)}", exc_info=True)
+            logger.error(f"SHAP explainer initialization failed: {str(e)}", exc_info=True)
             return False
 
     def get_shap_explanation(self, features: pd.DataFrame, top_n: int = 4) -> List[ShapFeature]:
@@ -105,11 +105,11 @@ class ShapExplainerService:
                 )
                 explanations.append(shap_feature)
 
-            logger.info(f"✅ Generated SHAP explanation with {len(explanations)} top features")
+            logger.info(f"Generated SHAP explanation with {len(explanations)} top features")
             return explanations
 
         except Exception as e:
-            logger.error(f"❌ SHAP explanation generation failed: {str(e)}", exc_info=True)
+            logger.error(f"SHAP explanation generation failed: {str(e)}", exc_info=True)
             return []
 
     def _convert_to_human_explanation(
@@ -392,7 +392,6 @@ class ShapExplainerService:
     def is_initialized(self) -> bool:
         """Check if SHAP explainer is initialized."""
         return self._is_initialized
-
 
 # Global SHAP explainer service instance
 shap_explainer_service = ShapExplainerService()
