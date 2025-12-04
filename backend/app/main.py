@@ -1,7 +1,7 @@
 """Main FastAPI application."""
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Union
 
 from fastapi import FastAPI, HTTPException, status
@@ -104,7 +104,7 @@ async def global_exception_handler(request, exc):
         content=ErrorResponse(
             error="Internal Server Error",
             detail=str(exc) if settings.debug else "An unexpected error occurred",
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         ).model_dump(),
     )
 
@@ -115,7 +115,7 @@ async def health_check():
     return HealthCheckResponse(
         status="healthy",
         version=settings.app_version,
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
     )
 
 
@@ -308,7 +308,7 @@ async def model_health_check():
             model_type=service_status.get("model_info", {}).get("model_type"),
             optimal_threshold=service_status.get("model_info", {}).get("optimal_threshold"),
             feature_count=service_status.get("model_info", {}).get("feature_count", 0),
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
         return response
@@ -320,7 +320,7 @@ async def model_health_check():
             model_loaded=False,
             initialized=False,
             feature_count=0,
-            timestamp=datetime.utcnow(),
+            timestamp=datetime.now(timezone.utc),
         )
 
 
@@ -420,7 +420,7 @@ async def explain_transaction_with_llm(request: LLMExplanationRequest):
             fraud_probability=request.fraud_probability,
             risk_level=risk_level,
             model_used=openrouter_service.model,
-            generated_at=datetime.utcnow(),
+            generated_at=datetime.now(timezone.utc),
         )
 
         logger.info(f"Generated explanation for transaction {response.transaction_id}")
@@ -498,7 +498,7 @@ async def analyze_transaction_patterns(request: PatternAnalysisRequest):
             low_risk_count=low_risk_count,
             average_risk_score=round(avg_risk, 3),
             model_used=openrouter_service.model,
-            generated_at=datetime.utcnow(),
+            generated_at=datetime.now(timezone.utc),
         )
 
         logger.info(f"Generated pattern analysis for {response.transaction_count} transactions")
