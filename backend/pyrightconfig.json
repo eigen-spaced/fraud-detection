@@ -22,7 +22,6 @@
   ],
   "typeCheckingMode": "basic",
   "useLibraryCodeForTypes": true,
-  "autoSearchPaths": true,
   "stubPath": ".venv/lib/python3.13/site-packages",
   "reportMissingImports": "warning",
   "reportMissingTypeStubs": "none",
