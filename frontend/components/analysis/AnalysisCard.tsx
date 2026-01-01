@@ -1,5 +1,8 @@
 import { FraudAnalysis } from "@/lib/api"
 import FormattedExplanation from "../FormattedExplanation"
+import ShapWaterfall from "./ShapWaterfall"
+import { useState } from "react"
+import { ChevronDown, ChevronUp } from "lucide-react"
 
 interface AnalysisCardProps {
   analysis: FraudAnalysis
@@ -14,14 +17,14 @@ const classificationColors = {
   },
   suspicious: {
     bg: "bg-golden-50",
-    border: "border-golden-200", 
+    border: "border-golden-200",
     text: "text-golden-700",
     badge: "bg-golden-100 text-golden-800 border-golden-300",
   },
   fraudulent: {
     bg: "bg-coral-50",
     border: "border-coral-200",
-    text: "text-coral-700", 
+    text: "text-coral-700",
     badge: "bg-coral-100 text-coral-800 border-coral-300",
   },
   unknown: {
@@ -33,14 +36,17 @@ const classificationColors = {
 }
 
 export default function AnalysisCard({ analysis }: AnalysisCardProps) {
+  const [showShap, setShowShap] = useState(false)
   const colors = classificationColors[analysis.classification]
   const riskPercentage = (analysis.risk_score * 100).toFixed(1)
+
+  const hasShapData = analysis.shap_explanations && analysis.shap_explanations.length > 0
 
   return (
     <div className={`p-4 rounded-lg border ${colors.border} ${colors.bg}`}>
       <div className='flex items-start justify-between mb-3'>
         <div>
-          <p className='text-navy-900 font-semibold text-sm'>
+          <p className='text-navy-900 font-semibold text-sm font-mono'>
             {analysis.transaction_id}
           </p>
           <span
@@ -76,6 +82,39 @@ export default function AnalysisCard({ analysis }: AnalysisCardProps) {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {/* SHAP Explanations Section */}
+      {hasShapData && (
+        <div className='mt-4 pt-4 border-t border-navy-200'>
+          <button
+            onClick={() => setShowShap(!showShap)}
+            className='flex items-center justify-between w-full text-left group'
+          >
+            <span className='text-sm font-semibold text-navy-700'>
+              Model Feature Analysis
+            </span>
+            <div className='flex items-center gap-2'>
+              <span className='text-xs text-navy-500'>
+                {analysis.shap_explanations?.length || 0} features
+              </span>
+              {showShap ? (
+                <ChevronUp className='w-4 h-4 text-navy-500 group-hover:text-navy-700 transition-colors' />
+              ) : (
+                <ChevronDown className='w-4 h-4 text-navy-500 group-hover:text-navy-700 transition-colors' />
+              )}
+            </div>
+          </button>
+
+          {showShap && (
+            <div className='mt-3'>
+              <ShapWaterfall
+                explanations={analysis.shap_explanations || []}
+                prediction={analysis.risk_score}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
