@@ -1,0 +1,83 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: fraud-detection-postgres
+    environment:
+      POSTGRES_USER: fraud_user
+      POSTGRES_PASSWORD: fraud_pass
+      POSTGRES_DB: fraud_detection
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U fraud_user -d fraud_detection" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - fraud-detection-network
+
+  # Backend Service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fraud-detection-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database configuration
+      DATABASE_URL: postgresql+asyncpg://fraud_user:fraud_pass@postgres:5432/fraud_detection
+      DATABASE_ECHO: "false"
+      DATABASE_POOL_SIZE: 5
+      DATABASE_MAX_OVERFLOW: 10
+
+      # API Settings
+      DEBUG: "true"
+      APP_NAME: "Fraud Detection API"
+      APP_VERSION: "0.1.0"
+
+      # CORS Settings
+      CORS_ORIGINS: '["http://localhost:3000","http://frontend:3000"]'
+
+      # OpenRouter (optional - add your key here or via .env file)
+      OPEN_ROUTER_KEY: ${OPEN_ROUTER_KEY:-}
+
+      # Other settings
+      ENABLE_RED_TEAM_DETECTION: "true"
+      MAX_TRANSACTIONS_PER_REQUEST: 100
+    ports:
+      - "8000:8000"
+    networks:
+      - fraud-detection-network
+    restart: unless-stopped
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fraud-detection-frontend
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    networks:
+      - fraud-detection-network
+    restart: unless-stopped
+
+# Named volumes
+volumes:
+  postgres_data:
+    driver: local
+
+# Networks
+networks:
+  fraud-detection-network:
+    driver: bridge
