@@ -1,3 +1,6 @@
+"use client"
+
+import { FileText, Check, AlertTriangle, XCircle, Search } from 'lucide-react'
 import { sampleTransactions } from '@/lib/sampleData';
 
 interface JsonInputProps {
@@ -20,42 +23,48 @@ export default function JsonInput({
   error,
 }: JsonInputProps) {
   return (
-    <div className="bg-white backdrop-blur-sm rounded-xl shadow-2xl border border-gray-200 flex flex-col h-full">
+    <div className="rounded-xl shadow-2xl border flex flex-col h-full" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
       {/* Header */}
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-          <span>📝</span>
+      <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
+        <h2 className="text-xl font-semibold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+          <FileText className="w-5 h-5" />
           Transaction Input
         </h2>
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
           Paste JSON transaction data below
         </p>
       </div>
 
       {/* Sample Data Buttons */}
-      <div className="p-4 border-b border-gray-200 space-y-2">
-        <p className="text-xs text-gray-500 mb-2">Load sample data:</p>
+      <div className="p-4 border-b space-y-2" style={{ borderColor: 'var(--border)' }}>
+        <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Load sample data:</p>
         <div className="flex flex-wrap gap-2">
           <button
             onClick={() => onLoadSample('legitimate')}
             disabled={isLoading}
-            className="px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-green-200"
+            className="px-3 py-1.5 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed border flex items-center gap-1.5"
+            style={{ background: 'var(--success-bg)', color: 'var(--success)', borderColor: 'var(--success)' }}
           >
-            ✓ Legitimate
+            <Check className="w-3.5 h-3.5" />
+            Legitimate
           </button>
           <button
             onClick={() => onLoadSample('suspicious')}
             disabled={isLoading}
-            className="px-3 py-1.5 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-yellow-200"
+            className="px-3 py-1.5 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed border flex items-center gap-1.5"
+            style={{ background: 'var(--warning-bg)', color: 'var(--warning)', borderColor: 'var(--warning)' }}
           >
-            ⚠️ Suspicious
+            <AlertTriangle className="w-3.5 h-3.5" />
+            Suspicious
           </button>
           <button
             onClick={() => onLoadSample('fraudulent')}
             disabled={isLoading}
-            className="px-3 py-1.5 bg-red-50 hover:bg-red-100 text-red-700 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-red-200"
+            className="px-3 py-1.5 rounded-lg text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed border flex items-center gap-1.5"
+            style={{ background: 'var(--error-bg)', color: 'var(--error)', borderColor: 'var(--error)' }}
           >
-            ⛔ Fraudulent
+            <XCircle className="w-3.5 h-3.5" />
+            Fraudulent
           </button>
         </div>
       </div>
@@ -67,26 +76,37 @@ export default function JsonInput({
           onChange={(e) => onChange(e.target.value)}
           disabled={isLoading}
           placeholder={`{\n  "transactions": [\n    {\n      "transaction_id": "TXN001",\n      "timestamp": "2025-01-15T14:30:00Z",\n      "amount": 125.50,\n      "merchant_name": "Store Name",\n      "merchant_category": "retail",\n      "card_number": "1234",\n      "location": "City, State"\n    }\n  ]\n}`}
-          className="w-full h-full bg-gray-50 text-gray-800 font-mono text-sm p-4 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full h-full font-mono text-sm p-4 rounded-lg border focus:ring-2 outline-none resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            background: 'var(--input-bg)',
+            color: 'var(--text-primary)',
+            borderColor: 'var(--border)',
+            '--tw-ring-color': 'var(--primary)'
+          } as React.CSSProperties}
           spellCheck={false}
         />
       </div>
 
       {/* Error Display */}
       {error && (
-        <div className="mx-4 mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-700 text-sm font-medium">
+        <div className="mx-4 mb-4 p-3 border rounded-lg" style={{ background: 'var(--error-bg)', borderColor: 'var(--error)' }}>
+          <p className="text-sm font-medium" style={{ color: 'var(--error)' }}>
             {error instanceof Error ? error.message : 'An error occurred'}
           </p>
         </div>
       )}
 
       {/* Action Buttons */}
-      <div className="p-4 border-t border-gray-200 flex gap-3">
+      <div className="p-4 border-t flex gap-3" style={{ borderColor: 'var(--border)' }}>
         <button
           onClick={onAnalyze}
           disabled={isLoading || !value.trim()}
-          className="flex-1 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+          className="flex-1 font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg"
+          style={{
+            background: 'var(--primary)',
+            color: 'white',
+            boxShadow: '0 4px 14px 0 rgba(var(--primary-rgb), 0.2)'
+          }}
         >
           {isLoading ? (
             <>
@@ -110,7 +130,7 @@ export default function JsonInput({
             </>
           ) : (
             <>
-              <span>🔍</span>
+              <Search className="w-5 h-5" />
               Analyze Transactions
             </>
           )}
@@ -118,7 +138,8 @@ export default function JsonInput({
         <button
           onClick={onClear}
           disabled={isLoading}
-          className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{ background: 'var(--surface-hover)', color: 'var(--text-primary)' }}
         >
           Clear
         </button>

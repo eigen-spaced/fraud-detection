@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
+import { BarChart3, Sparkles } from "lucide-react"
 import {
   api,
   LLMExplanationResponse,
@@ -80,9 +81,9 @@ export default function LLMExplanation({
   if (!transactions || !analyses || transactions.length === 0) {
     return (
       <div className={`space-y-4 ${className}`}>
-        <div className="p-6 bg-navy-50 border border-navy-200 rounded-lg text-center">
-          <div className="text-4xl mb-3">📊</div>
-          <p className="text-navy-600">
+        <div className="p-6 border rounded-lg text-center" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <BarChart3 className="w-12 h-12 mx-auto mb-3" style={{ color: 'var(--text-tertiary)' }} />
+          <p style={{ color: 'var(--text-secondary)' }}>
             Analyze transactions first to get LLM explanations
           </p>
         </div>
@@ -98,7 +99,13 @@ export default function LLMExplanation({
           <select
             value={selectedTransactionId}
             onChange={(e) => setSelectedTransactionId(e.target.value)}
-            className="flex-1 px-3 py-2 border border-navy-300 rounded-lg focus:ring-2 focus:ring-ocean-500 focus:border-ocean-500 text-sm"
+            className="flex-1 px-3 py-2 border rounded-lg focus:ring-2 text-sm"
+            style={{
+              background: 'var(--surface)',
+              borderColor: 'var(--border)',
+              color: 'var(--text-primary)',
+              '--tw-ring-color': 'var(--primary)'
+            } as React.CSSProperties}
             disabled={llmMutation.isPending}
           >
             <option value="">Select a transaction to explain...</option>
@@ -122,7 +129,8 @@ export default function LLMExplanation({
             type="button"
             onClick={handleExplainTransaction}
             disabled={!selectedTransactionId || llmMutation.isPending}
-            className="px-4 py-2 bg-ocean-600 hover:bg-ocean-700 disabled:bg-ocean-400 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 disabled:cursor-not-allowed whitespace-nowrap"
+            className="px-4 py-2 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 disabled:cursor-not-allowed disabled:opacity-50 whitespace-nowrap"
+            style={{ background: 'var(--primary)' }}
           >
             {llmMutation.isPending ? (
               <>
@@ -139,14 +147,14 @@ export default function LLMExplanation({
                   <path
                     className="opacity-75"
                     fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
                 Generating...
               </>
             ) : (
               <>
-                <span>✨</span>
+                <Sparkles className="w-4 h-4" />
                 Explain
               </>
             )}
@@ -154,7 +162,8 @@ export default function LLMExplanation({
           {(explanation || llmMutation.error) && (
             <button
               onClick={handleClear}
-              className="px-3 py-2 bg-navy-200 hover:bg-navy-300 text-navy-700 rounded-lg text-sm font-medium transition-colors"
+              className="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+              style={{ background: 'var(--surface-hover)', color: 'var(--text-primary)' }}
             >
               Clear
             </button>
@@ -164,10 +173,11 @@ export default function LLMExplanation({
 
       {/* Loading State */}
       {llmMutation.isPending && (
-        <div className="p-6 bg-ocean-50 border border-ocean-200 rounded-lg">
+        <div className="p-6 border rounded-lg" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
           <div className="flex items-center gap-3">
             <svg
-              className="animate-spin h-6 w-6 text-ocean-600"
+              className="animate-spin h-6 w-6"
+              style={{ color: 'var(--primary)' }}
               viewBox="0 0 24 24"
             >
               <circle
@@ -186,10 +196,10 @@ export default function LLMExplanation({
               />
             </svg>
             <div>
-              <p className="text-ocean-800 font-medium">
+              <p className="font-medium" style={{ color: 'var(--text-primary)' }}>
                 Generating LLM Explanation...
               </p>
-              <p className="text-ocean-600 text-sm">
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 This may take a few seconds
               </p>
             </div>
@@ -199,23 +209,23 @@ export default function LLMExplanation({
 
       {/* Error State */}
       {llmMutation.error && (
-        <div className="p-4 bg-coral-50 border border-coral-200 rounded-lg">
+        <div className="p-4 border rounded-lg" style={{ background: 'var(--error-bg)', borderColor: 'var(--error)' }}>
           <div className="flex items-start gap-3">
-            <div className="text-coral-500 text-xl">⚠️</div>
+            <div className="text-xl" style={{ color: 'var(--error)' }}>⚠️</div>
             <div>
-              <p className="text-coral-800 font-medium">
+              <p className="font-medium" style={{ color: 'var(--error)' }}>
                 Failed to Generate Explanation
               </p>
-              <p className="text-coral-600 text-sm mt-1">
+              <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
                 {llmMutation.error instanceof Error
                   ? llmMutation.error.message
                   : "An unexpected error occurred"}
               </p>
               <details className="mt-2">
-                <summary className="text-coral-600 text-xs cursor-pointer hover:underline">
+                <summary className="text-xs cursor-pointer hover:underline" style={{ color: 'var(--text-secondary)' }}>
                   View Details
                 </summary>
-                <pre className="mt-1 text-xs text-coral-500 bg-coral-100 p-2 rounded overflow-x-auto">
+                <pre className="mt-1 text-xs p-2 rounded overflow-x-auto" style={{ color: 'var(--error)', background: 'var(--error-bg)' }}>
                   {JSON.stringify(llmMutation.error, null, 2)}
                 </pre>
               </details>
@@ -228,31 +238,42 @@ export default function LLMExplanation({
       {explanation && (
         <div className="space-y-4">
           {/* Transaction Info */}
-          <div className="p-4 bg-ocean-50 border border-ocean-200 rounded-lg">
+          <div className="p-4 border rounded-lg" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
             <div className="flex items-center justify-between mb-2">
-              <h4 className="font-semibold text-ocean-900">
+              <h4 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
                 Transaction Analysis
               </h4>
               <span
-                className={`px-2 py-1 rounded text-xs font-medium ${
-                  explanation.risk_level === "HIGH"
-                    ? "bg-coral-100 text-coral-800 border border-coral-200"
+                className="px-2 py-1 rounded text-xs font-medium border"
+                style={{
+                  background: explanation.risk_level === "HIGH"
+                    ? 'var(--error-bg)'
                     : explanation.risk_level === "MEDIUM"
-                      ? "bg-golden-100 text-golden-800 border border-golden-200"
-                      : "bg-emerald-100 text-emerald-800 border border-emerald-200"
-                }`}
+                      ? 'var(--warning-bg)'
+                      : 'var(--success-bg)',
+                  color: explanation.risk_level === "HIGH"
+                    ? 'var(--error)'
+                    : explanation.risk_level === "MEDIUM"
+                      ? 'var(--warning)'
+                      : 'var(--success)',
+                  borderColor: explanation.risk_level === "HIGH"
+                    ? 'var(--error)'
+                    : explanation.risk_level === "MEDIUM"
+                      ? 'var(--warning)'
+                      : 'var(--success)'
+                }}
               >
                 {explanation.risk_level} RISK
               </span>
             </div>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-ocean-600 font-medium">Transaction ID</p>
-                <p className="text-ocean-800">{explanation.transaction_id}</p>
+                <p className="font-medium" style={{ color: 'var(--text-secondary)' }}>Transaction ID</p>
+                <p style={{ color: 'var(--text-primary)' }}>{explanation.transaction_id}</p>
               </div>
               <div>
-                <p className="text-ocean-600 font-medium">Fraud Probability</p>
-                <p className="text-ocean-800 font-bold">
+                <p className="font-medium" style={{ color: 'var(--text-secondary)' }}>Fraud Probability</p>
+                <p className="font-bold" style={{ color: 'var(--text-primary)' }}>
                   {(explanation.fraud_probability * 100).toFixed(1)}%
                 </p>
               </div>
@@ -260,21 +281,21 @@ export default function LLMExplanation({
           </div>
 
           {/* LLM Explanation */}
-          <div className="p-4 bg-white border border-navy-200 rounded-lg shadow-sm">
-            <h4 className="font-semibold text-navy-900 mb-3 flex items-center gap-2">
-              <span>🧠</span>
+          <div className="p-4 border rounded-lg shadow-sm" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+            <h4 className="font-semibold mb-3 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+              <Sparkles className="w-5 h-5" />
               AI Explanation
             </h4>
             <div className="prose prose-sm max-w-none">
-              <p className="text-navy-700 leading-relaxed whitespace-pre-line">
+              <p className="leading-relaxed whitespace-pre-line" style={{ color: 'var(--text-secondary)' }}>
                 {explanation.explanation}
               </p>
             </div>
           </div>
 
           {/* Metadata */}
-          <div className="p-3 bg-navy-50 border border-navy-200 rounded-lg">
-            <div className="grid grid-cols-2 gap-4 text-xs text-navy-600">
+          <div className="p-3 border rounded-lg" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+            <div className="grid grid-cols-2 gap-4 text-xs" style={{ color: 'var(--text-secondary)' }}>
               <div>
                 <p className="font-medium">Model Used</p>
                 <p>{explanation.model_used}</p>
