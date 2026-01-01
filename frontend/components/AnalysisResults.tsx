@@ -1,7 +1,7 @@
-import {
+import type {
+  FraudAnalysis,
   FraudDetectionResponse,
   RefusalResponse,
-  FraudAnalysis,
 } from "@/lib/api"
 import FormattedExplanation from "./FormattedExplanation"
 
@@ -43,7 +43,6 @@ function isRefusalResponse(result: unknown): result is RefusalResponse {
 }
 
 function AnalysisCard({ analysis }: { analysis: FraudAnalysis }) {
-  const colors = classificationColors[analysis.classification]
   const riskPercentage = (analysis.risk_score * 100).toFixed(1)
 
   // Map classification to CSS variables
