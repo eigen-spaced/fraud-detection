@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Startup script for Fraud Detection with LLM Integration
-echo "🚀 Starting Fraud Detection System with LLM Integration"
+echo "Starting Fraud Detection System with LLM Integration"
 echo "=================================================="
 
 # Check if we're in the right directory
@@ -101,13 +101,13 @@ echo "   Frontend PID: $FRONTEND_PID"
 cd ..
 
 echo ""
-echo "🎉 Servers starting up!"
+echo "Servers starting up!"
 echo "=================================================="
-echo "🌐 Frontend: http://localhost:3000"
-echo "🔧 Backend API: http://localhost:8000"
-echo "📚 API Docs: http://localhost:8000/docs"
+echo "Frontend: http://localhost:3000"
+echo "Backend API: http://localhost:8000"
+echo "API Docs: http://localhost:8000/docs"
 echo ""
-echo "🧪 To test LLM integration:"
+echo "   To test LLM integration:"
 echo "   1. Open the frontend at http://localhost:3000"
 echo "   2. Load some transaction data (click a sample button)"
 echo "   3. Click 'Analyze Transactions' to see results"
