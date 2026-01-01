@@ -32,6 +32,12 @@ class Settings(BaseSettings):
     # OpenRouter Settings
     open_router_key: str = ""
 
+    # Database Settings
+    database_url: str = "postgresql+asyncpg://fraud_user:fraud_pass@localhost:5432/fraud_detection"
+    database_echo: bool = False  # SQL logging for development
+    database_pool_size: int = 5
+    database_max_overflow: int = 10
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

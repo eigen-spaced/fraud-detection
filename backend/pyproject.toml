@@ -18,6 +18,9 @@ dependencies = [
     "xgboost>=3.0.5",
     "shap>=0.48.0",
     "numpy>=2.3.3",
+    "asyncpg>=0.29.0",
+    "sqlalchemy[asyncio]>=2.0.23",
+    "sqlmodel>=0.0.14",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
