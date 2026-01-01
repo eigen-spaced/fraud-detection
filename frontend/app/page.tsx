@@ -17,16 +17,16 @@ export default function Home() {
   const handleAnalyze = async (transactionData: TransactionData[]) => {
     setIsLoading(true);
     setError(null);
-    
+
     // Convert to Transaction format and store
     const convertedTransactions = convertTransactionBatch(transactionData);
     setTransactions(convertedTransactions);
-    
+
     try {
       // Call the fraud detection API using the proper client
       const result = await api.analyzeTransactions({ transactions: convertedTransactions });
       setResult(result);
-      
+
     } catch (err) {
       console.error('Fraud analysis error:', err);
       setError(err as Error);
@@ -42,12 +42,12 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-navy-50 via-white to-emerald-50">
+    <div className="min-h-screen" style={{ background: 'var(--background)' }}>
       <Header />
-      
+
       <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left Panel - Card Input */}
+        <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-6">
+          {/* Left Panel - Transaction Input (Sidebar) */}
           <TransactionCardInput
             onAnalyze={handleAnalyze}
             onClear={handleClear}
@@ -55,7 +55,7 @@ export default function Home() {
             error={error}
           />
 
-          {/* Right Panel - Results */}
+          {/* Right Panel - Analysis Results (Main Content) */}
           <TabbedResultsPanel
             result={result}
             transactions={transactions}

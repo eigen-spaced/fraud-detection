@@ -10,6 +10,10 @@
   --background: #F8FAFC;
   /* Slate-50 */
   --surface: #FFFFFF;
+  --surface-hover: #F1F5F9;
+  /* Slate-100 for hover states */
+  --input-bg: #F8FAFC;
+  /* Slate-50 for inputs */
   --border: #E2E8F0;
   /* Slate-200 */
 
@@ -22,6 +26,13 @@
   /* Slate-400 */
 
   /* Status Colors - Professional & Accessible */
+  --error: #EF4444;
+  /* Red-500 */
+  --error-bg: #FEE2E2;
+  /* Red-100 */
+  --error-border: #FECACA;
+  /* Red-200 */
+
   --critical: #EF4444;
   /* Red-500 */
   --critical-bg: #FEE2E2;
@@ -53,6 +64,8 @@
   /* Primary Action Colors */
   --primary: #6366F1;
   /* Indigo-500 */
+  --primary-rgb: 99, 102, 241;
+  /* For rgba usage */
   --primary-hover: #4F46E5;
   /* Indigo-600 */
   --primary-active: #4338CA;
@@ -70,6 +83,10 @@
   /* Slate-900 - darker base */
   --surface: #1E293B;
   /* Slate-800 - card background */
+  --surface-hover: #334155;
+  /* Slate-700 for hover states */
+  --input-bg: #1E293B;
+  /* Slate-800 for inputs */
   --border: #334155;
   /* Slate-700 - borders */
 
@@ -82,6 +99,13 @@
   /* Slate-400 - muted */
 
   /* Status colors - adjusted for dark backgrounds */
+  --error: #F87171;
+  /* Red-400 - lighter red */
+  --error-bg: #450A0A;
+  /* Red-950 */
+  --error-border: #7F1D1D;
+  /* Red-900 */
+
   --critical: #F87171;
   /* Red-400 - lighter red */
   --critical-bg: #450A0A;
@@ -113,6 +137,8 @@
   /* Primary colors for dark mode */
   --primary: #818CF8;
   /* Indigo-400 - lighter for visibility */
+  --primary-rgb: 129, 140, 248;
+  /* For rgba usage */
   --primary-hover: #6366F1;
   /* Indigo-500 */
   --primary-active: #4F46E5;
