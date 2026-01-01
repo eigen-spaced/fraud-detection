@@ -129,7 +129,11 @@ export default function AnalysisResults({
         </div>
       ) : error ? (
         <div className='flex flex-col items-center justify-center h-full gap-4'>
-          <div className='text-6xl'>⚠️</div>
+          <div className='text-coral-600'>
+            <svg className='w-16 h-16' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' />
+            </svg>
+          </div>
           <p className='text-coral-600 text-lg font-medium'>Analysis Failed</p>
           <p className='text-navy-600 text-sm text-center max-w-md'>
             {error instanceof Error
@@ -139,7 +143,11 @@ export default function AnalysisResults({
         </div>
       ) : !result ? (
         <div className='flex flex-col items-center justify-center h-full gap-4 text-center'>
-          <div className='text-6xl'>🔍</div>
+          <div className='text-navy-400'>
+            <svg className='w-16 h-16' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' />
+            </svg>
+          </div>
           <p className='text-navy-700 text-lg font-medium'>Ready to Analyze</p>
           <p className='text-navy-500 text-sm max-w-md'>
             Paste your transaction JSON in the input panel and click
@@ -148,7 +156,11 @@ export default function AnalysisResults({
         </div>
       ) : isRefusalResponse(result) ? (
         <div className='flex flex-col items-center justify-center h-full gap-4'>
-          <div className='text-6xl'>🚫</div>
+          <div className='text-coral-600'>
+            <svg className='w-16 h-16' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636' />
+            </svg>
+          </div>
           <p className='text-coral-600 text-xl font-semibold'>
             Request Refused
           </p>
@@ -219,7 +231,7 @@ export default function AnalysisResults({
           {result.warnings && result.warnings.length > 0 && (
             <div className='p-4 bg-golden-50 border border-golden-200 rounded-lg'>
               <h3 className='text-sm font-semibold text-golden-700 mb-2'>
-                ⚠️ Warnings
+                Warnings
               </h3>
               <ul className='space-y-1'>
                 {result.warnings.map((warning) => (
@@ -250,7 +262,7 @@ export default function AnalysisResults({
           {result.citations && result.citations.length > 0 && (
             <div className='p-4 bg-navy-50 rounded-lg border border-navy-200'>
               <h3 className='text-sm font-semibold text-navy-700 mb-2'>
-                📚 Citations
+                Citations
               </h3>
               <ul className='space-y-2'>
                 {result.citations.map((citation, idx) => (
@@ -261,9 +273,9 @@ export default function AnalysisResults({
                         href={citation.url}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='text-ocean-600 hover:text-ocean-700 ml-2 text-xs'
+                        className='text-ocean-600 hover:text-ocean-700 ml-2 text-xs underline'
                       >
-                        🔗 View Source
+                        View Source →
                       </a>
                     )}
                   </li>

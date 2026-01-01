@@ -20,18 +20,12 @@ export default function TransactionCardInput({
   isLoading,
   error,
 }: TransactionCardInputProps) {
-  const [selectedType, setSelectedType] = useState<
-    "legitimate" | "suspicious" | "fraudulent"
-  >("legitimate")
   const [transactions, setTransactions] = useState<TransactionData[]>(
-    sampleTransactions.legitimate.transactions
+    sampleTransactions.suspicious.transactions
   )
 
-  const handleLoadSample = (
-    type: "legitimate" | "suspicious" | "fraudulent"
-  ) => {
-    setSelectedType(type)
-    setTransactions(sampleTransactions[type].transactions)
+  const handleLoadSample = () => {
+    setTransactions(sampleTransactions.suspicious.transactions)
   }
 
   const handleAnalyze = () => {
@@ -46,62 +40,37 @@ export default function TransactionCardInput({
   }
 
   return (
-    <div className='bg-white backdrop-blur-sm rounded-xl shadow-2xl border border-navy-200 flex flex-col h-full'>
+    <div className='backdrop-blur-sm rounded-xl shadow-2xl border flex flex-col h-full' style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
       {/* Header */}
-      <div className='p-4 border-b border-navy-200'>
-        <h2 className='text-xl font-semibold text-navy-900 flex items-center gap-2'>
-          <span>💳</span>
+      <div className='p-4 border-b' style={{ borderColor: 'var(--border)' }}>
+        <h2 className='text-xl font-semibold' style={{ color: 'var(--text-primary)' }}>
           Transaction Cards
         </h2>
       </div>
 
-      {/* Sample Data Buttons */}
-      <div className='p-4 border-b border-navy-200 space-y-2'>
-        <p className='text-xs text-navy-500 mb-2'>Load sample data:</p>
-        <div className='grid grid-cols-3 gap-2'>
-          <button
-            type='button'
-            onClick={() => handleLoadSample("legitimate")}
-            disabled={isLoading}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
-              selectedType === "legitimate"
-                ? "bg-emerald-100 text-emerald-800 border-emerald-300 ring-2 ring-emerald-200"
-                : "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
-            }`}
-          >
-            ✓ Legitimate
-          </button>
-          <button
-            type='button'
-            onClick={() => handleLoadSample("suspicious")}
-            disabled={isLoading}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
-              selectedType === "suspicious"
-                ? "bg-golden-100 text-golden-800 border-golden-300 ring-2 ring-golden-200"
-                : "bg-golden-50 text-golden-700 border-golden-200 hover:bg-golden-100"
-            }`}
-          >
-            ⚠️ Suspicious
-          </button>
-          <button
-            type='button'
-            onClick={() => handleLoadSample("fraudulent")}
-            disabled={isLoading}
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border ${
-              selectedType === "fraudulent"
-                ? "bg-coral-100 text-coral-800 border-coral-300 ring-2 ring-coral-200"
-                : "bg-coral-50 text-coral-700 border-coral-200 hover:bg-coral-100"
-            }`}
-          >
-            ⛔ Fraudulent
-          </button>
-        </div>
+      {/* Sample Data Buttons 
+          NOTE: Currently loading only suspicious transactions for demonstration.
+          FUTURE: This will be replaced with database integration to fetch 
+          random transactions from the analyzed_transactions table.
+          See backend/app/db_service.py for database query functions.
+      */}
+      <div className='p-4 border-b space-y-2' style={{ borderColor: 'var(--border)' }}>
+        <p className='text-xs mb-2' style={{ color: 'var(--text-secondary)' }}>Load sample data:</p>
+        <button
+          type='button'
+          onClick={handleLoadSample}
+          disabled={isLoading}
+          className='w-full px-3 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed border'
+          style={{ background: 'var(--warning-bg)', color: 'var(--warning)', borderColor: 'var(--warning-border)' }}
+        >
+          Load Suspicious Transactions
+        </button>
       </div>
 
       {/* Transaction Count */}
-      <div className='px-4 py-2 bg-navy-50 border-b border-navy-200'>
-        <p className='text-sm text-navy-700'>
-          <span className='font-semibold text-navy-900'>
+      <div className='px-4 py-2 border-b' style={{ background: 'var(--background)', borderColor: 'var(--border)' }}>
+        <p className='text-sm' style={{ color: 'var(--text-secondary)' }}>
+          <span className='font-semibold' style={{ color: 'var(--text-primary)' }}>
             {transactions.length}
           </span>{" "}
           transaction{transactions.length !== 1 ? "s" : ""} loaded
@@ -112,11 +81,14 @@ export default function TransactionCardInput({
       <div className='flex-1 overflow-y-auto p-4 max-h-[60vh]'>
         {transactions.length === 0 ? (
           <div className='flex flex-col items-center justify-center h-full gap-4 text-center'>
-            <div className='text-6xl'>📭</div>
+            <div className='text-navy-400'>
+              <svg className='w-16 h-16' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4' />
+              </svg>
+            </div>
             <p className='text-navy-700 text-lg font-medium'>No Transactions</p>
             <p className='text-navy-500 text-sm max-w-md'>
-              Click one of the sample data buttons above to load transaction
-              cards
+              Click the button above to load sample transaction cards
             </p>
           </div>
         ) : (
@@ -134,20 +106,21 @@ export default function TransactionCardInput({
 
       {/* Error Display */}
       {error && (
-        <div className='mx-4 mb-4 p-3 bg-coral-50 border border-coral-200 rounded-lg'>
-          <p className='text-coral-700 text-sm font-medium'>
+        <div className='mx-4 mb-4 p-3 rounded-lg border' style={{ background: 'var(--critical-bg)', borderColor: 'var(--critical-border)' }}>
+          <p className='text-sm font-medium' style={{ color: 'var(--critical)' }}>
             {error instanceof Error ? error.message : "An error occurred"}
           </p>
         </div>
       )}
 
       {/* Action Buttons */}
-      <div className='p-4 border-t border-navy-200 flex gap-3'>
+      <div className='p-4 border-t flex gap-3' style={{ borderColor: 'var(--border)' }}>
         <button
           type='button'
           onClick={handleAnalyze}
           disabled={isLoading || transactions.length === 0}
-          className='flex-1 bg-gradient-to-r from-ocean-500 to-ocean-600 hover:from-ocean-600 hover:to-ocean-700 text-white font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-ocean-500/20'
+          className='flex-1 font-semibold py-3 px-6 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg'
+          style={{ background: 'var(--primary)', color: 'white' }}
         >
           {isLoading ? (
             <>
@@ -164,14 +137,13 @@ export default function TransactionCardInput({
                 <path
                   className='opacity-75'
                   fill='currentColor'
-                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
                 />
               </svg>
               Analyzing...
             </>
           ) : (
             <>
-              <span>🔍</span>
               Analyze {transactions.length} Transaction
               {transactions.length !== 1 ? "s" : ""}
             </>
@@ -181,7 +153,8 @@ export default function TransactionCardInput({
           type='button'
           onClick={handleClearAll}
           disabled={isLoading}
-          className='px-6 py-3 bg-navy-200 hover:bg-navy-300 text-navy-700 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+          className='px-6 py-3 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+          style={{ background: 'var(--border)', color: 'var(--text-primary)' }}
         >
           Clear
         </button>
