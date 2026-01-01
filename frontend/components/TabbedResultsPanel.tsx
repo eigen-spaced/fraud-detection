@@ -29,31 +29,29 @@ export default function TabbedResultsPanel({ result, transactions, isLoading, er
   const [activeTab, setActiveTab] = useState<TabId>('analysis');
 
   // Helper function to check if we have valid results for LLM tab
-  const hasValidResults = result && 
-    !isLoading && 
-    !error && 
-    !('refused' in result) && 
+  const hasValidResults = result &&
+    !isLoading &&
+    !error &&
+    !('refused' in result) &&
     transactions.length > 0;
 
   return (
-    <div className="bg-white backdrop-blur-sm rounded-xl shadow-2xl border border-navy-200 flex flex-col h-full">
+    <div className="backdrop-blur-sm rounded-xl shadow-2xl border flex flex-col h-full" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
       {/* Header with Tabs */}
-      <div className="border-b border-navy-200">
-        <div className="p-4 pb-0">
-          <h2 className="text-xl font-semibold text-navy-900 mb-4">
-            Fraud Detection Results
-          </h2>
-        </div>
-        
+      <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
+        <h2 className="text-xl font-semibold" style={{ color: 'var(--text-primary)' }}>
+          Analysis Results
+        </h2>
+
         {/* Tab Navigation */}
         <div className="flex">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             const isDisabled = tab.id === 'llm' && !hasValidResults;
-            
+
             return (
               <button
-              type="button"
+                type="button"
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 disabled={isDisabled}
@@ -62,8 +60,8 @@ export default function TabbedResultsPanel({ result, transactions, isLoading, er
                   ${isActive
                     ? 'border-ocean-500 text-ocean-600 bg-ocean-50'
                     : isDisabled
-                    ? 'border-transparent text-navy-400 cursor-not-allowed'
-                    : 'border-transparent text-navy-600 hover:text-navy-800 hover:border-navy-300'
+                      ? 'border-transparent text-navy-400 cursor-not-allowed'
+                      : 'border-transparent text-navy-600 hover:text-navy-800 hover:border-navy-300'
                   }
                 `}
               >
