@@ -11,33 +11,6 @@ interface AnalysisResultsProps {
   error: Error | null
 }
 
-const classificationColors = {
-  legitimate: {
-    bg: "bg-emerald-50",
-    border: "border-emerald-200",
-    text: "text-emerald-700",
-    badge: "bg-emerald-100 text-emerald-800 border-emerald-300",
-  },
-  suspicious: {
-    bg: "bg-golden-50",
-    border: "border-golden-200",
-    text: "text-golden-700",
-    badge: "bg-golden-100 text-golden-800 border-golden-300",
-  },
-  fraudulent: {
-    bg: "bg-coral-50",
-    border: "border-coral-200",
-    text: "text-coral-700",
-    badge: "bg-coral-100 text-coral-800 border-coral-300",
-  },
-  unknown: {
-    bg: "bg-navy-50",
-    border: "border-navy-200",
-    text: "text-navy-700",
-    badge: "bg-navy-100 text-navy-800 border-navy-300",
-  },
-}
-
 function isRefusalResponse(result: unknown): result is RefusalResponse {
   return result !== null && typeof result === "object" && "refused" in result
 }
