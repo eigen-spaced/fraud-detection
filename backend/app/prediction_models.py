@@ -54,3 +54,16 @@ class ModelInfoResponse(BaseModel):
     feature_names: List[str] = Field(default_factory=list)
     is_loaded: bool = False
     service_initialized: bool = False
+
+
+class ModelVersionResponse(BaseModel):
+    """Response model for model version endpoint."""
+
+    model_version: str = Field(..., description="Current model version")
+    build_timestamp: str = Field(..., description="Model build timestamp (ISO 8601)")
+    api_version: str = Field(..., description="API version")
+    service_name: str = Field(..., description="Service name")
+    model_type: Optional[str] = Field(None, description="Model type (e.g., XGBClassifier)")
+    feature_count: int = Field(..., description="Number of features")
+    optimal_threshold: Optional[float] = Field(None, description="Model's optimal threshold")
+

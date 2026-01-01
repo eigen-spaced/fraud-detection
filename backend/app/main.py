@@ -4,7 +4,7 @@ import logging
 from datetime import datetime, timezone
 from typing import Union
 
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
@@ -29,7 +29,12 @@ from app.prediction_models import (
     ModelInfoResponse,
     ModelPredictionRequest,
     ModelPredictionResponse,
+    ModelVersionResponse,
 )
+from app.database import init_db, close_db, get_db
+from app.db_service import save_batch_analyses
+from app.model_loader import model_loader
+from sqlalchemy.ext.asyncio import AsyncSession
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -55,6 +60,26 @@ app.add_middleware(
 
 # Instrument app with OpenTelemetry
 instrument_app(app)
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize database on application startup."""
+    try:
+        await init_db()
+        logger.info("✅ Application startup complete")
+    except Exception as e:
+        logger.error(f"❌ Startup failed: {str(e)}", exc_info=True)
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Close database connections on application shutdown."""
+    try:
+        await close_db()
+        logger.info("✅ Application shutdown complete")
+    except Exception as e:
+        logger.error(f"❌ Shutdown failed: {str(e)}", exc_info=True)
 
 
 def convert_json_to_ml_format(json_transaction: dict) -> dict:
@@ -132,6 +157,7 @@ async def root():
             "predict": "/api/predict",
             "model_health": "/api/model/health",
             "model_info": "/api/model/info",
+            "version": "/version",
             "llm_explain": "/api/llm/explain",
             "pattern_analysis": "/api/llm/patterns",
             "schema": "/api/schema",
@@ -148,7 +174,7 @@ async def root():
     response_model=Union[FraudDetectionResponse, RefusalResponse],
     status_code=status.HTTP_200_OK,
 )
-async def analyze_transactions(batch: TransactionBatch):
+async def analyze_transactions(batch: TransactionBatch, db: AsyncSession = Depends(get_db)):
     """
     Analyze a batch of credit card transactions for fraud.
 
@@ -181,6 +207,20 @@ async def analyze_transactions(batch: TransactionBatch):
             f"{result.suspicious_count} suspicious, {result.legitimate_count} legitimate"
         )
 
+        # Persist results to database (non-blocking, log errors but don't fail)
+        try:
+            model_version = model_loader.version if model_loader.is_loaded else "unknown"
+            saved = await save_batch_analyses(
+                db,
+                result.analyses,
+                batch.transactions,
+                model_version,
+            )
+            logger.info(f"Saved {saved} analyses to database")
+        except Exception as db_error:
+            logger.error(f"Database save failed: {str(db_error)}", exc_info=True)
+            # Continue serving the response even if DB save fails
+
         return result
 
     except ValueError as e:
@@ -202,7 +242,7 @@ async def analyze_transactions(batch: TransactionBatch):
     response_model=ModelPredictionResponse,
     status_code=status.HTTP_200_OK,
 )
-async def predict_with_ml_model(request: ModelPredictionRequest):
+async def predict_with_ml_model(request: ModelPredictionRequest, db: AsyncSession = Depends(get_db)):
     """
     Predict fraud using the trained XGBoost model.
 
@@ -269,6 +309,19 @@ async def predict_with_ml_model(request: ModelPredictionRequest):
             f"ML Model prediction complete: {fraudulent_count} fraudulent, "
             f"{suspicious_count} suspicious, {legitimate_count} legitimate"
         )
+
+        # Persist results to database (non-blocking)
+        try:
+            model_version = model_loader.version if model_loader.is_loaded else "unknown"
+            saved = await save_batch_analyses(
+                db,
+                analyses,
+                request.transactions,
+                model_version,
+            )
+            logger.info(f"Saved {saved} ML predictions to database")
+        except Exception as db_error:
+            logger.error(f"Database save failed: {str(db_error)}", exc_info=True)
 
         return response
 
@@ -357,6 +410,47 @@ async def get_model_info():
     except Exception as e:
         logger.error(f"Get model info failed: {str(e)}", exc_info=True)
         return ModelInfoResponse(is_loaded=False, service_initialized=False)
+
+
+@app.get(
+    "/version",
+    response_model=ModelVersionResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def get_version():
+    """
+    Get model and API version information.
+
+    Returns:
+    - model_version: Current model version string
+    - build_timestamp: Model build timestamp (ISO 8601)
+    - api_version: API version
+    - service_name: Application name
+    - model_type: Model type (e.g., "XGBClassifier")
+    - feature_count: Number of features
+    - optimal_threshold: Model's optimal threshold
+    """
+    try:
+        model_info = model_loader.get_model_info()
+
+        response = ModelVersionResponse(
+            model_version=model_info.get("version", "unknown"),
+            build_timestamp=model_info.get("build_timestamp", "unknown"),
+            api_version=settings.app_version,
+            service_name=settings.app_name,
+            model_type=model_info.get("model_type"),
+            feature_count=model_info.get("feature_count", 0),
+            optimal_threshold=model_info.get("optimal_threshold"),
+        )
+
+        return response
+
+    except Exception as e:
+        logger.error(f"Get version failed: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to retrieve version information",
+        )
 
 
 @app.get("/api/schema")

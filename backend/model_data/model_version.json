@@ -1,0 +1,7 @@
+{
+    "version": "1.0.0",
+    "build_timestamp": "2026-01-01T19:18:16+04:00",
+    "description": "Initial XGBoost fraud detection model",
+    "training_date": "2025-12-15",
+    "feature_count": 25
+}

@@ -4,7 +4,9 @@ Implements singleton pattern to load model once and reuse.
 """
 
 import joblib
+import json
 import logging
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional, List
 import numpy as np
@@ -19,6 +21,8 @@ class ModelLoader:
     _model: Optional[BaseEstimator] = None
     _optimal_threshold: Optional[float] = None
     _feature_names: Optional[List[str]] = None
+    _model_version: Optional[str] = None
+    _build_timestamp: Optional[str] = None
     _is_loaded: bool = False
 
     def __new__(cls) -> "ModelLoader":
@@ -90,6 +94,29 @@ class ModelLoader:
             if not hasattr(self._model, "predict_proba"):
                 raise ValueError("Model does not have predict_proba method")
 
+            # Load model version metadata if available
+            version_path = Path("model_data/model_version.json")
+            if version_path.exists():
+                try:
+                    with open(version_path, "r") as f:
+                        version_data = json.load(f)
+                        self._model_version = version_data.get("version", "1.0.0")
+                        self._build_timestamp = version_data.get(
+                            "build_timestamp",
+                            datetime.now(timezone.utc).isoformat(),
+                        )
+                    logger.info(f"   - Model version: {self._model_version}")
+                    logger.info(f"   - Build timestamp: {self._build_timestamp}")
+                except Exception as e:
+                    logger.warning(f"Failed to load version metadata: {str(e)}")
+                    self._model_version = "1.0.0"
+                    self._build_timestamp = datetime.now(timezone.utc).isoformat()
+            else:
+                # Default version if metadata file doesn't exist
+                self._model_version = "1.0.0"
+                self._build_timestamp = datetime.now(timezone.utc).isoformat()
+                logger.info(f"   - Model version: {self._model_version} (default)")
+
             self._is_loaded = True
             logger.info("✅ Model loaded successfully:")
             logger.info(f"   - Model type: {type(self._model).__name__}")
@@ -154,6 +181,8 @@ class ModelLoader:
             "optimal_threshold": self._optimal_threshold,
             "feature_count": len(self._feature_names) if self._feature_names else 0,
             "feature_names": self._feature_names.copy() if self._feature_names else [],
+            "version": self._model_version,
+            "build_timestamp": self._build_timestamp,
         }
 
     @property
@@ -174,6 +203,20 @@ class ModelLoader:
         if self._optimal_threshold is None:
             raise RuntimeError("Optimal threshold not loaded")
         return self._optimal_threshold
+
+    @property
+    def version(self) -> str:
+        """Get the model version."""
+        if self._model_version is None:
+            return "unknown"
+        return self._model_version
+
+    @property
+    def build_timestamp(self) -> str:
+        """Get the model build timestamp."""
+        if self._build_timestamp is None:
+            return "unknown"
+        return self._build_timestamp
 
 
 # Global model loader instance
