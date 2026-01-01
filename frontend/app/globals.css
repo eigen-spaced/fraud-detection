@@ -1,83 +1,243 @@
 @import "tailwindcss";
 
+/* ============================================
+   PROFESSIONAL FRAUD DETECTION DASHBOARD THEME
+   Enterprise security-grade color system
+   ============================================ */
+
 :root {
-  /* Light theme background */
-  --background: #fefefe;
-  --foreground: #073b4c;
-  
-  /* Custom color palette */
-  --coral: #ef476f;
-  --golden: #ffd166;
-  --emerald: #06d6a0;
-  --ocean: #118ab2;
-  --navy: #073b4c;
-  
-  /* Semantic color assignments */
-  --error: var(--coral);
-  --warning: var(--golden);
-  --success: var(--emerald);
-  --primary: var(--ocean);
-  --text: var(--navy);
+  /* ===== Light Mode (Default) ===== */
+  --background: #F8FAFC;
+  /* Slate-50 */
+  --surface: #FFFFFF;
+  --border: #E2E8F0;
+  /* Slate-200 */
+
+  /* Text Colors */
+  --text-primary: #0F172A;
+  /* Slate-900 */
+  --text-secondary: #64748B;
+  /* Slate-500 */
+  --text-tertiary: #94A3B8;
+  /* Slate-400 */
+
+  /* Status Colors - Professional & Accessible */
+  --critical: #EF4444;
+  /* Red-500 */
+  --critical-bg: #FEE2E2;
+  /* Red-100 */
+  --critical-border: #FECACA;
+  /* Red-200 */
+
+  --warning: #F59E0B;
+  /* Amber-500 */
+  --warning-bg: #FEF3C7;
+  /* Amber-100 */
+  --warning-border: #FDE68A;
+  /* Amber-200 */
+
+  --success: #10B981;
+  /* Emerald-500 */
+  --success-bg: #D1FAE5;
+  /* Emerald-100 */
+  --success-border: #A7F3D0;
+  /* Emerald-200 */
+
+  --info: #3B82F6;
+  /* Blue-500 */
+  --info-bg: #DBEAFE;
+  /* Blue-100 */
+  --info-border: #BFDBFE;
+  /* Blue-200 */
+
+  /* Primary Action Colors */
+  --primary: #6366F1;
+  /* Indigo-500 */
+  --primary-hover: #4F46E5;
+  /* Indigo-600 */
+  --primary-active: #4338CA;
+  /* Indigo-700 */
+
+  --secondary: #8B5CF6;
+  /* Purple-500 */
+  --secondary-hover: #7C3AED;
+  /* Purple-600 */
+}
+
+[data-theme="dark"] {
+  /* ===== Dark Mode ===== */
+  --background: #0F172A;
+  /* Slate-900 - darker base */
+  --surface: #1E293B;
+  /* Slate-800 - card background */
+  --border: #334155;
+  /* Slate-700 - borders */
+
+  /* Text Colors - HIGH CONTRAST for readability */
+  --text-primary: #F1F5F9;
+  /* Slate-100 - very light for main text */
+  --text-secondary: #CBD5E1;
+  /* Slate-300 - lighter for secondary text */
+  --text-tertiary: #94A3B8;
+  /* Slate-400 - muted */
+
+  /* Status colors - adjusted for dark backgrounds */
+  --critical: #F87171;
+  /* Red-400 - lighter red */
+  --critical-bg: #450A0A;
+  /* Red-950 */
+  --critical-border: #7F1D1D;
+  /* Red-900 */
+
+  --warning: #FBBF24;
+  /* Amber-400 - lighter amber */
+  --warning-bg: #451A03;
+  /* Amber-950 */
+  --warning-border: #78350F;
+  /* Amber-900 */
+
+  --success: #34D399;
+  /* Emerald-400 - lighter green */
+  --success-bg: #022C22;
+  /* Emerald-950 */
+  --success-border: #065F46;
+  /* Emerald-900 */
+
+  --info: #60A5FA;
+  /* Blue-400 - lighter blue */
+  --info-bg: #172554;
+  /* Blue-950 */
+  --info-border: #1E40AF;
+  /* Blue-800 */
+
+  /* Primary colors for dark mode */
+  --primary: #818CF8;
+  /* Indigo-400 - lighter for visibility */
+  --primary-hover: #6366F1;
+  /* Indigo-500 */
+  --primary-active: #4F46E5;
+  /* Indigo-600 */
 }
 
 @theme inline {
+  /* Map CSS variables to Tailwind classes */
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
-  /* Custom colors for Tailwind */
-  --color-coral: var(--coral);
-  --color-golden: var(--golden);
-  --color-emerald: var(--emerald);
-  --color-ocean: var(--ocean);
-  --color-navy: var(--navy);
-  
-  /* Semantic colors */
-  --color-error: var(--error);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+
+  --color-critical: var(--critical);
+  --color-critical-bg: var(--critical-bg);
+  --color-critical-border: var(--critical-border);
+
   --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
+
   --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+
   --color-primary: var(--primary);
-  
-  /* Color variants with opacity */
-  --color-coral-50: #fef2f4;
-  --color-coral-100: #fce7ea;
-  --color-coral-200: #f9c2cc;
-  --color-coral-500: var(--coral);
-  --color-coral-600: #d93c5f;
-  --color-coral-700: #b32d47;
-  
-  --color-golden-50: #fffcf0;
-  --color-golden-100: #fff8d7;
-  --color-golden-200: #fff0a3;
-  --color-golden-500: var(--golden);
-  --color-golden-600: #e6bc5a;
-  --color-golden-700: #cc9933;
-  
-  --color-emerald-50: #f0fefc;
-  --color-emerald-100: #ccfdf7;
-  --color-emerald-200: #99fbf0;
-  --color-emerald-500: var(--emerald);
-  --color-emerald-600: #05c195;
-  --color-emerald-700: #059c7a;
-  
-  --color-ocean-50: #f0f9ff;
-  --color-ocean-100: #e0f2fe;
-  --color-ocean-200: #bae6fd;
-  --color-ocean-500: var(--ocean);
-  --color-ocean-600: #0f7a9c;
-  --color-ocean-700: #0c5d7a;
-  
-  --color-navy-50: #f8fafc;
-  --color-navy-100: #f1f5f9;
-  --color-navy-200: #e2e8f0;
-  --color-navy-500: var(--navy);
-  --color-navy-600: #0a4a5c;
-  --color-navy-700: #0d3a47;
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
+
+  /* Font families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+
+/* ===== Base Styles ===== */
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== Typography ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+/* 24px */
+h2 {
+  font-size: 1.25rem;
+}
+
+/* 20px */
+h3 {
+  font-size: 1rem;
+}
+
+/* 16px */
+
+/* ===== Custom Utilities ===== */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Status badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.badge-critical {
+  background: var(--critical-bg);
+  color: var(--critical);
+  border: 1px solid var(--critical-border);
+}
+
+.badge-warning {
+  background: var(--warning-bg);
+  color: var(--warning);
+  border: 1px solid var(--warning-border);
+}
+
+.badge-success {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+
+/* ===== Transitions ===== */
+.smooth-transition {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
