@@ -45,7 +45,7 @@ export default function Home() {
     <div className="min-h-screen" style={{ background: 'var(--background)' }}>
       <Header />
 
-      <main className="container mx-auto px-3 py-3">
+      <main className="mx-auto px-3 py-3">
         <div className="grid grid-cols-1 lg:grid-cols-[35%_1fr] gap-4">
           {/* Left Panel - Transaction Input (Sidebar) */}
           <TransactionCardInput

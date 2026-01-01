@@ -23,27 +23,27 @@ function AnalysisCard({ analysis }: { analysis: FraudAnalysis }) {
     switch (classification) {
       case 'legitimate':
         return {
-          bg: 'var(--success-bg)',
-          border: 'var(--success)',
-          text: 'var(--success)',
+          borderColor: 'var(--success)',
+          accentColor: 'var(--success)',
+          badgeBg: 'var(--success-bg)',
         }
       case 'suspicious':
         return {
-          bg: 'var(--warning-bg)',
-          border: 'var(--warning)',
-          text: 'var(--warning)',
+          borderColor: 'var(--warning)',
+          accentColor: 'var(--warning)',
+          badgeBg: 'var(--warning-bg)',
         }
       case 'fraudulent':
         return {
-          bg: 'var(--error-bg)',
-          border: 'var(--error)',
-          text: 'var(--error)',
+          borderColor: 'var(--error)',
+          accentColor: 'var(--error)',
+          badgeBg: 'var(--error-bg)',
         }
       default:
         return {
-          bg: 'var(--surface)',
-          border: 'var(--border)',
-          text: 'var(--text-secondary)',
+          borderColor: 'var(--border)',
+          accentColor: 'var(--text-secondary)',
+          badgeBg: 'var(--surface-hover)',
         }
     }
   }
@@ -51,22 +51,31 @@ function AnalysisCard({ analysis }: { analysis: FraudAnalysis }) {
   const styles = getClassificationStyles(analysis.classification)
 
   return (
-    <div className='p-4 rounded-lg border' style={{ background: styles.bg, borderColor: styles.border }}>
+    <div
+      className='p-4 rounded-lg border-l-4'
+      style={{
+        background: 'var(--surface)',
+        borderLeftColor: styles.borderColor,
+        border: '1px solid var(--border)',
+        borderLeftWidth: '4px',
+        borderLeftStyle: 'solid'
+      }}
+    >
       <div className='flex items-start justify-between mb-3'>
         <div>
           <p className='font-semibold text-sm' style={{ color: 'var(--text-primary)' }}>
             {analysis.transaction_id}
           </p>
           <span
-            className='inline-block px-2 py-1 rounded-md text-xs font-medium mt-1 border'
-            style={{ background: styles.bg, color: styles.text, borderColor: styles.border }}
+            className='inline-block px-2 py-1 rounded-md text-xs font-medium mt-1'
+            style={{ background: styles.badgeBg, color: styles.accentColor }}
           >
             {analysis.classification.toUpperCase()}
           </span>
         </div>
         <div className='text-right'>
           <p className='text-xs' style={{ color: 'var(--text-tertiary)' }}>Risk Score</p>
-          <p className='text-2xl font-bold' style={{ color: styles.text }}>
+          <p className='text-2xl font-bold' style={{ color: styles.accentColor }}>
             {riskPercentage}%
           </p>
         </div>
@@ -87,7 +96,7 @@ function AnalysisCard({ analysis }: { analysis: FraudAnalysis }) {
                 className='text-xs flex items-start gap-2'
                 style={{ color: 'var(--text-secondary)' }}
               >
-                <span style={{ color: styles.text }}>•</span>
+                <span style={{ color: styles.accentColor }}>•</span>
                 <span>{factor}</span>
               </li>
             ))}
