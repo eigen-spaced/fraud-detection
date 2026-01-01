@@ -9,9 +9,9 @@ import numpy as np
 import pandas as pd
 
 from app.model_loader import model_loader
-from app.feature_engineering import feature_engineer
+from app.preprocess.feature_engineering import feature_engineer
 from app.models import FraudAnalysis, FraudClassification, ShapFeatureExplanation
-from app.shap_explainer import shap_explainer_service
+from app.xai.shap_explainer import shap_explainer_service
 
 logger = logging.getLogger(__name__)
 

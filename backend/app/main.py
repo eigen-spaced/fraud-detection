@@ -96,7 +96,7 @@ def convert_json_to_ml_format(json_transaction: dict) -> dict:
 
 
 @app.exception_handler(Exception)
-async def global_exception_handler(request, exc):
+async def global_exception_handler(_, exc):
     """Global exception handler."""
     logger.error(f"Unhandled exception: {str(exc)}", exc_info=True)
     return JSONResponse(

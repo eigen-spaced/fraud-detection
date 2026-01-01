@@ -4,9 +4,7 @@ Test script for SHAP explainer integration with fraud detection model.
 Verifies that SHAP explanations are generated correctly.
 """
 
-import os
 import sys
-import json
 import logging
 from pathlib import Path
 
@@ -15,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.model_service import model_service
 from app.model_loader import model_loader
-from app.shap_explainer import shap_explainer_service
+from app.xai.shap_explainer import shap_explainer_service
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

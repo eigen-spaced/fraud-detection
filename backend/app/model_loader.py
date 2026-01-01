@@ -12,7 +12,6 @@ from sklearn.base import BaseEstimator
 
 logger = logging.getLogger(__name__)
 
-
 class ModelLoader:
     """Singleton class to load and manage the XGBoost fraud detection model."""
 
@@ -30,9 +29,9 @@ class ModelLoader:
 
     def load_model_artifacts(
         self,
-        model_path: str = "model_data/fraud_model.pkl",
-        threshold_path: str = "model_data/optimal_threshold.pkl",
-        features_path: str = "model_data/feature_names.pkl",
+        model_path: str | Path = "model_data/fraud_model.pkl",
+        threshold_path: str | Path = "model_data/optimal_threshold.pkl",
+        features_path: str | Path = "model_data/feature_names.pkl",
     ) -> bool:
         """
         Load all model artifacts (model, threshold, feature names).
