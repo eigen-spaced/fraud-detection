@@ -68,5 +68,3 @@ echo "OPEN_ROUTER_KEY=your-key-here" >> backend/.env
 
 
 ---
-
-**Built with  for secure, AI-powered fraud detection**
