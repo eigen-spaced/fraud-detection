@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import TransactionCardInput from '@/components/TransactionCardInput';
+import TransactionCardInput from '@/components/transactions/TransactionCardInput';
 import TabbedResultsPanel from '@/components/TabbedResultsPanel';
 import Header from '@/components/Header';
 import { TransactionData } from '@/lib/sampleData';

@@ -81,13 +81,13 @@ export default function TransactionCardInput({
       <div className='flex-1 overflow-y-auto p-4 max-h-[60vh]'>
         {transactions.length === 0 ? (
           <div className='flex flex-col items-center justify-center h-full gap-4 text-center'>
-            <div className='text-navy-400'>
+            <div style={{ color: 'var(--text-tertiary)' }}>
               <svg className='w-16 h-16' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
                 <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4' />
               </svg>
             </div>
-            <p className='text-navy-700 text-lg font-medium'>No Transactions</p>
-            <p className='text-navy-500 text-sm max-w-md'>
+            <p className='text-lg font-medium' style={{ color: 'var(--text-primary)' }}>No Transactions</p>
+            <p className='text-sm max-w-md' style={{ color: 'var(--text-secondary)' }}>
               Click the button above to load sample transaction cards
             </p>
           </div>
