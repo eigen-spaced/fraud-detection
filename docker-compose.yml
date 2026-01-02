@@ -59,13 +59,18 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: fraud-detection-frontend
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app           # Syncs local code to container
+      - /app/node_modules         # Prevents local modules from overwriting container modules
+      - /app/.next                # Prevents cache conflicts
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:8000
-      NODE_ENV: production
+      NODE_ENV: development
+      WATCHPACK_POLLING: true
     ports:
       - "3000:3000"
     networks:
