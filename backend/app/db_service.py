@@ -22,13 +22,13 @@ async def save_analysis(
 ) -> Optional[AnalyzedTransaction]:
     """
     Save a single fraud analysis to the database.
-    
+
     Args:
         session: Async database session
         analysis: FraudAnalysis object from the fraud detector
         transaction_data: Original transaction data dictionary
         model_version: Version of the model used for analysis
-    
+
     Returns:
         AnalyzedTransaction if saved successfully, None otherwise
     """
@@ -39,7 +39,7 @@ async def save_analysis(
             timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
         else:
             timestamp = timestamp_str
-        
+
         # Create database record
         db_record = AnalyzedTransaction(
             transaction_id=analysis.transaction_id,
@@ -53,18 +53,18 @@ async def save_analysis(
             explanation=analysis.explanation,
             model_version=model_version,
         )
-        
+
         session.add(db_record)
         await session.commit()
         await session.refresh(db_record)
-        
+
         logger.debug(
             f"Saved analysis for transaction {analysis.transaction_id} "
             f"with classification {analysis.classification.value}"
         )
-        
+
         return db_record
-        
+
     except Exception as e:
         logger.error(
             f"Failed to save analysis for transaction {analysis.transaction_id}: {str(e)}",
@@ -82,13 +82,13 @@ async def save_batch_analyses(
 ) -> int:
     """
     Save multiple fraud analyses to the database in a single transaction.
-    
+
     Args:
         session: Async database session
         analyses: List of FraudAnalysis objects
         transactions_data: List of original transaction data dictionaries
         model_version: Version of the model used for analysis
-    
+
     Returns:
         Number of successfully saved records
     """
@@ -99,9 +99,9 @@ async def save_batch_analyses(
                 f"and transactions ({len(transactions_data)})"
             )
             return 0
-        
+
         saved_count = 0
-        
+
         for analysis, transaction_data in zip(analyses, transactions_data):
             # Extract transaction timestamp
             timestamp_str = transaction_data.get("timestamp", datetime.utcnow().isoformat())
@@ -109,7 +109,7 @@ async def save_batch_analyses(
                 timestamp = datetime.fromisoformat(timestamp_str.replace("Z", "+00:00"))
             else:
                 timestamp = timestamp_str
-            
+
             # Create database record
             db_record = AnalyzedTransaction(
                 transaction_id=analysis.transaction_id,
@@ -123,17 +123,17 @@ async def save_batch_analyses(
                 explanation=analysis.explanation,
                 model_version=model_version,
             )
-            
+
             session.add(db_record)
             saved_count += 1
-        
+
         # Commit all records in a single transaction
         await session.commit()
-        
+
         logger.info(f"✅ Saved {saved_count} transaction analyses to database")
-        
+
         return saved_count
-        
+
     except Exception as e:
         logger.error(f"Failed to save batch analyses: {str(e)}", exc_info=True)
         await session.rollback()
@@ -146,11 +146,11 @@ async def get_analysis_by_transaction_id(
 ) -> Optional[AnalyzedTransaction]:
     """
     Retrieve an analyzed transaction by its transaction ID.
-    
+
     Args:
         session: Async database session
         transaction_id: Transaction ID to search for
-    
+
     Returns:
         AnalyzedTransaction if found, None otherwise
     """
@@ -160,7 +160,7 @@ async def get_analysis_by_transaction_id(
         )
         result = await session.execute(statement)
         return result.scalar_one_or_none()
-        
+
     except Exception as e:
         logger.error(
             f"Failed to retrieve analysis for transaction {transaction_id}: {str(e)}",
@@ -176,29 +176,27 @@ async def get_recent_analyses(
 ) -> list[AnalyzedTransaction]:
     """
     Retrieve recent analyzed transactions, optionally filtered by classification.
-    
+
     Args:
         session: Async database session
         limit: Maximum number of records to return
         classification_filter: Optional filter by classification
             (e.g., 'fraudulent', 'suspicious', 'legitimate')
-    
+
     Returns:
         List of AnalyzedTransaction records ordered by created_at descending
     """
     try:
         statement = select(AnalyzedTransaction)
-        
+
         if classification_filter:
-            statement = statement.where(
-                AnalyzedTransaction.classification == classification_filter
-            )
-        
+            statement = statement.where(AnalyzedTransaction.classification == classification_filter)
+
         statement = statement.order_by(AnalyzedTransaction.created_at.desc()).limit(limit)
-        
+
         result = await session.execute(statement)
         return list(result.scalars().all())
-        
+
     except Exception as e:
         logger.error(f"Failed to retrieve recent analyses: {str(e)}", exc_info=True)
         return []

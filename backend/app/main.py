@@ -242,7 +242,9 @@ async def analyze_transactions(batch: TransactionBatch, db: AsyncSession = Depen
     response_model=ModelPredictionResponse,
     status_code=status.HTTP_200_OK,
 )
-async def predict_with_ml_model(request: ModelPredictionRequest, db: AsyncSession = Depends(get_db)):
+async def predict_with_ml_model(
+    request: ModelPredictionRequest, db: AsyncSession = Depends(get_db)
+):
     """
     Predict fraud using the trained XGBoost model.
 

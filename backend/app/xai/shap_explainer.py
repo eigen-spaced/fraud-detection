@@ -393,5 +393,6 @@ class ShapExplainerService:
         """Check if SHAP explainer is initialized."""
         return self._is_initialized
 
+
 # Global SHAP explainer service instance
 shap_explainer_service = ShapExplainerService()

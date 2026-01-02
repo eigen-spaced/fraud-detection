@@ -14,6 +14,7 @@ from sklearn.base import BaseEstimator
 
 logger = logging.getLogger(__name__)
 
+
 class ModelLoader:
     """Singleton class to load and manage the XGBoost fraud detection model."""
 

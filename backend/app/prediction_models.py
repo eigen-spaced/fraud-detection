@@ -66,4 +66,3 @@ class ModelVersionResponse(BaseModel):
     model_type: Optional[str] = Field(None, description="Model type (e.g., XGBClassifier)")
     feature_count: int = Field(..., description="Number of features")
     optimal_threshold: Optional[float] = Field(None, description="Model's optimal threshold")
-

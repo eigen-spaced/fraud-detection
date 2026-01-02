@@ -33,11 +33,11 @@ AsyncSessionLocal = sessionmaker(
 async def get_db() -> AsyncGenerator[AsyncSession, None]:
     """
     Dependency for getting async database sessions.
-    
+
     Usage in FastAPI endpoints:
         async def endpoint(db: AsyncSession = Depends(get_db)):
             ...
-    
+
     Yields:
         AsyncSession: Database session
     """
@@ -51,7 +51,7 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 async def init_db() -> None:
     """
     Initialize database by creating all tables.
-    
+
     This should be called on application startup.
     """
     try:
@@ -59,10 +59,10 @@ async def init_db() -> None:
         async with engine.begin() as conn:
             # Import all models to ensure they're registered with SQLModel
             from app.db_models import AnalyzedTransaction  # noqa: F401
-            
+
             # Create all tables
             await conn.run_sync(SQLModel.metadata.create_all)
-        
+
         logger.info("✅ Database initialized successfully")
     except Exception as e:
         logger.error(f"❌ Database initialization failed: {str(e)}", exc_info=True)
@@ -72,7 +72,7 @@ async def init_db() -> None:
 async def close_db() -> None:
     """
     Close database connections.
-    
+
     This should be called on application shutdown.
     """
     try:

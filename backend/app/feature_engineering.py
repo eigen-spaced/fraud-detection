@@ -16,7 +16,6 @@ class FeatureEngineer:
 
     def __init__(self):
         """Initialize feature engineer with configuration."""
-        # These should match exactly what was used in training
         self.continuous_skewed_features = [
             "trans_in_last_1h",
             "trans_in_last_24h",
@@ -135,7 +134,7 @@ class FeatureEngineer:
             return df
 
         except Exception as e:
-            logger.error(f"❌ Failed to convert JSON to DataFrame: {str(e)}", exc_info=True)
+            logger.error(f"Failed to convert JSON to DataFrame: {str(e)}", exc_info=True)
             raise ValueError(f"JSON to DataFrame conversion failed: {str(e)}")
 
     def prepare_features(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Series]:
@@ -209,7 +208,7 @@ class FeatureEngineer:
             # Step 2: Prepare features
             X, y = self.prepare_features(df)
 
-            logger.info(f"✅ Transaction processing complete: {X.shape} feature matrix ready")
+            logger.info(f"Transaction processing complete: {X.shape} feature matrix ready")
 
             return X, y
 
@@ -246,9 +245,9 @@ class FeatureEngineer:
             features_match = len(missing_features) == 0
 
             if features_match:
-                logger.info("✅ Feature validation passed")
+                logger.info("Feature validation passed")
             else:
-                logger.warning("⚠️ Feature validation has warnings")
+                logger.warning("Feature validation has warnings")
 
             return features_match
 
