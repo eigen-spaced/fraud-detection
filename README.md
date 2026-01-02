@@ -52,6 +52,8 @@ echo "OPEN_ROUTER_KEY=your-key-here" >> backend/.env
 ##  Documentation
 
 - **[QUICKSTART.md](QUICKSTART.md)**: Complete setup guide with troubleshooting
+- **[CLAUDE.md](CLAUDE.md)**: Quick reference for development commands and workflows
+- **[frontend/COMPONENTS.md](frontend/COMPONENTS.md)**: Frontend component structure and theming guide
 - **[DOCUMENTATION.md](DOCUMENTATION.md)**: Comprehensive technical documentation
   - API Reference & Schema
   - LLM Integration Guide  

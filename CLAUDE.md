@@ -1,4 +1,4 @@
-## Project Overview
+## project overview
 
 This is an AI-powered fraud detection system with:
 - **FastAPI Backend** (Python 3.11+, uv package manager) - Port 8000
@@ -89,15 +89,17 @@ Key security features:
 - **Batch limits**: Max 100 transactions per request
 
 ### Frontend Architecture (`frontend/`)
-- **`app/page.tsx`**: Main single-page interface with split-pane layout and centralized API client usage
-- **`components/TransactionCardInput.tsx`**: Left panel for data input with sample loaders
+- **`app/page.tsx`**: Main single-page interface with 35/65 asymmetric split layout and centralized API client
+- **`components/transactions/TransactionCard.tsx`**: Individual transaction display with expandable temporal analysis
+- **`components/transactions/TransactionCardInput.tsx`**: Left sidebar for transaction data input with sample loaders
 - **`components/TabbedResultsPanel.tsx`**: Tabbed interface for analysis results and LLM explanations
 - **`components/analysis/AnalysisResults.tsx`**: Analysis results container with summary and statistics
-- **`components/analysis/AnalysisCard.tsx`**: Individual transaction analysis display component
+- **`components/analysis/AnalysisCard.tsx`**: Individual fraud analysis cards using CSS variable theming
 - **`components/LLMExplanation.tsx`**: AI explanation interface with test functionality
 - **`lib/sampleData.ts`**: Pre-configured transaction scenarios (legitimate, suspicious, fraudulent)
 - **`lib/api.ts`**: Type-safe API client with environment-based URL configuration
 - **`lib/transactionUtils.ts`**: Data conversion utilities between ML and API formats
+- **`app/globals.css`**: Professional design system with CSS variables for light/dark mode theming
 
 ### Data Flow
 1. **Input**: User loads sample data or inputs custom JSON transactions
@@ -145,11 +147,14 @@ The system expects transactions in this format:
 - Use TypeScript strict mode throughout
 - Use the centralized API client (`lib/api.ts`) instead of hardcoded fetch calls
 - Follow modular component architecture - separate concerns into focused components
-- Components should be organized in logical folders (e.g., `analysis/` for analysis-related components)
+- Components should be organized in logical folders (e.g., `analysis/` for analysis-related components, `transactions/` for transaction components)
+- **Use CSS variables for all styling** - never use hardcoded color classes or hex values
+- All colors should use `var(--variable-name)` for proper light/dark mode support
 - Implement proper loading states and error boundaries
-- Use Tailwind CSS utility classes for styling
+- Use Tailwind CSS utility classes for spacing/layout only, not colors
 - Test with all sample data scenarios (legitimate, suspicious, fraudulent)
 - Ensure proper data conversion between ML format and API format using `transactionUtils`
+- Verify dark mode contrast and readability for all new components
 
 ### Adding New Features
 1. **API Endpoints**: Define Pydantic models in `models.py`, add routes in `main.py`

@@ -132,15 +132,25 @@ fraud-detection/
        page.tsx            # Main interface
        layout.tsx          # Root layout
        providers.tsx       # React Query
+       globals.css         # CSS variables theming
     components/
+       transactions/       # Transaction components
+          TransactionCard.tsx
+          TransactionCardInput.tsx
+       analysis/           # Analysis components
+          AnalysisResults.tsx
+          AnalysisCard.tsx
+          FormattedExplanation.tsx
+          ShapWaterfall.tsx
        Header.tsx          # Application header
-       TransactionCardInput.tsx  # Input panel
-       TransactionCard.tsx       # Card display
-       ResultsPanel.tsx          # Results display
-       LLMExplanation.tsx        # LLM interface
+       TabbedResultsPanel.tsx  # Results tabs
+       LLMExplanation.tsx      # LLM interface
+       ThemeContext.tsx        # Theme management
     lib/
         api.ts              # API client
         newSampleData.ts    # Test data
+        transactionUtils.ts # Data conversion
+    COMPONENTS.md           # Component documentation
  DOCUMENTATION.md            # This file
  README.md                   # Project overview
  QUICKSTART.md              # Setup guide
