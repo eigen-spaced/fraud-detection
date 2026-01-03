@@ -18,8 +18,12 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
 
+    console.log('=== ANALYZE DEBUG ===');
+    console.log('Raw transactionData:', JSON.stringify(transactionData[0], null, 2));
+
     // Convert to Transaction format and store
     const convertedTransactions = convertTransactionBatch(transactionData);
+    console.log('Converted transactions:', JSON.stringify(convertedTransactions[0], null, 2));
     setTransactions(convertedTransactions);
 
     try {

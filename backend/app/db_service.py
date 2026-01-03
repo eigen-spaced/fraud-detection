@@ -200,3 +200,105 @@ async def get_recent_analyses(
     except Exception as e:
         logger.error(f"Failed to retrieve recent analyses: {str(e)}", exc_info=True)
         return []
+
+
+async def get_sample_transactions(
+    session: AsyncSession,
+    scenario: str,
+    limit: int = 5,
+) -> list:
+    """
+    Retrieve random sample transactions from engineered_transactions table.
+
+    Args:
+        session: Async database session
+        scenario: Filter scenario - 'fraud', 'legit', or 'mixed'
+        limit: Maximum number of records to return (default 5, max 100)
+
+    Returns:
+        List of EngineeredTransaction records
+    """
+    try:
+        from app.db_models import EngineeredTransaction
+        from sqlalchemy import func
+
+        # Build base query
+        statement = select(EngineeredTransaction)
+
+        # Apply scenario filter
+        if scenario == "fraud":
+            statement = statement.where(EngineeredTransaction.is_fraud == 1)
+        elif scenario == "legit":
+            statement = statement.where(EngineeredTransaction.is_fraud == 0)
+        # 'mixed' scenario has no filter
+
+        # Add random ordering and limit
+        statement = statement.order_by(func.random()).limit(min(limit, 100))
+
+        result = await session.execute(statement)
+        transactions = list(result.scalars().all())
+
+        logger.debug(
+            f"Retrieved {len(transactions)} transactions for scenario '{scenario}'"
+        )
+
+        return transactions
+
+    except Exception as e:
+        logger.error(
+            f"Failed to retrieve sample transactions: {str(e)}", exc_info=True
+        )
+        return []
+
+
+async def get_database_stats(session: AsyncSession) -> dict:
+    """
+    Get statistics about the engineered_transactions table.
+
+    Args:
+        session: Async database session
+
+    Returns:
+        Dictionary with total_transactions, fraud_count, legit_count, fraud_percentage
+    """
+    try:
+        from app.db_models import EngineeredTransaction
+        from sqlalchemy import func
+
+        # Get total count
+        total_statement = select(func.count()).select_from(EngineeredTransaction)
+        total_result = await session.execute(total_statement)
+        total_count = total_result.scalar() or 0
+
+        # Get fraud count
+        fraud_statement = (
+            select(func.count())
+            .select_from(EngineeredTransaction)
+            .where(EngineeredTransaction.is_fraud == 1)
+        )
+        fraud_result = await session.execute(fraud_statement)
+        fraud_count = fraud_result.scalar() or 0
+
+        # Calculate legit count and percentage
+        legit_count = total_count - fraud_count
+        fraud_percentage = (fraud_count / total_count * 100) if total_count > 0 else 0.0
+
+        stats = {
+            "total_transactions": total_count,
+            "fraud_count": fraud_count,
+            "legit_count": legit_count,
+            "fraud_percentage": round(fraud_percentage, 2),
+        }
+
+        logger.debug(f"Database stats: {stats}")
+
+        return stats
+
+    except Exception as e:
+        logger.error(f"Failed to retrieve database stats: {str(e)}", exc_info=True)
+        return {
+            "total_transactions": 0,
+            "fraud_count": 0,
+            "legit_count": 0,
+            "fraud_percentage": 0.0,
+        }

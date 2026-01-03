@@ -46,7 +46,10 @@ export default function TransactionCard({
         borderColor: "var(--border)",
         background: "var(--surface)",
         animationDelay: `${index * 100}ms`,
-        animation: "fadeIn 0.5s ease-out forwards",
+        animationName: "fadeIn",
+        animationDuration: "0.5s",
+        animationTimingFunction: "ease-out",
+        animationFillMode: "forwards",
         opacity: 0,
         boxShadow:
           "0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.04)",

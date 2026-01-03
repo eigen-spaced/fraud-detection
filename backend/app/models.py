@@ -194,3 +194,57 @@ class PatternAnalysisResponse(BaseModel):
     average_risk_score: float
     model_used: str
     generated_at: datetime
+
+
+class EngineeredTransactionResponse(BaseModel):
+    """Response model for a single engineered transaction from database."""
+
+    trans_num: str
+    is_fraud: int
+    
+    # Original transaction data
+    cc_num: Optional[str] = None  # text in database
+    acct_num: Optional[int] = None  # bigint in database
+    merchant: Optional[str] = None
+    category: Optional[str] = None
+    lat: Optional[float] = None
+    long: Optional[float] = None
+    merch_lat: Optional[float] = None
+    merch_long: Optional[float] = None
+    
+    # Engineered features
+    amt: float
+    hour_of_day: int
+    is_late_night_fraud_window: int
+    is_late_evening_fraud_window: int
+    log_trans_in_last_1h: float
+    log_trans_in_last_24h: float
+    log_trans_in_last_7d: float
+    log_amt_per_card_avg_ratio_1h: float
+    log_amt_per_card_avg_ratio_24h: float
+    log_amt_per_card_avg_ratio_7d: float
+    log_amt_per_category_avg_ratio_1h: float
+    log_amt_per_category_avg_ratio_24h: float
+    log_amt_per_category_avg_ratio_7d: float
+    amt_diff_from_card_median_1d: float
+    amt_diff_from_card_median_7d: float
+
+
+class TransactionSampleResponse(BaseModel):
+    """Response model for transaction sample endpoint."""
+
+    transactions: List[EngineeredTransactionResponse]
+    count: int
+    scenario: str
+    timestamp: datetime
+
+
+class DatabaseStatsResponse(BaseModel):
+    """Response model for database statistics endpoint."""
+
+    total_transactions: int = Field(..., ge=0)
+    fraud_count: int = Field(..., ge=0)
+    legit_count: int = Field(..., ge=0)
+    fraud_percentage: float = Field(..., ge=0.0, le=100.0)
+    timestamp: datetime
+

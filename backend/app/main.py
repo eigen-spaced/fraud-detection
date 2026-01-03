@@ -12,6 +12,8 @@ from app.config import settings
 from app.fraud_detector import fraud_detector
 from app.model_service import model_service
 from app.models import (
+    DatabaseStatsResponse,
+    EngineeredTransactionResponse,
     ErrorResponse,
     FraudDetectionResponse,
     HealthCheckResponse,
@@ -21,6 +23,7 @@ from app.models import (
     PatternAnalysisResponse,
     RefusalResponse,
     TransactionBatch,
+    TransactionSampleResponse,
 )
 from app.observability import instrument_app, setup_observability
 from app.openrouter_service import openrouter_service
@@ -32,7 +35,7 @@ from app.prediction_models import (
     ModelVersionResponse,
 )
 from app.database import init_db, close_db, get_db
-from app.db_service import save_batch_analyses
+from app.db_service import save_batch_analyses, get_sample_transactions, get_database_stats
 from app.model_loader import model_loader
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -161,6 +164,8 @@ async def root():
             "llm_explain": "/api/llm/explain",
             "pattern_analysis": "/api/llm/patterns",
             "schema": "/api/schema",
+            "transactions_sample": "/api/transactions/sample",
+            "stats": "/api/stats",
         },
         "llm_status": {
             "service_available": openrouter_service.is_available(),
@@ -529,6 +534,146 @@ async def explain_transaction_with_llm(request: LLMExplanationRequest):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to generate explanation",
+        )
+
+
+@app.get(
+    "/api/transactions/sample",
+    response_model=TransactionSampleResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def get_transaction_sample(
+    scenario: str,
+    limit: int = 5,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Get random sample transactions from the engineered_transactions table.
+
+    Query Parameters:
+        scenario: Filter scenario - 'fraud', 'legit', or 'mixed'
+        limit: Number of transactions to return (default 5, max 100)
+
+    Returns:
+        Random sample of engineered transactions with all features
+    """
+    try:
+        # Validate scenario
+        if scenario not in ["fraud", "legit", "mixed"]:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Scenario must be 'fraud', 'legit', or 'mixed'",
+            )
+
+        # Validate limit
+        if limit < 1 or limit > 100:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Limit must be between 1 and 100",
+            )
+
+        logger.info(f"Fetching {limit} transactions for scenario '{scenario}'")
+
+        # Get transactions from database
+        transactions = await get_sample_transactions(db, scenario, limit)
+
+        if not transactions:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No transactions found for scenario '{scenario}'",
+            )
+
+        # Convert to response model
+        transaction_responses = [
+            EngineeredTransactionResponse(
+                trans_num=t.trans_num,
+                is_fraud=t.is_fraud,
+                # Original transaction data
+                cc_num=t.cc_num,
+                acct_num=t.acct_num,
+                merchant=t.merchant,
+                category=t.category,
+                lat=t.lat,
+                long=t.long,
+                merch_lat=t.merch_lat,
+                merch_long=t.merch_long,
+                # Engineered features
+                amt=t.amt,
+                hour_of_day=t.hour_of_day,
+                is_late_night_fraud_window=t.is_late_night_fraud_window,
+                is_late_evening_fraud_window=t.is_late_evening_fraud_window,
+                log_trans_in_last_1h=t.log_trans_in_last_1h,
+                log_trans_in_last_24h=t.log_trans_in_last_24h,
+                log_trans_in_last_7d=t.log_trans_in_last_7d,
+                log_amt_per_card_avg_ratio_1h=t.log_amt_per_card_avg_ratio_1h,
+                log_amt_per_card_avg_ratio_24h=t.log_amt_per_card_avg_ratio_24h,
+                log_amt_per_card_avg_ratio_7d=t.log_amt_per_card_avg_ratio_7d,
+                log_amt_per_category_avg_ratio_1h=t.log_amt_per_category_avg_ratio_1h,
+                log_amt_per_category_avg_ratio_24h=t.log_amt_per_category_avg_ratio_24h,
+                log_amt_per_category_avg_ratio_7d=t.log_amt_per_category_avg_ratio_7d,
+                amt_diff_from_card_median_1d=t.amt_diff_from_card_median_1d,
+                amt_diff_from_card_median_7d=t.amt_diff_from_card_median_7d,
+            )
+            for t in transactions
+        ]
+
+        response = TransactionSampleResponse(
+            transactions=transaction_responses,
+            count=len(transaction_responses),
+            scenario=scenario,
+            timestamp=datetime.now(timezone.utc),
+        )
+
+        logger.info(f"Returning {len(transaction_responses)} transactions")
+        return response
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error fetching transaction sample: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch transaction sample",
+        )
+
+
+@app.get(
+    "/api/stats",
+    response_model=DatabaseStatsResponse,
+    status_code=status.HTTP_200_OK,
+)
+async def get_stats(db: AsyncSession = Depends(get_db)):
+    """
+    Get statistics about the engineered_transactions database.
+
+    Returns:
+        Total transaction count, fraud/legit breakdown, and fraud percentage
+    """
+    try:
+        logger.info("Fetching database statistics")
+
+        # Get stats from database
+        stats = await get_database_stats(db)
+
+        response = DatabaseStatsResponse(
+            total_transactions=stats["total_transactions"],
+            fraud_count=stats["fraud_count"],
+            legit_count=stats["legit_count"],
+            fraud_percentage=stats["fraud_percentage"],
+            timestamp=datetime.now(timezone.utc),
+        )
+
+        logger.info(
+            f"Database stats: {stats['total_transactions']} total, "
+            f"{stats['fraud_count']} fraud, {stats['legit_count']} legit"
+        )
+        return response
+
+    except Exception as e:
+        logger.error(f"Error fetching database stats: {str(e)}", exc_info=True)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch database statistics",
         )
 
 

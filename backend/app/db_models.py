@@ -37,9 +37,19 @@ class EngineeredTransaction(SQLModel, table=True):
 
     __tablename__ = "engineered_transactions"
 
-    id: Optional[int] = Field(default=None, primary_key=True)
-    trans_num: str = Field(index=True, unique=True)
+    # Primary key - no auto-incrementing id in this table
+    trans_num: str = Field(primary_key=True, index=True)
     is_fraud: int = Field(index=True)
+
+    # Original transaction data
+    cc_num: Optional[str] = None  # text in database
+    acct_num: Optional[int] = None  # bigint in database
+    merchant: Optional[str] = None
+    category: Optional[str] = None
+    lat: Optional[float] = None
+    long: Optional[float] = None
+    merch_lat: Optional[float] = None
+    merch_long: Optional[float] = None
 
     # Model Features (Exact match for your FeatureEngineer class)
     amt: float

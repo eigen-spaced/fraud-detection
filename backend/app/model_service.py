@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from app.model_loader import model_loader
-from app.preprocess.feature_engineering import feature_engineer
+from app.feature_engineering import feature_engineer
 from app.models import FraudAnalysis, FraudClassification, ShapFeatureExplanation
 from app.xai.shap_explainer import shap_explainer_service
 
@@ -48,15 +48,15 @@ class ModelService:
                 )
                 if not shap_success:
                     logger.warning(
-                        "⚠️ SHAP explainer initialization failed, continuing without SHAP features"
+                        "SHAP explainer initialization failed, continuing without SHAP features"
                     )
             else:
                 logger.warning(
-                    "⚠️ Model or feature names not available, SHAP explainer not initialized"
+                    "Model or feature names not available, SHAP explainer not initialized"
                 )
 
             self._is_initialized = True
-            logger.info("✅ Model Service initialized successfully")
+            logger.info("Model Service initialized successfully")
 
             return True
 
@@ -104,12 +104,12 @@ class ModelService:
                 )
                 results.append(analysis)
 
-            logger.info(f"✅ Prediction complete: {len(results)} analyses generated")
+            logger.info(f"Prediction complete: {len(results)} analyses generated")
 
             return results
 
         except Exception as e:
-            logger.error(f"❌ Prediction failed: {str(e)}", exc_info=True)
+            logger.error(f"Prediction failed: {str(e)}", exc_info=True)
             raise RuntimeError(f"Prediction failed: {str(e)}")
 
     def _create_fraud_analysis(
