@@ -82,6 +82,7 @@ pip-delete-this-directory.txt
 .ipynb_checkpoints/
 
 # Misc
+transaction_data/
 .cache/
 .temp/
 temp/
